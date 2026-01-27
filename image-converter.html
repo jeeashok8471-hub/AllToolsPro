@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Converter Tool</title>
+
+<style>
+:root{
+  --blue:#1e88e5;
+  --light-blue:#e3f2fd;
+  --white:#ffffff;
+  --dark:#0d47a1;
+}
+
+*{
+  box-sizing:border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body{
+  margin:0;
+  background:var(--light-blue);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.container{
+  background:var(--white);
+  width:100%;
+  max-width:420px;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+  text-align:center;
+  color:var(--dark);
+  margin-bottom:15px;
+}
+
+.upload-box{
+  border:2px dashed var(--blue);
+  border-radius:10px;
+  padding:20px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.upload-box input{
+  display:none;
+}
+
+.upload-box p{
+  margin:0;
+  color:var(--blue);
+  font-weight:600;
+}
+
+.preview{
+  margin-top:15px;
+  text-align:center;
+}
+
+.preview img{
+  max-width:100%;
+  border-radius:10px;
+  display:none;
+}
+
+.controls{
+  margin-top:15px;
+}
+
+select, button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  font-size:15px;
+}
+
+select{
+  border:1px solid #ccc;
+}
+
+button{
+  background:var(--blue);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1565c0;
+}
+
+.download{
+  display:none;
+  text-align:center;
+  margin-top:12px;
+}
+
+.download a{
+  text-decoration:none;
+  color:var(--blue);
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Image Converter</h1>
+
+  <label class="upload-box">
+    <input type="file" id="imageInput" accept="image/*">
+    <p>Click to Upload Image</p>
+  </label>
+
+  <div class="preview">
+    <img id="previewImg">
+  </div>
+
+  <div class="controls">
+    <select id="format">
+      <option value="image/jpeg">Convert to JPG</option>
+      <option value="image/png">Convert to PNG</option>
+      <option value="image/webp">Convert to WEBP</option>
+    </select>
+
+    <button onclick="convertImage()">Convert Image</button>
+  </div>
+
+  <div class="download" id="downloadBox">
+    <a id="downloadLink" download>⬇ Download Converted Image</a>
+  </div>
+</div>
+
+<script>
+const input = document.getElementById("imageInput");
+const previewImg = document.getElementById("previewImg");
+const downloadBox = document.getElementById("downloadBox");
+const downloadLink = document.getElementById("downloadLink");
+
+let originalImage = new Image();
+
+input.addEventListener("change", () => {
+  const file = input.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    previewImg.src = e.target.result;
+    previewImg.style.display = "block";
+    originalImage.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+function convertImage(){
+  if(!originalImage.src) return alert("Please upload an image first");
+
+  const format = document.getElementById("format").value;
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = originalImage.width;
+  canvas.height = originalImage.height;
+  ctx.drawImage(originalImage,0,0);
+
+  const converted = canvas.toDataURL(format,0.9);
+
+  downloadLink.href = converted;
+  downloadLink.download = "converted-image";
+  downloadBox.style.display = "block";
+}
+</script>
+
+</body>
+</html>
