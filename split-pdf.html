@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split PDF Online | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PDF-Lib Library -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .back-link { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.9rem; }
+
+        .tool-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        .tool-card-main { background: white; padding: 40px; border-radius: 24px; box-shadow: var(--shadow); text-align: center; }
+        
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; }
+
+        /* Upload Area */
+        .upload-box {
+            border: 3px dashed #cbd5e1; border-radius: 20px; padding: 50px 20px;
+            cursor: pointer; transition: 0.3s; position: relative; margin-bottom: 20px;
+        }
+        .upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-box i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .upload-box input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* Split Options */
+        #split-options { display: none; margin-top: 30px; text-align: left; background: #f8fbff; padding: 25px; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .info-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-weight: 700; color: var(--primary); }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .input-flex { display: flex; gap: 10px; align-items: center; }
+        input[type="number"] { width: 80px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
+        input[type="number"]:focus { border-color: var(--primary); }
+
+        /* Split Button */
+        #split-btn {
+            background: var(--primary); color: white; border: none;
+            padding: 15px 40px; border-radius: 50px; font-size: 1.1rem;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2);
+            width: 100%; margin-top: 20px;
+        }
+        #split-btn:hover { background: #0052cc; transform: translateY(-2px); }
+        
+        .loader { display: none; margin-top: 15px; font-weight: 700; color: var(--primary); text-align: center; }
+
+        .info-section { margin-top: 50px; text-align: left; border-top: 1px solid #eee; padding-top: 30px; }
+        .info-section h3 { margin-bottom: 15px; color: var(--primary); }
+        .info-section p { font-size: 0.95rem; color: var(--text-gray); margin-bottom: 10px; }
+
+        @media (max-width: 768px) { h1 { font-size: 1.6rem; } .tool-card-main { padding: 20px; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">AllToolsPro</a>
+        <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Home</a>
+    </header>
+
+    <div class="tool-container">
+        <div class="tool-card-main">
+            <h1>Split PDF</h1>
+            <p class="subtitle">Extract specific pages or a range from your PDF file.</p>
+
+            <div class="upload-box" id="upload-box">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Select PDF File</h3>
+                <p>Choose the file you want to split</p>
+                <input type="file" id="pdf-input" accept="application/pdf">
+            </div>
+
+            <div id="split-options">
+                <div class="info-bar">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="file-info">File loaded: 0 pages</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>Enter Page Range to Extract:</label>
+                    <div class="input-flex">
+                        <span>From:</span>
+                        <input type="number" id="from-page" value="1" min="1">
+                        <span>To:</span>
+                        <input type="number" id="to-page" value="1" min="1">
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-gray); margin-top: 10px;">Example: To extract the first 5 pages, enter 1 to 5.</p>
+                </div>
+
+                <button id="split-btn">Extract Pages & Download</button>
+            </div>
+
+            <div id="loader" class="loader"><i class="fas fa-spinner fa-spin"></i> Splitting PDF...</div>
+
+            <div class="info-section">
+                <h3>Quick Tips</h3>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Privacy:</strong> Everything happens in your browser. No files are uploaded.</p>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Range Split:</strong> You can select any custom range within the total pages.</p>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Fast Output:</strong> Get your split PDF in seconds.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pdfInput = document.getElementById('pdf-input');
+        const splitOptions = document.getElementById('split-options');
+        const fileInfo = document.getElementById('file-info');
+        const fromPageInput = document.getElementById('from-page');
+        const toPageInput = document.getElementById('to-page');
+        const splitBtn = document.getElementById('split-btn');
+        const loader = document.getElementById('loader');
+        const uploadBox = document.getElementById('upload-box');
+
+        let originalPdfDoc = null;
+        let pdfBytes = null;
+        let totalPages = 0;
+
+        pdfInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            loader.style.display = 'block';
+            uploadBox.style.display = 'none';
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfBytes = arrayBuffer;
+                const { PDFDocument } = PDFLib;
+                originalPdfDoc = await PDFDocument.load(arrayBuffer);
+                totalPages = originalPdfDoc.getPageCount();
+
+                fileInfo.innerText = `File: ${file.name} (${totalPages} Pages)`;
+                toPageInput.value = totalPages;
+                toPageInput.max = totalPages;
+                fromPageInput.max = totalPages;
+
+                splitOptions.style.display = 'block';
+            } catch (err) {
+                alert('Error loading PDF. It might be password protected.');
+                uploadBox.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+            }
+        });
+
+        splitBtn.addEventListener('click', async () => {
+            const from = parseInt(fromPageInput.value);
+            const to = parseInt(toPageInput.value);
+
+            if (isNaN(from) || isNaN(to) || from < 1 || to > totalPages || from > to) {
+                alert('Please enter a valid page range.');
+                return;
+            }
+
+            splitBtn.style.display = 'none';
+            loader.style.display = 'block';
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const splitPdfDoc = await PDFDocument.create();
+                
+                // Indices are 0-based in pdf-lib
+                const pagesToCopy = [];
+                for (let i = from - 1; i < to; i++) {
+                    pagesToCopy.push(i);
+                }
+
+                const copiedPages = await splitPdfDoc.copyPages(originalPdfDoc, pagesToCopy);
+                copiedPages.forEach(page => splitPdfDoc.addPage(page));
+
+                const splitPdfBytes = await splitPdfDoc.save();
+                
+                // Download
+                const blob = new Blob([splitPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Split_Pages_${from}_to_${to}_AllToolsPro.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred while splitting.');
+            } finally {
+                loader.style.display = 'none';
+                splitBtn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+                  </html>
