@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper - Trim & Cut Photos Online | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .main-card { background: white; border-radius: 24px; padding: 30px; box-shadow: var(--shadow); text-align: center; }
+
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; }
+
+        /* Upload Area */
+        .upload-box {
+            border: 3px dashed #cbd5e1; border-radius: 20px; padding: 50px 20px;
+            cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-box i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .upload-box input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* Cropping Area */
+        #workspace { display: none; margin-top: 30px; }
+        .cropper-container-box { max-height: 500px; margin-bottom: 20px; background: #eee; border-radius: 15px; overflow: hidden; }
+        img { max-width: 100%; display: block; }
+
+        /* Control Panel */
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 25px; background: #f1f5f9; padding: 15px; border-radius: 15px; }
+        .tool-btn { 
+            padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 10px; 
+            background: white; cursor: pointer; font-size: 0.85rem; font-weight: 700; 
+            transition: 0.2s; display: flex; align-items: center; gap: 8px;
+        }
+        .tool-btn:hover, .tool-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn-main { padding: 16px; border: none; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        .btn-crop { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
+        .btn-reset { background: #e2e8f0; color: var(--dark); }
+        .btn-crop:hover { transform: translateY(-3px); background: #0052cc; }
+
+        /* Result Area */
+        #result { display: none; margin-top: 30px; padding-top: 30px; border-top: 2px solid #f1f5f9; }
+        .result-img { max-width: 250px; border-radius: 15px; box-shadow: var(--shadow); margin-bottom: 15px; }
+        .size-info { background: #eefcf5; color: #10b981; padding: 5px 15px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; display: inline-block; }
+
+        @media (max-width: 768px) { .action-row { grid-template-columns: 1fr; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">AllToolsPro</a>
+        <a href="../index.html" style="text-decoration:none; color:var(--dark); font-weight:700;"><i class="fas fa-arrow-left"></i> Back</a>
+    </header>
+
+    <div class="container">
+        <div class="main-card">
+            <h1>Image Cropper</h1>
+            <p class="subtitle">Crop, rotate, and resize your images to perfection.</p>
+
+            <!-- Step 1: Upload -->
+            <div class="upload-box" id="upload-box">
+                <i class="fas fa-crop-alt"></i>
+                <h3>Select Image to Crop</h3>
+                <p>Click here or drag and drop a photo</p>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+
+            <!-- Step 2: Cropping Workspace -->
+            <div id="workspace">
+                <div class="cropper-container-box">
+                    <img id="cropper-img" src="">
+                </div>
+
+                <div class="controls">
+                    <button class="tool-btn active" onclick="setRatio(NaN, this)">Free</button>
+                    <button class="tool-btn" onclick="setRatio(1, this)">1:1 (Square)</button>
+                    <button class="tool-btn" onclick="setRatio(16/9, this)">16:9</button>
+                    <button class="tool-btn" onclick="setRatio(4/3, this)">4:3</button>
+                    <button class="tool-btn" onclick="rotate(-90)"><i class="fas fa-undo"></i> Rotate Left</button>
+                    <button class="tool-btn" onclick="rotate(90)"><i class="fas fa-redo"></i> Rotate Right</button>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-main btn-reset" onclick="location.reload()">Reset All</button>
+                    <button class="btn-main btn-crop" id="crop-btn">Crop & Download</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Result -->
+            <div id="result">
+                <h3>Final Cropped Image</h3>
+                <img id="final-img" class="result-img" src="">
+                <br>
+                <div class="size-info" id="final-size">Size: 0 KB</div>
+                <p style="color:var(--text-gray); font-size:0.8rem; margin-top:10px;">Your file has been downloaded automatically.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const uploadBox = document.getElementById('upload-box');
+        const workspace = document.getElementById('workspace');
+        const cropperImg = document.getElementById('cropper-img');
+        const cropBtn = document.getElementById('crop-btn');
+        const resultArea = document.getElementById('result');
+        const finalImg = document.getElementById('final-img');
+        const finalSize = document.getElementById('final-size');
+
+        let cropper;
+
+        // Function to convert bytes to KB/MB
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + " Bytes";
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+            return (bytes / 1048576).toFixed(1) + " MB";
+        }
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                cropperImg.src = event.target.result;
+                uploadBox.style.display = 'none';
+                workspace.style.display = 'block';
+
+                if (cropper) cropper.destroy();
+
+                cropper = new Cropper(cropperImg, {
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 0.8,
+                    restore: false,
+                    guides: true,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Aspect Ratio Controller
+        window.setRatio = function(ratio, btn) {
+            cropper.setAspectRatio(ratio);
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        };
+
+        // Rotation Controller
+        window.rotate = function(deg) {
+            cropper.rotate(deg);
+        };
+
+        // Action: Crop & Save
+        cropBtn.addEventListener('click', function() {
+            const canvas = cropper.getCroppedCanvas({
+                maxWidth: 4096,
+                maxHeight: 4096,
+                fillColor: '#fff',
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            });
+
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+            
+            // Calculate size from base64
+            const head = 'data:image/jpeg;base64,';
+            const sizeInBytes = Math.round((dataUrl.length - head.length) * 3 / 4);
+
+            finalImg.src = dataUrl;
+            finalSize.innerText = "Final Size: " + formatBytes(sizeInBytes);
+            
+            resultArea.style.display = 'block';
+            workspace.style.display = 'none';
+
+            // Download Link
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = "Cropped_AllToolsPro.jpg";
+            link.click();
+            
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
