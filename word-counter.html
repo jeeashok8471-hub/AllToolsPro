@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter - Real-Time Analysis Tool | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .main-card { background: white; border-radius: 24px; padding: 35px; box-shadow: var(--shadow); }
+
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); text-align: center; }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; text-align: center; }
+
+        /* Stats Dashboard */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .stat-box { 
+            background: var(--primary-soft); 
+            padding: 20px; 
+            border-radius: 18px; 
+            text-align: center; 
+            border: 1px solid #d0e4ff;
+            transition: 0.3s;
+        }
+        .stat-box h2 { font-size: 1.8rem; color: var(--primary); font-weight: 800; }
+        .stat-box span { font-size: 0.75rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Editor Area */
+        .editor-container { position: relative; margin-bottom: 25px; }
+        textarea {
+            width: 100%; height: 300px; padding: 25px; border-radius: 20px;
+            border: 2px solid #e2e8f0; font-size: 1.05rem; outline: none;
+            resize: none; transition: 0.3s; line-height: 1.8;
+        }
+        textarea:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 97, 255, 0.1); }
+
+        .action-bar { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 40px; }
+        .btn { 
+            padding: 12px 25px; border-radius: 50px; font-weight: 800; 
+            cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+            font-size: 0.9rem;
+        }
+        .btn-clear { background: #fef2f2; color: #ef4444; }
+        .btn-copy { background: var(--primary-soft); color: var(--primary); }
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        /* Detailed Analysis Area */
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .analysis-card { background: #f8fafc; padding: 25px; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .analysis-card h3 { font-size: 1.1rem; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        
+        .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0; font-size: 0.95rem; }
+        .info-row:last-child { border: none; }
+        .info-label { color: var(--text-gray); font-weight: 600; }
+        .info-value { font-weight: 700; color: var(--dark); }
+
+        .density-tag { 
+            display: flex; justify-content: space-between; background: white; 
+            padding: 8px 15px; border-radius: 10px; margin-bottom: 8px; 
+            border: 1px solid #e2e8f0; font-size: 0.85rem; 
+        }
+
+        @media (max-width: 768px) { 
+            .analysis-grid { grid-template-columns: 1fr; } 
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">AllToolsPro</a>
+        <a href="../index.html" style="text-decoration:none; color:var(--dark); font-weight:700;"><i class="fas fa-arrow-left"></i> Home</a>
+    </header>
+
+    <div class="container">
+        <div class="main-card">
+            <h1>Advanced Word Counter</h1>
+            <p class="subtitle">Count words, characters, sentences, and analyze reading time in real-time.</p>
+
+            <!-- Stats Bar -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <h2 id="count-words">0</h2>
+                    <span>Words</span>
+                </div>
+                <div class="stat-box">
+                    <h2 id="count-chars">0</h2>
+                    <span>Characters</span>
+                </div>
+                <div class="stat-box">
+                    <h2 id="count-sentences">0</h2>
+                    <span>Sentences</span>
+                </div>
+                <div class="stat-box">
+                    <h2 id="count-paragraphs">0</h2>
+                    <span>Paragraphs</span>
+                </div>
+            </div>
+
+            <!-- Editor -->
+            <div class="editor-container">
+                <textarea id="text-input" placeholder="Start typing or paste your content here..." oninput="analyzeText()"></textarea>
+            </div>
+
+            <div class="action-bar">
+                <button class="btn btn-copy" onclick="copyText()">
+                    <i class="fas fa-copy"></i> Copy Text
+                </button>
+                <button class="btn btn-clear" onclick="clearText()">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+
+            <!-- Extra Analysis -->
+            <div class="analysis-grid">
+                <!-- Reading Stats -->
+                <div class="analysis-card">
+                    <h3><i class="fas fa-clock" style="color:var(--primary)"></i> Estimates</h3>
+                    <div class="info-row">
+                        <span class="info-label">Reading Time:</span>
+                        <span class="info-value" id="read-time">0 min</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Speaking Time:</span>
+                        <span class="info-value" id="speak-time">0 min</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Handwriting Time:</span>
+                        <span class="info-value" id="write-time">0 min</span>
+                    </div>
+                </div>
+
+                <!-- Word Density -->
+                <div class="analysis-card">
+                    <h3><i class="fas fa-chart-pie" style="color:var(--primary)"></i> Top Keywords</h3>
+                    <div id="density-list">
+                        <p style="color:var(--text-gray); font-size:0.85rem;">Top repeated words will appear here.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function analyzeText() {
+            const text = document.getElementById('text-input').value;
+            
+            // 1. Basic Counts
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0).length;
+
+            document.getElementById('count-words').innerText = words;
+            document.getElementById('count-chars').innerText = chars;
+            document.getElementById('count-sentences').innerText = sentences;
+            document.getElementById('count-paragraphs').innerText = paragraphs;
+
+            // 2. Time Estimations
+            // Avg reading: 225 wpm | Avg speaking: 130 wpm | Avg writing: 20 wpm
+            document.getElementById('read-time').innerText = Math.ceil(words / 225) + " min";
+            document.getElementById('speak-time').innerText = Math.ceil(words / 130) + " min";
+            document.getElementById('write-time').innerText = Math.ceil(words / 20) + " min";
+
+            // 3. Keyword Density
+            updateDensity(text);
+        }
+
+        function updateDensity(text) {
+            const densityList = document.getElementById('density-list');
+            const cleanText = text.toLowerCase().replace(/[^\w\s]/gi, '');
+            const wordsArray = cleanText.split(/\s+/).filter(w => w.length > 3); // words > 3 chars
+            
+            if (wordsArray.length === 0) {
+                densityList.innerHTML = '<p style="color:var(--text-gray); font-size:0.85rem;">Keep typing...</p>';
+                return;
+            }
+
+            const freqMap = {};
+            wordsArray.forEach(w => freqMap[w] = (freqMap[w] || 0) + 1);
+
+            const sorted = Object.entries(freqMap)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            densityList.innerHTML = '';
+            sorted.forEach(([word, count]) => {
+                densityList.innerHTML += `
+                    <div class="density-tag">
+                        <span style="font-weight:700;">${word}</span>
+                        <span style="color:var(--primary); font-weight:800;">${count} times</span>
+                    </div>
+                `;
+            });
+        }
+
+        function copyText() {
+            const textarea = document.getElementById('text-input');
+            textarea.select();
+            document.execCommand('copy');
+            alert("Text copied to clipboard!");
+        }
+
+        function clearText() {
+            document.getElementById('text-input').value = '';
+            analyzeText();
+        }
+    </script>
+</body>
+</html>
