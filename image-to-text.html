@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Text (OCR) - Extract Text from Photos | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tesseract.js Library -->
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .main-card { background: white; border-radius: 24px; padding: 40px; box-shadow: var(--shadow); text-align: center; }
+
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; }
+
+        /* Upload Box */
+        .upload-box {
+            border: 3px dashed #cbd5e1; border-radius: 20px; padding: 50px 20px;
+            cursor: pointer; transition: 0.3s; position: relative; margin-bottom: 20px;
+        }
+        .upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-box i { font-size: 3.5rem; color: var(--primary); margin-bottom: 15px; }
+        .upload-box input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* Progress Area */
+        #progress-area { display: none; margin: 30px 0; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: 0.3s; }
+        .status-text { font-weight: 700; color: var(--primary); font-size: 0.9rem; }
+
+        /* Preview Image */
+        #img-preview { max-width: 150px; border-radius: 12px; display: none; margin: 0 auto 20px; box-shadow: var(--shadow); }
+
+        /* Result Area */
+        #result-area { display: none; margin-top: 30px; text-align: left; }
+        .result-label { font-weight: 700; color: var(--dark); display: block; margin-bottom: 10px; }
+        .text-output { 
+            width: 100%; height: 250px; padding: 20px; border-radius: 15px; 
+            border: 2px solid #e2e8f0; background: #f8fbff; outline: none;
+            font-size: 1rem; resize: none; color: var(--dark); 
+        }
+        .text-output:focus { border-color: var(--primary); }
+
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn { 
+            padding: 15px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; 
+            cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-copy { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
+        .btn-copy:hover { transform: translateY(-3px); background: #0052cc; }
+        .btn-reset { background: #e2e8f0; color: var(--dark); }
+
+        .info-section { margin-top: 50px; text-align: left; border-top: 1px solid #eee; padding-top: 30px; }
+        .info-section h3 { margin-bottom: 15px; color: var(--primary); }
+        .info-section p { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 10px; }
+
+        @media (max-width: 768px) { h1 { font-size: 1.8rem; } .action-btns { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">AllToolsPro</a>
+        <a href="../index.html" style="text-decoration:none; color:var(--dark); font-weight:700;"><i class="fas fa-arrow-left"></i> Home</a>
+    </header>
+
+    <div class="container">
+        <div class="main-card">
+            <h1>Image to Text (OCR)</h1>
+            <p class="subtitle">Extract editable text from any image or screenshot instantly.</p>
+
+            <!-- Step 1: Upload -->
+            <div class="upload-box" id="upload-box">
+                <i class="fas fa-file-invoice"></i>
+                <h3>Select Image to Scan</h3>
+                <p>JPG, PNG, WebP supported</p>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+
+            <img id="img-preview" src="">
+
+            <!-- Step 2: Progress Area -->
+            <div id="progress-area">
+                <div class="status-text" id="status">Starting OCR Engine...</div>
+                <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+            </div>
+
+            <!-- Step 3: Result Area -->
+            <div id="result-area">
+                <span class="result-label"><i class="fas fa-align-left"></i> Extracted Text:</span>
+                <textarea id="output-text" class="text-output" placeholder="Text will appear here..."></textarea>
+                
+                <div class="action-btns">
+                    <button class="btn btn-reset" onclick="location.reload()">New Scan</button>
+                    <button class="btn btn-copy" id="copy-btn">
+                        <i class="fas fa-copy"></i> Copy Text
+                    </button>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Why use AllToolsPro OCR?</h3>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>High Accuracy:</strong> Uses professional AI technology to recognize text.</p>
+                <p><i class="fas fa-lock" style="color:var(--primary)"></i> <strong>Privacy:</strong> Your photos are processed in the browser. No images are sent to any server.</p>
+                <p><i class="fas fa-bolt" style="color:var(--primary)"></i> <strong>Instant Result:</strong> Convert screenshots into text in just a few seconds.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const uploadBox = document.getElementById('upload-box');
+        const progressArea = document.getElementById('progress-area');
+        const progressFill = document.getElementById('progress-fill');
+        const statusText = document.getElementById('status');
+        const resultArea = document.getElementById('result-area');
+        const outputText = document.getElementById('output-text');
+        const copyBtn = document.getElementById('copy-btn');
+        const imgPreview = document.getElementById('img-preview');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show Preview
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                imgPreview.src = ev.target.result;
+                imgPreview.style.display = 'block';
+                uploadBox.style.display = 'none';
+                startOCR(ev.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        async function startOCR(imageSrc) {
+            progressArea.style.display = 'block';
+            
+            try {
+                const result = await Tesseract.recognize(
+                    imageSrc,
+                    'eng', // Language
+                    {
+                        logger: m => {
+                            if (m.status === 'recognizing text') {
+                                const progress = Math.round(m.progress * 100);
+                                progressFill.style.width = progress + '%';
+                                statusText.innerText = `Extracting Text: ${progress}%`;
+                            } else {
+                                statusText.innerText = m.status;
+                            }
+                        }
+                    }
+                );
+
+                outputText.value = result.data.text;
+                statusText.innerText = "OCR Finished!";
+                progressArea.style.display = 'none';
+                resultArea.style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                alert("Error recognizing text. Please try a clearer image.");
+                location.reload();
+            }
+        }
+
+        // Copy Text Function
+        copyBtn.addEventListener('click', function() {
+            outputText.select();
+            document.execCommand('copy');
+            
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
