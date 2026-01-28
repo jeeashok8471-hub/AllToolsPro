@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit PDF Online | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Libraries -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .tool-container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        
+        /* Upload Area */
+        .upload-card { background: white; padding: 50px; border-radius: 24px; border: 3px dashed #cbd5e1; text-align: center; cursor: pointer; transition: 0.3s; }
+        .upload-card:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-card i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+
+        /* Workspace */
+        #editor-workspace { display: none; margin-top: 20px; }
+        
+        .toolbar { 
+            background: white; padding: 15px; border-radius: 15px; 
+            box-shadow: var(--shadow); margin-bottom: 20px; 
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap;
+            position: sticky; top: 80px; z-index: 90;
+        }
+
+        .tool-btn { 
+            padding: 10px 18px; border-radius: 8px; border: 1px solid #e2e8f0; 
+            background: white; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        .tool-btn:hover, .tool-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        #pdf-render-container { 
+            background: #e2e8f0; padding: 20px; border-radius: 15px; 
+            min-height: 500px; display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+
+        .canvas-wrapper { position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.2); background: white; }
+        canvas { display: block; max-width: 100%; height: auto; cursor: crosshair; }
+
+        .btn-save { 
+            margin-left: auto; background: #10b981; color: white; border: none; 
+            padding: 12px 25px; border-radius: 50px; font-weight: 800; cursor: pointer; 
+        }
+
+        /* Overlay text styles */
+        .floating-text {
+            position: absolute; border: 1px dashed var(--primary); padding: 5px;
+            background: rgba(255,255,255,0.7); cursor: move; font-family: sans-serif;
+        }
+
+        #loading { display: none; text-align: center; padding: 50px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">AllToolsPro</a>
+        <a href="../index.html" style="text-decoration:none; color:var(--dark); font-weight:700;"><i class="fas fa-arrow-left"></i> Home</a>
+    </header>
+
+    <div class="tool-container">
+        <!-- Step 1: Upload -->
+        <div class="upload-card" id="upload-box" onclick="document.getElementById('file-input').click()">
+            <i class="fas fa-edit"></i>
+            <h3>Select PDF to Edit</h3>
+            <p>Click here to add text, signatures, or notes to your PDF.</p>
+            <input type="file" id="file-input" style="display:none" accept="application/pdf">
+        </div>
+
+        <div id="loading"><i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary)"></i><p>Loading PDF...</p></div>
+
+        <!-- Step 2: Editor -->
+        <div id="editor-workspace">
+            <div class="toolbar">
+                <div style="font-weight: 800; color: var(--primary); margin-right: 10px;">TOOLS:</div>
+                <button class="tool-btn active" id="btn-add-text"><i class="fas fa-font"></i> Add Text</button>
+                <input type="color" id="text-color" value="#000000" title="Text Color">
+                <input type="number" id="text-size" value="18" style="width: 50px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;">
+                
+                <button class="btn-save" id="save-pdf"><i class="fas fa-download"></i> Save & Download</button>
+            </div>
+
+            <div id="pdf-render-container"></div>
+        </div>
+    </div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        const fileInput = document.getElementById('file-input');
+        const uploadBox = document.getElementById('upload-box');
+        const workspace = document.getElementById('editor-workspace');
+        const container = document.getElementById('pdf-render-container');
+        const loading = document.getElementById('loading');
+        
+        let pdfBytes = null;
+        let annotations = []; // Store custom text data
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            loading.style.display = 'block';
+            uploadBox.style.display = 'none';
+
+            pdfBytes = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+            
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                renderPage(page, i);
+            }
+
+            loading.style.display = 'none';
+            workspace.style.display = 'block';
+        });
+
+        async function renderPage(page, pageNum) {
+            const viewport = page.getViewport({ scale: 1.5 });
+            const wrapper = document.createElement('div');
+            wrapper.className = 'canvas-wrapper';
+            wrapper.dataset.pageNum = pageNum;
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+            wrapper.appendChild(canvas);
+            container.appendChild(wrapper);
+
+            // Click to add text logic
+            wrapper.addEventListener('click', (e) => {
+                const rect = wrapper.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                addTextField(wrapper, x, y, pageNum);
+            });
+        }
+
+        function addTextField(wrapper, x, y, pageNum) {
+            const text = prompt("Enter text to add:");
+            if (!text) return;
+
+            const color = document.getElementById('text-color').value;
+            const size = document.getElementById('text-size').value;
+
+            const div = document.createElement('div');
+            div.className = 'floating-text';
+            div.style.left = x + 'px';
+            div.style.top = y + 'px';
+            div.style.color = color;
+            div.style.fontSize = size + 'px';
+            div.innerText = text;
+            
+            wrapper.appendChild(div);
+
+            // Save for pdf-lib processing
+            // We need to scale coordinates back to PDF points
+            const canvas = wrapper.querySelector('canvas');
+            const scaleX = canvas.width / wrapper.offsetWidth;
+            const scaleY = canvas.height / wrapper.offsetHeight;
+
+            annotations.push({
+                text,
+                x: x * scaleX,
+                y: canvas.height - (y * scaleY) - (size * scaleY), // pdf-lib uses bottom-left origin
+                size: parseInt(size) * 1.5,
+                color,
+                pageNum: pageNum - 1
+            });
+        }
+
+        document.getElementById('save-pdf').addEventListener('click', async () => {
+            const { PDFDocument, rgb } = PDFLib;
+            const pdfDoc = await PDFDocument.load(pdfBytes);
+            const pages = pdfDoc.getPages();
+
+            annotations.forEach(ann => {
+                const page = pages[ann.pageNum];
+                // Simple Hex to RGB
+                const r = parseInt(ann.color.slice(1,3), 16) / 255;
+                const g = parseInt(ann.color.slice(3,5), 16) / 255;
+                const b = parseInt(ann.color.slice(5,7), 16) / 255;
+
+                page.drawText(ann.text, {
+                    x: ann.x / 1.5, // Adjust for scale
+                    y: ann.y / 1.5,
+                    size: ann.size / 1.5,
+                    color: rgb(r, g, b)
+                });
+            });
+
+            const modifiedBytes = await pdfDoc.save();
+            const blob = new Blob([modifiedBytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Edited_AllToolsPro.pdf';
+            link.click();
+        });
+    </script>
+</body>
+</html>
