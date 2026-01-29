@@ -14,15 +14,13 @@
 
     <style>
         :root {
-            --primary: #0061ff; /* Clean Blue Theme */
+            --primary: #0061ff;
             --primary-dark: #0046b8;
-            --primary-soft: #f0f7ff;
-            --bg-light: #f8fafc;
+            --bg-light: #f1f3f6;
             --white: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --shadow: 0 4px 15px rgba(0, 97, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -36,129 +34,173 @@
             overflow: hidden;
         }
 
-        /* --- Custom Header --- */
+        /* --- Header --- */
         header { 
             background: var(--white); 
-            padding: 12px 6%; 
+            padding: 10px 4%; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            box-shadow: 0 1px 5px rgba(0,0,0,0.03); 
-            z-index: 100;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05); 
+            z-index: 1000;
         }
-        .logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); text-decoration: none; letter-spacing: -0.5px; }
+        .logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); text-decoration: none; }
 
-        /* --- Empty State View --- */
-        #empty-state { 
-            flex: 1; display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; text-align: center; padding: 20px;
+        /* --- Main Layout --- */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 50px);
+            overflow: hidden;
         }
-        .hero-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--text-main); }
-        .hero-sub { color: var(--text-muted); font-size: 1rem; margin-bottom: 35px; max-width: 500px; }
-        
-        .select-btn {
-            background: var(--primary); color: white; padding: 18px 45px;
-            border-radius: 12px; font-size: 1.1rem; font-weight: 700;
-            border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 97, 255, 0.2);
-            transition: 0.3s;
-        }
-        .select-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
-        /* --- Main Workspace (Image Grid) --- */
+        /* WorkSpace */
         #workspace { 
-            display: none; flex: 1; padding: 25px; overflow-y: auto;
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px; align-content: flex-start;
-            padding-bottom: 100px;
+            gap: 20px;
+            align-content: flex-start;
+            transition: all 0.3s ease;
         }
+
+        /* Image Card */
         .img-card {
-            background: white; border-radius: 12px; padding: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid var(--border);
-            position: relative; animation: fadeIn 0.4s ease;
+            background: white; border-radius: 10px; padding: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid var(--border);
+            position: relative; animation: fadeIn 0.3s ease;
         }
-        .img-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 8px; background: #fafafa; }
-        .img-card p { margin-top: 10px; font-size: 11px; font-weight: 600; color: var(--text-muted); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .del-btn { position: absolute; top: -8px; right: -8px; background: #333; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; border: 2px solid white; }
+        .img-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 6px; }
+        .img-card p { margin-top: 10px; font-size: 10px; font-weight: 600; color: var(--text-muted); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .del-btn { position: absolute; top: -5px; right: -5px; background: #333; color: white; border: none; width: 22px; height: 22px; border-radius: 50%; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
 
-        /* --- Professional FAB Buttons --- */
-        .fab-container {
-            position: fixed; right: 25px; top: 45%; 
-            display: none; flex-direction: column; gap: 15px; z-index: 999;
-        }
-        .fab {
-            width: 55px; height: 55px; border-radius: 50%; border: none;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: 0.3s;
-        }
-        .fab-gear { background: white; color: var(--text-main); font-size: 1.4rem; border: 1px solid var(--border); }
-        .fab-add { background: var(--primary); color: white; font-size: 1.6rem; position: relative; }
-        .badge { position: absolute; top: -2px; left: -2px; background: #111; color: white; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
-
-        /* --- Settings Panel (Side/Bottom Drawer) --- */
+        /* --- Sidebar (Settings) --- */
         .sidebar {
-            position: fixed; bottom: -100%; left: 0; width: 100%; height: auto;
-            background: white; z-index: 2000; box-shadow: 0 -15px 40px rgba(0,0,0,0.15);
-            transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); padding: 30px; border-radius: 30px 30px 0 0;
+            width: 350px;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            z-index: 900;
+            transition: transform 0.3s ease;
         }
-        .sidebar.open { bottom: 0; }
-        .sidebar h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 25px; text-align: center; color: var(--primary); }
 
-        .opt-row { margin-bottom: 20px; }
-        .opt-label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .toggle-box { display: flex; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-        .toggle-btn { flex: 1; padding: 14px; border: none; background: #f8f9fa; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .sidebar h2 { font-size: 1rem; font-weight: 800; margin-bottom: 25px; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .opt-label { display: block; font-weight: 700; font-size: 11px; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; }
+        .toggle-box { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 25px; }
+        .toggle-btn { flex: 1; padding: 12px; border: none; background: #f8f9fa; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; }
         .toggle-btn.active { background: var(--primary); color: white; }
 
-        /* --- Bottom Convert Bar --- */
-        #bottom-bar {
-            display: none; background: white; border-top: 1px solid var(--border);
-            padding: 15px 25px; position: fixed; bottom: 0; width: 100%; z-index: 100;
-            justify-content: center;
-        }
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-weight: 700; margin-bottom: 25px; outline: none; }
+
+        /* Convert Button */
         .convert-btn {
-            background: var(--primary); color: white; border: none; width: 100%; max-width: 500px;
-            padding: 18px; border-radius: 14px; font-size: 1.1rem; font-weight: 800;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 8px 20px rgba(0, 97, 255, 0.25); transition: 0.3s;
+            background: var(--primary); color: white; border: none; width: 100%;
+            padding: 18px; border-radius: 12px; font-size: 1rem; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); transition: 0.3s;
+            margin-top: auto;
         }
-        .convert-btn:hover { background: var(--primary-dark); }
+        .convert-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
-        /* Overlay */
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1500; backdrop-filter: blur(3px); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- Desktop View Adjustments --- */
-        @media (min-width: 850px) {
-            #workspace { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); padding: 40px 10%; }
-            .sidebar { width: 380px; height: 100vh; bottom: 0; left: auto; right: -400px; border-radius: 0; }
-            .sidebar.open { right: 0; }
+        /* --- Empty State --- */
+        #empty-state { 
+            position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; text-align: center; z-index: 10; background: var(--bg-light);
         }
+        .select-btn {
+            background: var(--primary); color: white; padding: 20px 50px;
+            border-radius: 12px; font-size: 1.4rem; font-weight: 800;
+            border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 97, 255, 0.2);
+        }
+
+        /* --- Mobile Styles (Floating Panel) --- */
+        @media (max-width: 850px) {
+            .sidebar {
+                position: fixed; bottom: -100%; left: 0; width: 100%; height: auto;
+                border-radius: 25px 25px 0 0; transform: translateY(0);
+            }
+            .sidebar.open { bottom: 0; }
+            .fab-container { display: flex !important; }
+            #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 850; }
+        }
+
+        /* FABs for Mobile only */
+        .fab-container {
+            position: fixed; right: 20px; bottom: 30px; 
+            display: none; flex-direction: column; gap: 12px; z-index: 999;
+        }
+        .fab { width: 50px; height: 50px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .fab-gear { background: white; color: var(--text-main); font-size: 1.2rem; }
+        .fab-add { background: var(--primary); color: white; font-size: 1.4rem; position: relative; }
+        .badge { position: absolute; top: -2px; left: -2px; background: #000; color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <!-- Professional Header -->
     <header>
         <a href="../index.html" class="logo">AllToolsPro</a>
-        <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);">PROFESSIONAL PDF TOOL</div>
+        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted);">IMAGE TO PDF</span>
     </header>
 
-    <!-- State 1: Start (Empty) -->
-    <main id="empty-state">
-        <h1 class="hero-title">JPG to PDF</h1>
-        <p class="hero-sub">The easiest way to combine images into a professional PDF document. Fast, secure, and high-quality.</p>
+    <!-- Selection Screen -->
+    <div id="empty-state">
+        <h1 style="font-size: 2.5rem; margin-bottom: 10px; font-weight: 800;">JPG to PDF</h1>
+        <p style="color: var(--text-muted); margin-bottom: 40px; font-weight: 500;">Convert images to PDF documents in seconds.</p>
         <button class="select-btn" onclick="document.getElementById('file-input').click()">
-            <i class="fas fa-plus"></i> Select JPG images
+            Select JPG images
         </button>
         <input type="file" id="file-input" multiple accept="image/*" style="display:none">
-    </main>
+    </div>
 
-    <!-- State 2: Workspace (Loaded) -->
-    <main id="workspace"></main>
+    <div class="main-layout">
+        <!-- Workspace (Center) -->
+        <main id="workspace"></main>
 
-    <!-- Floating UI (As per your request) -->
-    <div class="fab-container" id="fab-box">
+        <!-- Sidebar (Right - Always Open on Desktop) -->
+        <div id="overlay" onclick="toggleSidebar()"></div>
+        <aside class="sidebar" id="sidebar">
+            <h2>Settings</h2>
+
+            <div class="opt-row">
+                <span class="opt-label">Orientation</span>
+                <div class="toggle-box">
+                    <button class="toggle-btn active" onclick="setOpt('orient', 'p', this)">Portrait</button>
+                    <button class="toggle-btn" onclick="setOpt('orient', 'l', this)">Landscape</button>
+                </div>
+            </div>
+
+            <div class="opt-row">
+                <span class="opt-label">Margin</span>
+                <div class="toggle-box">
+                    <button class="toggle-btn active" onclick="setOpt('margin', 0, this)">None</button>
+                    <button class="toggle-btn" onclick="setOpt('margin', 10, this)">Small</button>
+                </div>
+            </div>
+
+            <div class="opt-row">
+                <span class="opt-label">Page Size</span>
+                <select id="page-size">
+                    <option value="a4">A4 (Standard)</option>
+                    <option value="letter">US Letter</option>
+                    <option value="legal">Legal</option>
+                </select>
+            </div>
+
+            <button class="convert-btn" onclick="generatePDF()">
+                DOWNLOAD PDF <i class="fas fa-arrow-right"></i>
+            </button>
+        </aside>
+    </div>
+
+    <!-- Mobile FABs -->
+    <div class="fab-container">
         <button class="fab fab-gear" onclick="toggleSidebar()"><i class="fas fa-cog"></i></button>
         <button class="fab fab-add" onclick="document.getElementById('file-input').click()">
             <div class="badge" id="badge-count">0</div>
@@ -166,57 +208,10 @@
         </button>
     </div>
 
-    <!-- Final Action Button Bar -->
-    <div id="bottom-bar">
-        <button class="convert-btn" onclick="generatePDF()">
-            CONVERT TO PDF <i class="fas fa-arrow-right"></i>
-        </button>
-    </div>
-
-    <!-- Settings Sidebar / Bottom Drawer -->
-    <div id="overlay" onclick="toggleSidebar()"></div>
-    <aside class="sidebar" id="sidebar">
-        <h2>PDF Settings</h2>
-
-        <div class="opt-row">
-            <span class="opt-label">Orientation</span>
-            <div class="toggle-box">
-                <button class="toggle-btn active" onclick="setOpt('orient', 'p', this)">Portrait</button>
-                <button class="toggle-btn" onclick="setOpt('orient', 'l', this)">Landscape</button>
-            </div>
-        </div>
-
-        <div class="opt-row">
-            <span class="opt-label">Page Margin</span>
-            <div class="toggle-box">
-                <button class="toggle-btn active" onclick="setOpt('margin', 0, this)">None</button>
-                <button class="toggle-btn" onclick="setOpt('margin', 10, this)">Small</button>
-                <button class="toggle-btn" onclick="setOpt('margin', 20, this)">Big</button>
-            </div>
-        </div>
-
-        <div class="opt-row">
-            <span class="opt-label">Page Format</span>
-            <select id="page-size" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); font-weight:700; color: var(--text-main); cursor:pointer;">
-                <option value="a4">A4 (Standard)</option>
-                <option value="letter">US Letter</option>
-                <option value="legal">Legal</option>
-            </select>
-        </div>
-
-        <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
-            <button class="convert-btn" onclick="generatePDF()">
-                DOWNLOAD PDF
-            </button>
-        </div>
-    </aside>
-
     <script>
         const fileInput = document.getElementById('file-input');
         const emptyState = document.getElementById('empty-state');
         const workspace = document.getElementById('workspace');
-        const fabBox = document.getElementById('fab-box');
-        const bottomBar = document.getElementById('bottom-bar');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const badge = document.getElementById('badge-count');
@@ -224,7 +219,6 @@
         let images = [];
         let config = { orient: 'p', margin: 0 };
 
-        // --- File Selector Logic ---
         fileInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             files.forEach(file => {
@@ -235,31 +229,27 @@
                 };
                 reader.readAsDataURL(file);
             });
-            fileInput.value = ""; // Reset input
+            fileInput.value = "";
         });
 
         function updateUI() {
             if (images.length > 0) {
                 emptyState.style.display = 'none';
-                workspace.style.display = 'grid';
-                fabBox.style.display = 'flex';
-                bottomBar.style.display = 'flex';
                 badge.innerText = images.length;
+                workspace.innerHTML = '';
+                images.forEach(img => {
+                    const div = document.createElement('div');
+                    div.className = 'img-card';
+                    div.innerHTML = `
+                        <button class="del-btn" onclick="removeImg(${img.id})"><i class="fas fa-times"></i></button>
+                        <img src="${img.src}">
+                        <p>${img.name}</p>
+                    `;
+                    workspace.appendChild(div);
+                });
             } else {
-                location.reload(); // Go back to start
+                emptyState.style.display = 'flex';
             }
-
-            workspace.innerHTML = '';
-            images.forEach(img => {
-                const div = document.createElement('div');
-                div.className = 'img-card';
-                div.innerHTML = `
-                    <button class="del-btn" onclick="removeImg(${img.id})"><i class="fas fa-times"></i></button>
-                    <img src="${img.src}">
-                    <p>${img.name}</p>
-                `;
-                workspace.appendChild(div);
-            });
         }
 
         window.removeImg = (id) => {
@@ -267,7 +257,6 @@
             updateUI();
         }
 
-        // --- UI Interactions ---
         function toggleSidebar() {
             sidebar.classList.toggle('open');
             overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
@@ -279,27 +268,20 @@
             btn.classList.add('active');
         }
 
-        // --- Core: jsPDF Logic ---
         async function generatePDF() {
             if (images.length === 0) return;
             const { jsPDF } = window.jspdf;
             const size = document.getElementById('page-size').value;
-            
-            // Create PDF instance
             const pdf = new jsPDF(config.orient, 'mm', size);
 
             for (let i = 0; i < images.length; i++) {
                 if (i > 0) pdf.addPage(size, config.orient);
-                
                 const pw = pdf.internal.pageSize.getWidth();
                 const ph = pdf.internal.pageSize.getHeight();
                 const m = config.margin;
-
-                // Simple auto-fit image logic
                 pdf.addImage(images[i].src, 'JPEG', m, m, pw - (m*2), ph - (m*2));
             }
-            
-            pdf.save('AllToolsPro_Document.pdf');
+            pdf.save('AllToolsPro.pdf');
         }
     </script>
 </body>
