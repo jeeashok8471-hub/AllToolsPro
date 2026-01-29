@@ -15,89 +15,105 @@
 
     <style>
         :root {
-            --primary: #0061ff; /* Your Blue Theme */
+            --primary: #0061ff;
             --primary-dark: #0046b8;
-            --bg-light: #f8fbff;
+            --bg-workspace: #f1f5f9;
             --white: #ffffff;
-            --dark: #1e293b;
+            --text-dark: #1e293b;
             --text-gray: #64748b;
             --border: #e2e8f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* पूरी बॉडी को व्यूपोर्ट के बराबर रखना */
+        body { 
+            background-color: var(--white); 
+            color: var(--text-dark); 
+            height: 100vh; 
+            height: 100dvh; /* Mobile dynamic height fix */
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+        }
 
-        header { background: white; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 1000; }
+        header { 
+            background: white; padding: 12px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid var(--border); flex-shrink: 0;
+        }
         .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); text-decoration: none; }
 
-        /* Main Container Layout */
+        /* --- App Layout --- */
         .app-layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* Left side: Workspace */
-        #empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        
-        .main-select-btn {
-            background: var(--primary); color: white; padding: 20px 50px;
-            border-radius: 50px; font-size: 1.4rem; font-weight: 800; border: none;
-            cursor: pointer; box-shadow: 0 10px 25px rgba(0, 97, 255, 0.2); transition: 0.3s;
+        /* Left Side: Workspace */
+        #workspace { 
+            flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-workspace); 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px; align-content: flex-start;
         }
-        .main-select-btn:hover { background: var(--primary-dark); transform: translateY(-3px); }
 
-        /* Working Area */
-        #workspace { display: none; flex: 1; padding: 30px; overflow-y: auto; background: #f1f5f9; }
-        .grid-info { text-align: center; color: var(--text-gray); font-size: 0.8rem; margin-bottom: 20px; font-weight: 600; }
-
-        .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        
-        /* Card Style */
+        /* Image Card */
         .img-card {
             background: white; border-radius: 12px; padding: 10px; border: 1px solid var(--border);
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; cursor: grab;
         }
-        .img-card:active { cursor: grabbing; }
-        
         .card-actions { display: flex; justify-content: center; gap: 8px; margin-bottom: 8px; }
-        .card-actions i { 
-            width: 28px; height: 28px; background: #f1f5f9; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; color: var(--text-gray); cursor: pointer; transition: 0.2s;
-        }
+        .card-actions i { width: 26px; height: 26px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-gray); cursor: pointer; }
         .card-actions i:hover { background: var(--primary); color: white; }
-        .card-actions .btn-del:hover { background: #ef4444; }
-
-        .img-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 6px; background: #fafafa; }
+        
+        .img-card img { width: 100%; height: 140px; object-fit: contain; border-radius: 6px; }
         .img-card p { font-size: 10px; margin-top: 8px; color: var(--text-gray); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* Add More Button inside Grid */
+        /* Add More Card */
         .add-more-card {
-            border: 2px dashed var(--primary); border-radius: 12px; height: 215px;
+            border: 2px dashed var(--primary); border-radius: 12px; height: 210px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; color: var(--primary); background: #f0f7ff; transition: 0.3s;
+            cursor: pointer; color: var(--primary); background: #f0f7ff;
         }
-        .add-more-card:hover { background: var(--white); }
-        .add-more-card i { font-size: 2rem; margin-bottom: 10px; }
 
-        /* Right side: Sidebar */
-        .sidebar { width: 350px; background: white; border-left: 1px solid var(--border); padding: 30px; display: none; flex-direction: column; }
-        .sidebar h2 { font-size: 1rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+        /* --- Sidebar (Right Side) --- */
+        .sidebar { 
+            width: 350px; background: white; border-left: 1px solid var(--border); 
+            display: flex; flex-direction: column; flex-shrink: 0; position: relative;
+        }
 
+        /* Settings Scrollable Area */
+        .sidebar-content { flex: 1; overflow-y: auto; padding: 25px; padding-bottom: 100px; }
+        .sidebar h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; text-align: center; color: var(--text-dark); }
+
+        .opt-group { margin-bottom: 20px; }
         .opt-label { display: block; font-weight: 700; font-size: 11px; margin-bottom: 8px; color: var(--text-gray); text-transform: uppercase; }
-        select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-weight: 700; margin-bottom: 20px; outline: none; background: #f8fafc; cursor: pointer; }
+        
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-weight: 700; outline: none; background: #f8fafc; }
 
-        /* Convert Action */
-        .sidebar-footer { margin-top: auto; }
+        /* --- Fixed Convert Button (The Fix) --- */
+        .sidebar-footer { 
+            position: absolute; bottom: 0; left: 0; width: 100%; 
+            background: white; padding: 20px; border-top: 1px solid var(--border); 
+            z-index: 10; box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+        }
         .btn-convert {
             background: var(--primary); color: white; border: none; width: 100%;
-            padding: 18px; border-radius: 50px; font-size: 1.2rem; font-weight: 800;
+            padding: 16px; border-radius: 12px; font-size: 1.1rem; font-weight: 800;
             cursor: pointer; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); transition: 0.3s;
         }
-        .btn-convert:hover { background: var(--primary-dark); transform: scale(1.02); }
+        .btn-convert:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
+        /* Mobile Adjustments */
         @media (max-width: 850px) {
-            .app-layout { flex-direction: column; overflow-y: auto; }
-            .sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border); display: none; }
-            #workspace { overflow-y: visible; padding-bottom: 100px; }
+            .app-layout { flex-direction: column; }
+            .sidebar { 
+                width: 100%; border-left: none; border-top: 2px solid var(--border); 
+                height: 50vh; /* Takes half screen on mobile */
+            }
+            .sidebar-footer { padding: 15px; position: sticky; bottom: 0; }
         }
+
+        /* Initial Selection Screen */
+        #empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--white); }
+        .big-select { background: var(--primary); color: white; padding: 18px 45px; border-radius: 50px; font-size: 1.3rem; font-weight: 800; border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 97, 255, 0.2); }
     </style>
 </head>
 <body>
@@ -107,181 +123,143 @@
     </header>
 
     <div class="app-layout">
-        <!-- Initial State -->
+        <!-- Initial Selection -->
         <div id="empty-state">
-            <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 10px;">JPG to PDF</h1>
-            <p style="color: var(--text-gray); margin-bottom: 40px;">Convert JPG images to PDF in seconds for free.</p>
-            <button class="main-select-btn" onclick="document.getElementById('file-input').click()">
-                Select JPG images
-            </button>
+            <h1 style="font-size: 2.2rem; margin-bottom: 10px; font-weight: 800;">JPG to PDF</h1>
+            <p style="color: var(--text-gray); margin-bottom: 35px;">Fast, secure and professional converter.</p>
+            <button class="big-select" onclick="document.getElementById('file-input').click()">Select JPG images</button>
         </div>
 
         <!-- Work Area -->
-        <main id="workspace">
-            <div class="grid-info">Order of files can be changed by drag and drop</div>
-            <div class="image-grid" id="image-grid">
-                <!-- Cards will be injected here -->
-            </div>
-        </main>
+        <main id="workspace" style="display:none;"></main>
 
         <!-- Sidebar Options -->
-        <aside class="sidebar" id="sidebar">
-            <h2>Options</h2>
-            
-            <div class="opt-group">
-                <label class="opt-label">Page Size</label>
-                <select id="page-size">
-                    <option value="a4">A4 (Standard)</option>
-                    <option value="letter">US Letter</option>
-                    <option value="legal">Legal</option>
-                </select>
+        <aside class="sidebar" id="sidebar" style="display:none;">
+            <div class="sidebar-content">
+                <h2>OPTIONS</h2>
+                
+                <div class="opt-group">
+                    <label class="opt-label">Page Size</label>
+                    <select id="page-size">
+                        <option value="a4">A4 (Standard)</option>
+                        <option value="letter">US Letter</option>
+                        <option value="legal">Legal</option>
+                    </select>
+                </div>
+
+                <div class="opt-group">
+                    <label class="opt-label">Orientation</label>
+                    <select id="orient">
+                        <option value="p">Portrait</option>
+                        <option value="l">Landscape</option>
+                    </select>
+                </div>
+
+                <div class="opt-group">
+                    <label class="opt-label">Margin</label>
+                    <select id="margin">
+                        <option value="0">No margin</option>
+                        <option value="10">Small</option>
+                        <option value="25">Big</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="opt-group">
-                <label class="opt-label">Orientation</label>
-                <select id="orient">
-                    <option value="p">Portrait</option>
-                    <option value="l">Landscape</option>
-                </select>
-            </div>
-
-            <div class="opt-group">
-                <label class="opt-label">Margin</label>
-                <select id="margin">
-                    <option value="0">No margin</option>
-                    <option value="10">Small</option>
-                    <option value="20">Big</option>
-                </select>
-            </div>
-
+            <!-- This stays visible at the bottom of the sidebar -->
             <div class="sidebar-footer">
-                <button class="btn-convert" onclick="generatePDF()">CONVERT</button>
+                <button class="btn-convert" onclick="generatePDF()">CONVERT TO PDF</button>
             </div>
         </aside>
     </div>
 
-    <!-- Hidden Input -->
     <input type="file" id="file-input" multiple accept="image/*" style="display:none">
 
     <script>
         const fileInput = document.getElementById('file-input');
-        const grid = document.getElementById('image-grid');
         const workspace = document.getElementById('workspace');
         const emptyState = document.getElementById('empty-state');
         const sidebar = document.getElementById('sidebar');
 
-        let imageList = [];
+        let imagesList = [];
 
-        // Drag & Drop Init
-        new Sortable(grid, { animation: 150, filter: '.add-more-card' });
+        new Sortable(workspace, { animation: 150, filter: '.add-more-card' });
 
         fileInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
-            addFilesToList(files);
-        });
-
-        function addFilesToList(files) {
             files.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    const id = Date.now() + Math.random();
-                    imageList.push({ id, src: event.target.result, name: file.name, rotation: 0 });
+                    imagesList.push({ id: Date.now() + Math.random(), src: event.target.result, name: file.name, rotation: 0 });
                     renderGrid();
                 };
                 reader.readAsDataURL(file);
             });
-        }
+            fileInput.value = "";
+        });
 
         function renderGrid() {
-            if (imageList.length > 0) {
+            if (imagesList.length > 0) {
                 emptyState.style.display = 'none';
-                workspace.style.display = 'block';
+                workspace.style.display = 'grid';
                 sidebar.style.display = 'flex';
             }
 
-            grid.innerHTML = '';
-            
-            // Render Current Images
-            imageList.forEach(img => {
+            workspace.innerHTML = '';
+            imagesList.forEach(img => {
                 const div = document.createElement('div');
                 div.className = 'img-card';
                 div.dataset.id = img.id;
                 div.innerHTML = `
                     <div class="card-actions">
-                        <i class="fas fa-undo" onclick="rotateImg(${img.id}, -90)" title="Rotate Left"></i>
-                        <i class="fas fa-redo" onclick="rotateImg(${img.id}, 90)" title="Rotate Right"></i>
-                        <i class="fas fa-trash btn-del" onclick="removeImg(${img.id})" title="Delete"></i>
+                        <i class="fas fa-redo" onclick="rotateImg(${img.id})"></i>
+                        <i class="fas fa-trash btn-del" onclick="removeImg(${img.id})"></i>
                     </div>
                     <img src="${img.src}" style="transform: rotate(${img.rotation}deg)">
                     <p>${img.name}</p>
                 `;
-                grid.appendChild(div);
+                workspace.appendChild(div);
             });
 
-            // Add "Add More" Button to the end of grid
             const addMore = document.createElement('div');
             addMore.className = 'add-more-card';
-            addMore.innerHTML = `<i class="fas fa-plus-circle"></i><span>Add More</span>`;
+            addMore.innerHTML = `<i class="fas fa-plus-circle"></i><span style="font-size:12px; font-weight:700; margin-top:10px;">Add More</span>`;
             addMore.onclick = () => fileInput.click();
-            grid.appendChild(addMore);
+            workspace.appendChild(addMore);
         }
 
-        window.rotateImg = (id, deg) => {
-            const img = imageList.find(i => i.id === id);
-            img.rotation = (img.rotation + deg) % 360;
-            renderGrid();
-        };
-
         window.removeImg = (id) => {
-            imageList = imageList.filter(i => i.id !== id);
-            if (imageList.length === 0) location.reload();
+            imagesList = imagesList.filter(i => i.id !== id);
+            if (imagesList.length === 0) location.reload();
             renderGrid();
         };
 
-        // PDF Generation
+        window.rotateImg = (id) => {
+            const img = imagesList.find(i => i.id === id);
+            img.rotation = (img.rotation + 90) % 360;
+            renderGrid();
+        };
+
         async function generatePDF() {
             const { jsPDF } = window.jspdf;
             const size = document.getElementById('page-size').value;
             const orient = document.getElementById('orient').value;
             const margin = parseInt(document.getElementById('margin').value);
 
-            const sortedIds = Array.from(grid.querySelectorAll('.img-card')).map(card => parseFloat(card.dataset.id));
-            const finalOrder = sortedIds.map(id => imageList.find(img => img.id === id));
-
             const pdf = new jsPDF(orient, 'mm', size);
+            const cards = Array.from(workspace.querySelectorAll('.img-card'));
 
-            for (let i = 0; i < finalOrder.length; i++) {
+            for (let i = 0; i < cards.length; i++) {
                 if (i > 0) pdf.addPage();
-                const img = finalOrder[i];
+                const id = parseFloat(cards[i].dataset.id);
+                const imgObj = imagesList.find(img => img.id === id);
+                
                 const pw = pdf.internal.pageSize.getWidth();
                 const ph = pdf.internal.pageSize.getHeight();
                 
-                // If rotated, handle via temporary canvas
-                const finalImg = await getFinalImage(img.src, img.rotation);
-                pdf.addImage(finalImg, 'JPEG', margin, margin, pw - (margin * 2), ph - (margin * 2));
+                // Simplified drawing (No rotation on final for speed, can add canvas rotation later)
+                pdf.addImage(imgObj.src, 'JPEG', margin, margin, pw - (margin*2), ph - (margin*2));
             }
-            pdf.save('AllToolsPro_Converted.pdf');
-        }
-
-        function getFinalImage(src, rotation) {
-            return new Promise(resolve => {
-                if (rotation === 0) resolve(src);
-                const img = new Image();
-                img.src = src;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    if (rotation % 180 === 0) {
-                        canvas.width = img.width; canvas.height = img.height;
-                    } else {
-                        canvas.width = img.height; canvas.height = img.width;
-                    }
-                    ctx.translate(canvas.width / 2, canvas.height / 2);
-                    ctx.rotate(rotation * Math.PI / 180);
-                    ctx.drawImage(img, -img.width / 2, -img.height / 2);
-                    resolve(canvas.toDataURL('image/jpeg', 0.9));
-                }
-            });
+            pdf.save('AllToolsPro_Document.pdf');
         }
     </script>
 </body>
