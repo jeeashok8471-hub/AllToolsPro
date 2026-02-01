@@ -178,13 +178,12 @@
             <p>Our mission is to provide a "Swiss Army Knife" for the internet. Every tool on our site is optimized for speed, precision, and most importantly, security. We use advanced client-side and server-side technologies to ensure that your data is processed instantly and never stored permanently on our systems.</p>
             <p>From advanced PDF management (Merge, Split, Repair) to smart Image editing and SEO utilities, AllToolsPro is built with a focus on simplicity and professional performance. Best of all? Every single tool here is 100% free to use, forever.</p>
         </article>
+</main>
 
- </main>
-<footer>
-        <div class="footer-grid">
+    <footer style="background: #0f172a; color: white; padding: 60px 5% 30px; border-radius: 40px 40px 0 0; margin-top: 50px;">
+        <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
             <div class="footer-info">
-                <!-- आपका लोगो -->
-                <a href="index.html" class="footer-logo" style="color:white; font-size:1.6rem; font-weight:800; text-decoration:none; display:block; margin-bottom:10px;">AllToolsPro<span style="color:var(--primary)">.in</span></a>
+                <a href="index.html" class="footer-logo" style="color:white; font-size:1.6rem; font-weight:800; text-decoration:none; display:block; margin-bottom:10px;">AllToolsPro<span style="color:#0061ff;">.in</span></a>
                 <p style="color:#94a3b8; font-size:0.9rem">Simplifying your digital life since 2024. India's premium free toolkit for fast and secure digital tasks.</p>
             </div>
             
@@ -198,7 +197,7 @@
             <div class="footer-links">
                 <h4 style="margin-bottom:20px; color:white; font-size:1rem;">Support</h4>
                 <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:5px;">Contact us only at:</p>
-                <a href="mailto:Ashokjee62022@gmail.com" style="color:white; text-decoration:none; font-weight:600; font-size:0.9rem; border-bottom: 1px dashed var(--primary);">Ashokjee62022@gmail.com</a>
+                <a href="mailto:Ashokjee62022@gmail.com" style="color:white; text-decoration:none; font-weight:600; font-size:0.9rem; border-bottom: 1px dashed #0061ff;">Ashokjee62022@gmail.com</a>
             </div>
         </div>
         
@@ -207,11 +206,11 @@
         </div>
     </footer>
 
-    <!-- Modals Section (Privacy & Terms Pop-ups) -->
-    <div id="privacy" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('privacy')">&times;</span><h2>Privacy Policy</h2><p>At AllToolsPro.in, we ensure your data is safe. We do not store any files. All processing is done locally in your browser.</p></div></div>
-    <div id="terms" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('terms')">&times;</span><h2>Terms of Use</h2><p>By using AllToolsPro.in, you agree that our tools are provided as is. Fair usage is encouraged for personal and commercial needs.</p></div></div>
+    <!-- Modals Section -->
+    <div id="privacy" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('privacy')">&times;</span><h2>Privacy Policy</h2><p style="color:#64748b; margin-top:20px;">At AllToolsPro.in, we ensure your data is safe. We do not store any files. All processing is done locally in your browser. We only use minor cookies to analyze traffic for better user experience.</p></div></div>
+    <div id="terms" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('terms')">&times;</span><h2>Terms of Use</h2><p style="color:#64748b; margin-top:20px;">By using AllToolsPro.in, you agree that our tools are provided "as is" without any warranty. We are not responsible for any data loss or errors. Fair usage is encouraged for personal and commercial needs.</p></div></div>
 
-    <!-- Smart Search Script -->
+    <!-- Scripts -->
     <script>
         function filterTools() {
             let input = document.getElementById('toolSearch').value.toLowerCase();
@@ -237,10 +236,18 @@
             });
         }
 
-        function openModal(id) { document.getElementById(id).style.display = "block"; document.body.style.overflow = "hidden"; }
-        function closeModal(id) { document.getElementById(id).style.display = "none"; document.body.style.overflow = "auto"; }
-        window.onclick = function(e) { if(e.target.className === 'modal') { closeModal(e.target.id); } }
+        function openModal(id) { 
+            document.getElementById(id).style.display = "block"; 
+            document.body.style.overflow = "hidden"; 
+        }
+        function closeModal(id) { 
+            document.getElementById(id).style.display = "none"; 
+            document.body.style.overflow = "auto"; 
+        }
+        window.onclick = function(e) { 
+            if(e.target.className === 'modal') { closeModal(e.target.id); } 
+        }
     </script>
 </body>
 </html>
-    
+ 
