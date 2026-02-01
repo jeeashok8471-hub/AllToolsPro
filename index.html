@@ -179,33 +179,39 @@
             <p>From advanced PDF management (Merge, Split, Repair) to smart Image editing and SEO utilities, AllToolsPro is built with a focus on simplicity and professional performance. Best of all? Every single tool here is 100% free to use, forever.</p>
         </article>
 
-    </main>
-
-    <footer>
+ </main>
+<footer>
         <div class="footer-grid">
             <div class="footer-info">
-                <a href="<a href="index.html" class="footer-logo" ..." class="footer-logo" style="color:white">AllToolsPro</a>
-                <p style="color:#94a3b8; font-size:0.9rem">Simplifying your digital life since 2024. Fast, secure, and free tools for everyone.</p>
+                <!-- आपका लोगो -->
+                <a href="index.html" class="footer-logo" style="color:white; font-size:1.6rem; font-weight:800; text-decoration:none; display:block; margin-bottom:10px;">AllToolsPro<span style="color:var(--primary)">.in</span></a>
+                <p style="color:#94a3b8; font-size:0.9rem">Simplifying your digital life since 2024. India's premium free toolkit for fast and secure digital tasks.</p>
             </div>
+            
             <div class="footer-links">
-                <h4>Legal</h4>
-                <a href="about-us.html">About Us</a>
-                <a onclick="openModal('privacy')">Privacy Policy</a>
-                <a onclick="openModal('terms')">Terms of Use</a>
+                <h4 style="margin-bottom:20px; color:white; font-size:1rem;">Company</h4>
+                <a href="about-us.html" style="display:block; color:#94a3b8; text-decoration:none; margin-bottom:12px; font-size:0.9rem;">About Us</a>
+                <a onclick="openModal('privacy')" style="display:block; color:#94a3b8; text-decoration:none; margin-bottom:12px; font-size:0.9rem; cursor:pointer;">Privacy Policy</a>
+                <a onclick="openModal('terms')" style="display:block; color:#94a3b8; text-decoration:none; font-size:0.9rem; cursor:pointer;">Terms of Use</a>
             </div>
+
             <div class="footer-links">
-                <h4>Support</h4>
-                <p style="color:#94a3b8; font-size:0.9rem">Email only:</p>
-                <a href="mailto:Ashokjee62022@gmail.com">Ashokjee62022@gmail.com</a>
+                <h4 style="margin-bottom:20px; color:white; font-size:1rem;">Support</h4>
+                <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:5px;">Contact us only at:</p>
+                <a href="mailto:Ashokjee62022@gmail.com" style="color:white; text-decoration:none; font-weight:600; font-size:0.9rem; border-bottom: 1px dashed var(--primary);">Ashokjee62022@gmail.com</a>
             </div>
         </div>
-        <div class="footer-bottom"> &copy; 2024 AllToolsPro. Designed for efficiency. </div>
+        
+        <div class="footer-bottom" style="text-align:center; margin-top:50px; padding-top:25px; border-top:1px solid #253858; color:#64748b; font-size:0.8rem;">
+            &copy; 2026 AllToolsPro.in | Professional & Secure Toolkit.
+        </div>
     </footer>
 
-    <!-- Modals -->
-    <div id="privacy" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('privacy')">&times;</span><h2>Privacy Policy</h2><p>At AllToolsPro, we value your privacy. We do not store any files uploaded by users. All processing is temporary and data is deleted immediately after use. We only use minor cookies to track basic site traffic to improve our service.</p></div></div>
-    <div id="terms" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('terms')">&times;</span><h2>Terms of Use</h2><p>By using AllToolsPro, you agree to use our tools fairly. We are not responsible for any data loss or errors in output. Our service is provided "as is" and is free for personal and commercial use.</p></div></div>
+    <!-- Modals Section (Privacy & Terms Pop-ups) -->
+    <div id="privacy" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('privacy')">&times;</span><h2>Privacy Policy</h2><p>At AllToolsPro.in, we ensure your data is safe. We do not store any files. All processing is done locally in your browser.</p></div></div>
+    <div id="terms" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('terms')">&times;</span><h2>Terms of Use</h2><p>By using AllToolsPro.in, you agree that our tools are provided as is. Fair usage is encouraged for personal and commercial needs.</p></div></div>
 
+    <!-- Smart Search Script -->
     <script>
         function filterTools() {
             let input = document.getElementById('toolSearch').value.toLowerCase();
@@ -214,18 +220,27 @@
 
             cards.forEach(card => {
                 let title = card.querySelector('h3').innerText.toLowerCase();
-                card.style.display = title.includes(input) ? "flex" : "none";
+                if(title.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
             });
 
             wrappers.forEach(wrap => {
                 let visibleCards = wrap.querySelectorAll('.tool-card[style="display: flex"]');
-                wrap.style.display = (visibleCards.length > 0 || input === "") ? "block" : "none";
+                if(visibleCards.length > 0 || input === "") {
+                    wrap.style.display = "block";
+                } else {
+                    wrap.style.display = "none";
+                }
             });
         }
 
-        function openModal(id) { document.getElementById(id).style.display = "block"; }
-        function closeModal(id) { document.getElementById(id).style.display = "none"; }
-        window.onclick = function(e) { if(e.target.className === 'modal') e.target.style.display = "none"; }
+        function openModal(id) { document.getElementById(id).style.display = "block"; document.body.style.overflow = "hidden"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; document.body.style.overflow = "auto"; }
+        window.onclick = function(e) { if(e.target.className === 'modal') { closeModal(e.target.id); } }
     </script>
 </body>
 </html>
+    
