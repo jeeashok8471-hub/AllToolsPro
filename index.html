@@ -211,43 +211,44 @@
     <div id="terms" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('terms')">&times;</span><h2>Terms of Use</h2><p style="color:#64748b; margin-top:20px;">By using AllToolsPro, you agree that our tools are provided "as is" without any warranty. We are not responsible for any data loss or errors. Fair usage is encouraged for personal and commercial needs.</p></div></div>
 
     <!-- Scripts -->
-    <script>
-        function filterTools() {
-            let input = document.getElementById('toolSearch').value.toLowerCase();
-            let cards = document.querySelectorAll('.tool-card');
-            let wrappers = document.querySelectorAll('.category-wrapper');
+<script>
+    function filterTools() {
+        // 1. सर्च बॉक्स में क्या लिखा है उसे पकड़ें
+        let input = document.getElementById('toolSearch').value.toLowerCase();
+        
+        // 2. वेबसाइट के सभी टूल कार्ड्स को पकड़ें
+        let cards = document.querySelectorAll('.tool-card');
+        
+        // 3. सभी केटेगरी (Sections) को पकड़ें
+        let wrappers = document.querySelectorAll('.category-wrapper');
 
-            cards.forEach(card => {
-                let title = card.querySelector('h3').innerText.toLowerCase();
-                if(title.includes(input)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
+        // 4. हर टूल को चेक करें
+        cards.forEach(card => {
+            let title = card.querySelector('h3').innerText.toLowerCase();
+            
+            // अगर नाम मैच होता है तो दिखाओ (flex), नहीं तो छुपा दो (none)
+            if (title.includes(input)) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
 
-            wrappers.forEach(wrap => {
-                let visibleCards = wrap.querySelectorAll('.tool-card[style="display: flex"]');
-                if(visibleCards.length > 0 || input === "") {
-                    wrap.style.display = "block";
-                } else {
-                    wrap.style.display = "none";
-                }
-            });
-        }
+        // 5. अगर किसी सेक्शन में एक भी टूल नहीं मिला, तो उस पूरे सेक्शन को छुपा दो
+        wrappers.forEach(wrap => {
+            let visibleCards = wrap.querySelectorAll('.tool-card[style="display: flex"]');
+            if (visibleCards.length > 0 || input === "") {
+                wrap.style.display = "block";
+            } else {
+                wrap.style.display = "none";
+            }
+        });
+    }
 
-        function openModal(id) { 
-            document.getElementById(id).style.display = "block"; 
-            document.body.style.overflow = "hidden"; 
-        }
-        function closeModal(id) { 
-            document.getElementById(id).style.display = "none"; 
-            document.body.style.overflow = "auto"; 
-        }
-        window.onclick = function(e) { 
-            if(e.target.className === 'modal') { closeModal(e.target.id); } 
-        }
-    </script>
+    // ये पुराने कोड (Privacy/Terms pop-up) को चलाने के लिए है
+    function openModal(id) { document.getElementById(id).style.display = "block"; document.body.style.overflow = "hidden"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; document.body.style.overflow = "auto"; }
+</script>
 </body>
 </html>
  
