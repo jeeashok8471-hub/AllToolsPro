@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Text to PDF Pro | AllToolsPro.in</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-dark: #0046b8;
+            --bg-light: #f8fbff;
+            --white: #ffffff;
+            --shadow: 0 10px 40px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-light); color: #1e293b; font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; line-height: 1.6; }
+
+        header { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+
+        /* Left: Editor Control Panel */
+        .editor-card { background: white; padding: 30px; border-radius: 24px; box-shadow: var(--shadow); height: fit-content; position: sticky; top: 100px; }
+        h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        
+        .control-panel { background: #f8fafc; padding: 20px; border-radius: 20px; margin-bottom: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border: 1px solid #e2e8f0; }
+        .control-item label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: #64748b; text-transform: uppercase; }
+        
+        select, input[type="text"] { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #cbd5e1; outline: none; font-size: 14px; font-weight: 600; }
+        
+        .style-btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 5px; }
+        .style-btn { padding: 10px; border: 1px solid #cbd5e1; border-radius: 10px; background: white; cursor: pointer; font-size: 12px; font-weight: 700; transition: 0.2s; }
+        .style-btn:hover, .style-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        textarea { width: 100%; height: 250px; padding: 20px; border-radius: 15px; border: 2px solid #e2e8f0; font-size: 1rem; outline: none; resize: none; transition: 0.3s; margin-top: 15px; }
+        textarea:focus { border-color: var(--primary); }
+
+        /* Right: The Dynamic Paper Preview */
+        .preview-label { font-weight: 800; margin-bottom: 10px; color: #64748b; display: flex; align-items: center; gap: 8px; }
+        
+        #pdf-render-area { 
+            background: white; width: 100%; min-height: 700px; padding: 50px; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.1); position: relative; 
+            transition: 0.3s; overflow: hidden;
+        }
+
+        /* --- Page Styles --- */
+        /* 1. Diary Style (Lines) */
+        #pdf-render-area.diary-style {
+            background-image: linear-gradient(#e5e5e5 1px, transparent 1px);
+            background-size: 100% 2.5rem;
+            padding-top: 4.2rem;
+            line-height: 2.5rem;
+        }
+        #pdf-render-area.diary-style::before {
+            content: ''; position: absolute; left: 40px; top: 0; height: 100%; width: 2px;
+            background: rgba(255, 0, 0, 0.2); /* Diary Red Line */
+        }
+
+        /* 2. Grid Style */
+        #pdf-render-area.grid-style {
+            background-size: 25px 25px;
+            background-image: linear-gradient(to right, #f0f0f0 1px, transparent 1px), linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+        }
+
+        #live-text { position: relative; z-index: 2; white-space: pre-wrap; color: #334155; font-size: 18px; }
+
+        /* Download Button */
+        .btn-convert { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 20px; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
+        .btn-convert:hover { transform: translateY(-3px); background: var(--primary-dark); }
+
+        @media (max-width: 950px) { .container { grid-template-columns: 1fr; } .editor-card { position: static; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">AllToolsPro.in</a>
+        <a href="index.html" style="text-decoration:none; color:#64748b; font-weight:700;"><i class="fas fa-times"></i></a>
+    </header>
+
+    <div class="container">
+        <!-- Control Panel -->
+        <div class="editor-card">
+            <h1><i class="fas fa-pen-nib"></i> Design Your PDF</h1>
+
+            <div class="control-panel">
+                <div class="control-item">
+                    <label>Page Style</label>
+                    <select id="style-select" onchange="changePageStyle(this.value)">
+                        <option value="white">Standard White</option>
+                        <option value="diary">Diary (Lined)</option>
+                        <option value="grid">Maths (Grid)</option>
+                        <option value="custom">Custom Color</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label>Background Color</label>
+                    <input type="color" id="bg-picker" value="#ffffff" onchange="updateBgColor(this.value)">
+                </div>
+                <div class="control-item">
+                    <label>Font Size</label>
+                    <select onchange="updateTextStyle('fontSize', this.value + 'px')">
+                        <option value="14">Small</option>
+                        <option value="18" selected>Medium</option>
+                        <option value="24">Large</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label>Text Color</label>
+                    <input type="color" value="#334155" onchange="updateTextStyle('color', this.value)">
+                </div>
+            </div>
+
+            <textarea id="text-input" placeholder="Type your text here (Hindi/English)..." oninput="syncText()"></textarea>
+            
+            <button class="btn-convert" onclick="downloadPDF()">
+                <i class="fas fa-file-pdf"></i> Download PDF
+            </button>
+        </div>
+
+        <!-- Preview -->
+        <div>
+            <div class="preview-label"><i class="fas fa-file-alt"></i> Live View</div>
+            <div id="pdf-render-area">
+                <div id="live-text">Your content will appear here...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const textInput = document.getElementById('text-input');
+        const liveText = document.getElementById('live-text');
+        const renderArea = document.getElementById('pdf-render-area');
+
+        // 1. Sync Text
+        function syncText() {
+            liveText.innerText = textInput.value || "Your content will appear here...";
+        }
+
+        // 2. Change Page Background Logic
+        function changePageStyle(style) {
+            renderArea.className = ""; // Reset
+            renderArea.style.backgroundColor = "#ffffff"; // Default
+
+            if(style === 'diary') renderArea.classList.add('diary-style');
+            if(style === 'grid') renderArea.classList.add('grid-style');
+            if(style === 'custom') {
+                const color = document.getElementById('bg-picker').value;
+                renderArea.style.backgroundColor = color;
+            }
+        }
+
+        // 3. Update Custom Background Color
+        function updateBgColor(color) {
+            document.getElementById('style-select').value = "custom";
+            renderArea.className = ""; 
+            renderArea.style.backgroundColor = color;
+        }
+
+        // 4. Update Text Style
+        function updateTextStyle(prop, val) {
+            liveText.style[prop] = val;
+        }
+
+        // 5. High Quality PDF Generation
+        function downloadPDF() {
+            const element = document.getElementById('pdf-render-area');
+            const opt = {
+                margin:       0.2,
+                filename:     'AllToolsPro_Personal_Doc.pdf',
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
