@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hindi AI to Human Text Converter | AllToolsPro.in</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PDF Processing Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 40px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; }
+
+        header { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .main-card { background: white; border-radius: 24px; padding: 30px; box-shadow: var(--shadow); }
+
+        h1 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); text-align: center; }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; text-align: center; font-size: 0.9rem; }
+
+        /* Upload Box */
+        .upload-section {
+            border: 2px dashed #cbd5e1; border-radius: 20px; padding: 30px;
+            text-align: center; cursor: pointer; transition: 0.3s; background: #fafafa; margin-bottom: 25px;
+        }
+        .upload-section:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-section i { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+
+        /* Editor Layout */
+        .workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .box-title { font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-gray); }
+        
+        textarea {
+            width: 100%; height: 350px; padding: 18px; border-radius: 15px;
+            border: 2px solid #e2e8f0; font-size: 1rem; outline: none;
+            resize: none; transition: 0.3s; line-height: 1.7; font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+        textarea:focus { border-color: var(--primary); background: white; }
+
+        /* Download Content (Hidden) */
+        #pdf-content { display: none; padding: 40px; font-family: 'Noto Sans Devanagari', Arial, sans-serif; color: #000; line-height: 1.8; }
+
+        /* Buttons */
+        .action-bar { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; justify-content: center; }
+        .btn { padding: 14px 25px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(0, 97, 255, 0.2); }
+        .btn-success { background: #10b981; color: white; }
+        .btn-outline { background: #f1f5f9; color: var(--dark); }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.05); }
+
+        #status-msg { margin-top: 15px; font-weight: 700; color: var(--primary); text-align: center; min-height: 24px; font-size: 0.9rem; }
+
+        @media (max-width: 850px) { .workspace { grid-template-columns: 1fr; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">AllToolsPro.in</a>
+        <a href="index.html" style="text-decoration:none; color:var(--dark); font-weight:700;"><i class="fas fa-arrow-left"></i></a>
+    </header>
+
+    <div class="container">
+        <div class="main-card">
+            <h1>AI to Human Converter (Hindi & English)</h1>
+            <p class="subtitle">PDF अपलोड करें और AI टेक्स्ट को शुद्ध इंसानी भाषा में बदलें।</p>
+
+            <div class="upload-section" onclick="document.getElementById('pdf-input').click()">
+                <i class="fas fa-file-pdf"></i>
+                <h3 id="upload-text" style="font-size: 1rem;">PDF फ़ाइल यहाँ डालें</h3>
+                <p style="font-size: 0.8rem;">Click to browse or Drag & Drop</p>
+                <input type="file" id="pdf-input" accept="application/pdf" style="display:none">
+            </div>
+
+            <div class="workspace">
+                <div>
+                    <div class="box-title"><i class="fas fa-robot"></i> Original Text (AI)</div>
+                    <textarea id="input-text" placeholder="अपना टेक्स्ट यहाँ लिखें या PDF अपलोड करें..."></textarea>
+                </div>
+                <div>
+                    <div class="box-title" style="color: #10b981;"><i class="fas fa-user-check"></i> Humanized Text</div>
+                    <textarea id="output-text" placeholder="कन्वर्ट किया हुआ टेक्स्ट यहाँ दिखेगा..." readonly></textarea>
+                </div>
+            </div>
+
+            <div id="status-msg"></div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="convertText()">
+                    <i class="fas fa-magic"></i> Humanize Now
+                </button>
+                <button class="btn btn-success" onclick="downloadPDF()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+                <button class="btn btn-outline" onclick="copyResult()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden div for PDF rendering -->
+    <div id="pdf-content"></div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const statusMsg = document.getElementById('status-msg');
+
+        // 1. PDF Extraction (Improved for Unicode/Hindi)
+        document.getElementById('pdf-input').onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            statusMsg.innerText = "PDF पढ़ा जा रहा है... कृपया रुकें।";
+            
+            const reader = new FileReader();
+            reader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument({data: typedarray}).promise;
+                let fullText = "";
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    // Join items with proper spacing for Hindi conjuncts
+                    const strings = content.items.map(item => item.str);
+                    fullText += strings.join(" ") + "\n\n";
+                }
+                inputText.value = fullText.trim();
+                statusMsg.innerText = "PDF टेक्स्ट सफलतापूर्वक लोड हो गया!";
+            };
+            reader.readAsArrayBuffer(file);
+        };
+
+        // 2. Hindi & English AI to Human Logic
+        function convertText() {
+            let text = inputText.value.trim();
+            if (!text) { alert("कृपया टेक्स्ट लिखें!"); return; }
+
+            statusMsg.innerText = "AI पैटर्न हटाए जा रहे हैं...";
+
+            // Dictionary for Hindi AI words to Human words
+            const hindiMap = {
+                "दृष्टिकोण": "नजरिया",
+                "महत्वपूर्ण": "खास",
+                "अनुकूलित": "बेहतर",
+                "प्रदान करता है": "देता है",
+                "उपलब्ध": "मौजूद",
+                "अनिवार्य": "जरूरी",
+                "सहायता": "मदद",
+                "अतिरिक्त": "ज्यादा",
+                "निष्कर्ष": "अंत में"
+            };
+
+            // Dictionary for English
+            const englishMap = {
+                "utilize": "use", "leverage": "use", "moreover": "also",
+                "furthermore": "besides", "meticulous": "careful"
+            };
+
+            // Apply conversions
+            const combinedMap = {...hindiMap, ...englishMap};
+            Object.keys(combinedMap).forEach(key => {
+                const regex = new RegExp(key, 'gi');
+                text = text.replace(regex, combinedMap[key]);
+            });
+
+            setTimeout(() => {
+                outputText.value = text;
+                statusMsg.innerText = "कन्वर्शन पूरा हुआ! (Humanized)";
+            }, 800);
+        }
+
+        // 3. Perfect PDF Download (Fix for Hindi)
+        function downloadPDF() {
+            const content = outputText.value;
+            if (!content) { alert("डाउनलोड के लिए कोई टेक्स्ट नहीं है!"); return; }
+
+            const pdfArea = document.getElementById('pdf-content');
+            pdfArea.style.display = "block";
+            // Convert newlines to HTML breaks for proper PDF formatting
+            pdfArea.innerHTML = `<h2 style="color:#0061ff; margin-bottom:20px;">AllToolsPro.in - Converted Document</h2>` + 
+                                content.replace(/\n/g, "<br>");
+
+            const opt = {
+                margin: 1,
+                filename: 'Humanized_Text.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(pdfArea).save().then(() => {
+                pdfArea.style.display = "none";
+            });
+        }
+
+        function copyResult() {
+            outputText.select();
+            document.execCommand('copy');
+            alert("कॉपी हो गया!");
+        }
+    </script>
+</body>
+  </html>
