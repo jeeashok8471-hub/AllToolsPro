@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="96" viewBox="0 0 420 96" role="img" aria-labelledby="t">
+<title id="t">AllToolsPro</title>
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
+<rect x="4" y="8" width="80" height="80" rx="22" fill="url(#g)"/>
+<path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/>
+<text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text>
+</svg>

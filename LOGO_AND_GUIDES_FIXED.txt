@@ -1,0 +1,3 @@
+Corrected AllToolsPro branding update.
+HTML pages processed: 34
+All tool pages now use the branded SVG wordmark in the top header and have a visible How-to-use guide block below the tool.

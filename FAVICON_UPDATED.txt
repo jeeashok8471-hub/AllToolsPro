@@ -1,0 +1,3 @@
+AllToolsPro favicon linked on 37 HTML pages.
+Favicon source: favicon-16x16.png
+The same favicon is used on homepage and tool pages.
