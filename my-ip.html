@@ -3,88 +3,25 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My IP Address Finder - Check Your Network Info | AllToolsPro</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>What Is My IP? Check Your Public IP Address and Location | AllToolsPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root {
-            --primary: #0061ff;
-            --primary-soft: #f0f7ff;
-            --dark: #0f172a;
-            --text-gray: #64748b;
-            --white: #ffffff;
-            --shadow: 0 10px 40px rgba(0, 97, 255, 0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
-
-        header { 
-            background: var(--white); padding: 15px 5%; display: flex; 
-            justify-content: space-between; align-items: center; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
-
-        .container { max-width: 800px; margin: 50px auto; padding: 0 20px; }
-        .main-card { background: white; border-radius: 30px; padding: 40px; box-shadow: var(--shadow); text-align: center; }
-
-        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
-        .subtitle { color: var(--text-gray); margin-bottom: 40px; }
-
-        /* IP Display Card */
-        .ip-display-card {
-            background: linear-gradient(135deg, var(--primary), #00d2ff);
-            padding: 40px; border-radius: 25px; color: white; margin-bottom: 30px;
-            position: relative; overflow: hidden; box-shadow: 0 15px 30px rgba(0, 97, 255, 0.2);
-        }
-        .ip-display-card::after {
-            content: "\f0ac"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.1;
-        }
-        .ip-label { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; opacity: 0.9; letter-spacing: 1px; }
-        #ip-address { font-size: clamp(1.5rem, 5vw, 2.8rem); font-weight: 800; margin: 10px 0; letter-spacing: 1px; }
-        
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white; padding: 8px 20px; border-radius: 50px; cursor: pointer;
-            font-weight: 700; font-size: 0.85rem; transition: 0.3s; backdrop-filter: blur(5px);
-        }
-        .copy-btn:hover { background: white; color: var(--primary); }
-
-        /* Info Grid */
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .info-box { 
-            background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; 
-            border-radius: 18px; text-align: left; display: flex; align-items: center; gap: 15px;
-        }
-        .info-icon { width: 45px; height: 45px; background: white; color: var(--primary); display: flex; align-items: center; justify-content: center; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 1.1rem; }
-        .info-content span { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; }
-        .info-content p { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
-
-        /* Loader */
-        .loader-wrapper { padding: 40px; display: block; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .btn-refresh { 
-            margin-top: 30px; background: #f1f5f9; border: none; padding: 12px 25px; 
-            border-radius: 50px; font-weight: 700; color: var(--dark); cursor: pointer; transition: 0.3s;
-        }
-        .btn-refresh:hover { background: #e2e8f0; }
-
-        .info-section { margin-top: 50px; text-align: left; border-top: 1px solid #eee; padding-top: 30px; }
-        .info-section h3 { margin-bottom: 15px; color: var(--primary); }
-        .info-section p { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 10px; }
-
-        @media (max-width: 600px) { h1 { font-size: 1.8rem; } .main-card { padding: 25px; } }
+        :root { --primary: #0061ff; --dark: #0f172a; --bg: #f8fbff; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); line-height: 1.8; color: var(--dark); padding: 40px 20px; }
+        .card { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        h1 { color: var(--primary); font-weight: 800; font-size: 2.5rem; margin-bottom: 20px; }
+        p { margin-bottom: 20px; font-size: 1.1rem; color: #475569; }
+        .feature-list { list-style: none; padding: 0; margin: 30px 0; }
+        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .feature-list i { color: var(--primary); }
+        .btn-back { display: inline-block; margin-top: 30px; padding: 15px 35px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; }
+        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
     </style>
 
-<!-- AllToolsPro favicon -->
+    <!-- AllToolsPro favicon -->
 
+<style>h2{font-size:1.3rem;margin:26px 0 8px;color:#0f172a}.card a{color:#0061ff}</style>
 <style id="atp-global-final">
 :root{--atp-blue:#2563eb;--atp-blue2:#4f46e5;--atp-ink:#0f172a;--atp-muted:#64748b;--atp-bg:#f6f9ff;--atp-card:#fff;--atp-border:#e2e8f0}
 *{box-sizing:border-box}
@@ -105,7 +42,7 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
 .atp-footer-final{background:#0f172a;color:#cbd5e1;margin-top:48px;padding:38px 18px 28px}
 .atp-footer-final .inner{max-width:1200px;margin:auto}
 .atp-footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.atp-footer-brand .atp-logo-svg{width:170px;filter:brightness(0) invert(1)}
+.atp-footer-brand .atp-logo-svg{width:170px}.atp-footer-brand .atp-logo-svg text{fill:#fff}.atp-footer-brand .atp-logo-svg tspan{fill:#93c5fd}
 .atp-footer-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:24px}
 .atp-footer-final h3{color:#fff;font-size:1rem;margin:0 0 10px}
 .atp-footer-final a{color:#cbd5e1;text-decoration:none;display:block;margin:6px 0;font-size:.88rem}
@@ -135,232 +72,107 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
      crossorigin="anonymous"></script>
 
     <!-- AllToolsPro SEO + favicon -->
-    <link rel="canonical" href="https://www.alltoolspro.in/my-ip.html" />
-    <meta name="description" content="My IP Address Finder - Check Your Network Info online with AllToolsPro. Free, fast and browser-based—use the tool without installing software or creating an a" />
+    <link rel="canonical" href="https://www.alltoolspro.in/blog/my-ip.html" />
+    <meta name="description" content="See your public IP address, approximate location, internet provider, country and timezone in one click. Understand what an IP reveals and how the lookup works." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#2563eb" />
-    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="My IP Address Finder - Check Your Network Info | AllToolsPro" />
-    <meta property="og:description" content="My IP Address Finder - Check Your Network Info online with AllToolsPro. Free, fast and browser-based—use the tool without installing software or creating an a" />
-    <meta property="og:url" content="https://www.alltoolspro.in/my-ip.html" />
+    <meta property="og:title" content="What Is My IP? Check Your Public IP Address and Location | AllToolsPro" />
+    <meta property="og:description" content="See your public IP address, approximate location, internet provider, country and timezone in one click. Understand what an IP reveals and how the lookup works." />
+    <meta property="og:url" content="https://www.alltoolspro.in/blog/my-ip.html" />
     <meta property="og:site_name" content="AllToolsPro" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="My IP Address Finder - Check Your Network Info | AllToolsPro" />
-    <meta name="twitter:description" content="My IP Address Finder - Check Your Network Info online with AllToolsPro. Free, fast and browser-based—use the tool without installing software or creating an a" />
+    <meta name="twitter:title" content="What Is My IP? Check Your Public IP Address and Location | AllToolsPro" />
+    <meta name="twitter:description" content="See your public IP address, approximate location, internet provider, country and timezone in one click. Understand what an IP reveals and how the lookup works." />
 
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"My IP Address Finder - Check Your Network Info","url":"https://www.alltoolspro.in/my-ip.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"provider":{"@type":"Organization","name":"AllToolsPro","url":"https://www.alltoolspro.in/"}}</script>
+
+<style>
+body{padding:0!important;background:#f6f9ff}
+.atp-article-wrap{max-width:820px;margin:28px auto 0;padding:0 16px}
+.atp-article{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:40px 44px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.atp-crumb{font-size:.85rem;color:#64748b;margin-bottom:14px}.atp-crumb a{color:#2563eb;text-decoration:none;font-weight:700}
+.atp-cat{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;background:#eff6ff;padding:5px 11px;border-radius:99px}
+.atp-article h1{font-size:clamp(1.65rem,4.2vw,2.35rem);line-height:1.2;margin:14px 0 10px;color:#0f172a;font-weight:800}
+.atp-meta{color:#64748b;font-size:.88rem;margin-bottom:22px}
+.atp-article h2{font-size:1.4rem;line-height:1.3;margin:34px 0 10px;color:#0f172a}
+.atp-article h3{font-size:1.1rem;margin:22px 0 6px}
+.atp-article p,.atp-article li{font-size:1.04rem;line-height:1.8;color:#334155}
+.atp-article p{margin:0 0 16px}.atp-article ul,.atp-article ol{padding-left:22px;margin:0 0 18px}.atp-article li{margin-bottom:8px}
+.atp-article a{color:#2563eb}
+.atp-article table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:.95rem}.atp-article th,.atp-article td{border:1px solid #e2e8f0;padding:9px 11px;text-align:left}.atp-article th{background:#f1f5f9}
+.atp-cta{margin:34px 0;padding:24px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#4f46e5 60%,#7c3aed);color:#fff}
+.atp-cta h2{color:#fff;margin:0 0 6px;font-size:1.25rem}.atp-cta p{color:#e0e7ff;margin:0 0 14px}
+.atp-cta a{display:inline-block;background:#fff;color:#2563eb!important;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:12px}
+.atp-faq details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}
+.atp-faq summary{cursor:pointer;font-weight:700;color:#0f172a}.atp-faq details p{margin:10px 0 0}
+.atp-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:10px}
+.atp-related a,.atp-card{display:block;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;background:#fff;text-decoration:none!important;color:#0f172a!important;font-weight:700;line-height:1.4}
+.atp-related a:hover,.atp-card:hover{border-color:#2563eb;box-shadow:0 6px 18px rgba(37,99,235,.12)}
+.atp-card small{display:block;font-weight:400;color:#64748b;margin-top:6px;font-size:.88rem;line-height:1.5}
+@media(max-width:600px){.atp-article{padding:24px 18px;border-radius:16px}}
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "What Is My IP Address? How to Check It and What It Reveals", "description": "See your public IP address, approximate location, internet provider, country and timezone in one click. Understand what an IP reveals and how the lookup works.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in"}, "publisher": {"@type": "Organization", "name": "AllToolsPro", "logo": {"@type": "ImageObject", "url": "https://www.alltoolspro.in/favicon-512.png"}}, "mainEntityOfPage": "https://www.alltoolspro.in/blog/my-ip.html"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does this tool send my IP to another service?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It uses the public lookup service ipapi.co to get your address and location details, so that service receives the request. The page says it does not store your IP on its own servers."}}, {"@type": "Question", "name": "Why is my location shown in the wrong city?", "acceptedAnswer": {"@type": "Answer", "text": "IP location is an estimate based on address-range databases. Mobile carriers and some broadband providers can make you appear in a nearby or even distant city."}}, {"@type": "Question", "name": "Why does my IP change?", "acceptedAnswer": {"@type": "Answer", "text": "Many providers assign dynamic addresses, and mobile networks share addresses across users. Reconnecting or switching networks can give you a new one."}}, {"@type": "Question", "name": "Why do I see an error instead of my IP?", "acceptedAnswer": {"@type": "Answer", "text": "Ad-blockers, privacy extensions or network filters can block the lookup request. Disable them for the page or try another network, then refresh."}}, {"@type": "Question", "name": "Does a VPN change what this tool shows?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. With a VPN on, the address, provider and location usually reflect the VPN server rather than your own connection."}}]}]}</script>
+<style id="atp-fb">.atp-header-final,.atp-footer-final{width:100%}.atp-header-final .inner,.atp-footer-final .inner{width:100%}.atp-footer-bottom a{display:inline!important;margin:0!important}.atp-footer-bottom span:last-child{display:flex;flex-wrap:wrap;gap:6px 14px}</style>
+<style>.atp-article{overflow-wrap:anywhere}.atp-article table{display:block;overflow-x:auto}.atp-article pre,.atp-article code{white-space:pre-wrap}</style><meta name="keywords" content="what is my ip, my ip address, ip lookup, check my ip, find ip address, how to, guide" />
 </head>
 <body>
-
 <header class="atp-header-final">
  <div class="inner">
-  <a class="atp-logo-wrap" href="index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 330 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
+  <a class="atp-logo-wrap" href="/index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
 <defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
 <rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
 <path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All</text>
-<text x="126" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#2563eb">Tools</text>
-<text x="244" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">Pro</text>
+<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
 </svg></a>
   <nav class="atp-nav-final" aria-label="Main navigation">
-   <a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About</a>
+   <a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About</a> · <a href="/blog.html">Blog</a>
   </nav>
   <details class="atp-menu-toggle"><summary>☰ Menu</summary>
-   <nav class="atp-menu-final"><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About Us</a></nav>
+   <nav class="atp-menu-final"><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About Us</a></nav>
   </details>
  </div>
 </header>
-
-    
-<div class="atp-breadcrumb"><a href="index.html">Home</a> &nbsp;›&nbsp; <span>My IP Address</span></div>
-<section class="atp-hero"><div class="atp-hero-card">
-  <div class="atp-kicker">AllToolsPro Online Tool</div>
-  <h1>My IP Address</h1>
-  <p>Current public IP address और उपलब्ध network information देखने के लिए उपयोग करें.</p>
-</div></section>
-<div class="container">
-        <div class="main-card">
-            <h1>What is my IP?</h1>
-            <p class="subtitle">Quickly find your public IP address and network location data.</p>
-
-            <div id="loader" class="loader-wrapper">
-                <div class="spinner"></div>
-                <p style="margin-top: 15px; font-weight: 600; color: var(--text-gray);">Fetching network data...</p>
-            </div>
-
-            <div id="data-area" style="display: none;">
-                <!-- Main IP Card -->
-                <div class="ip-display-card">
-                    <span class="ip-label">Your Public IP Address</span>
-                    <h2 id="ip-address">0.0.0.0</h2>
-                    <button class="copy-btn" onclick="copyIP()">
-                        <i class="fas fa-copy"></i> Copy IP
-                    </button>
-                </div>
-
-                <!-- Detail Grid -->
-                <div class="info-grid">
-                    <div class="info-box">
-                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div class="info-content">
-                            <span>Location</span>
-                            <p id="location">Detecting...</p>
-                        </div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-icon"><i class="fas fa-wifi"></i></div>
-                        <div class="info-content">
-                            <span>Internet Provider</span>
-                            <p id="isp">Detecting...</p>
-                        </div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-icon"><i class="fas fa-globe"></i></div>
-                        <div class="info-content">
-                            <span>Country</span>
-                            <p id="country">Detecting...</p>
-                        </div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-icon"><i class="fas fa-clock"></i></div>
-                        <div class="info-content">
-                            <span>Timezone</span>
-                            <p id="timezone">Detecting...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-refresh" onclick="location.reload()">
-                    <i class="fas fa-sync-alt"></i> Refresh Data
-                </button>
-            </div>
-
-            <div class="info-section">
-                <h3>Privacy Notice:</h3>
-                <p><i class="fas fa-shield-alt" style="color:var(--primary)"></i> <strong>Privacy:</strong> This data is only visible to you. We do not store your IP address on our servers.</p>
-                <p><i class="fas fa-info-circle" style="color:var(--primary)"></i> An IP (Internet Protocol) address is a unique label assigned to each device connected to a computer network.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        async function fetchIP() {
-            try {
-                // Using ipapi.co for detailed info (free tier)
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-
-                if (data.ip) {
-                    document.getElementById('ip-address').innerText = data.ip;
-                    document.getElementById('location').innerText = `${data.city}, ${data.region}`;
-                    document.getElementById('isp').innerText = data.org;
-                    document.getElementById('country').innerText = data.country_name;
-                    document.getElementById('timezone').innerText = data.timezone;
-
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('data-area').style.display = 'block';
-                }
-            } catch (error) {
-                console.error("Error fetching IP:", error);
-                document.getElementById('loader').innerHTML = `
-                    <p style="color:red; font-weight:700;">Error loading data. <br> Please disable your ad-blocker or refresh.</p>
-                `;
-            }
-        }
-
-        function copyIP() {
-            const ip = document.getElementById('ip-address').innerText;
-            navigator.clipboard.writeText(ip);
-            
-            const btn = document.querySelector('.copy-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            setTimeout(() => btn.innerHTML = originalText, 2000);
-        }
-
-        // Initialize
-        fetchIP();
-    </script>
-
-<section id="alltoolspro-guide" class="atp-layout" aria-label="My IP Address guide">
-  <article class="atp-guide">
-    <div class="atp-kicker" style="color:#2563eb">AllToolsPro Guide</div>
-    <h2>My IP Address — यह Tool कैसे काम करता है?</h2>
-    <p>Current public IP address और उपलब्ध network information देखने के लिए उपयोग करें.</p>
-    <h3>Step-by-Step तरीका</h3>
-    <div class="atp-step"><strong>1. Input दें:</strong> Page खोलें</div>
-    <div class="atp-step"><strong>2. Settings चुनें:</strong> Tool में उपलब्ध options को अपनी जरूरत के अनुसार सेट करें।</div>
-    <div class="atp-step"><strong>3. Process करें:</strong> Convert, Generate, Compress, Process या संबंधित button दबाएँ।</div>
-    <div class="atp-step"><strong>4. Result जाँचें:</strong> तैयार output को खोलकर content, quality और formatting check करें।</div>
-    <div class="atp-step"><strong>5. Download करें:</strong> सही output को अपने device में save/download करें।</div>
-    <h3>इस Tool का उपयोग कब करें?</h3>
-    <p>Current public IP address और उपलब्ध network information देखने के लिए उपयोग करें. यह tool सामान्य online workflow को आसान बनाने के लिए बनाया गया है।</p>
-    <h3>Important Tips</h3>
-    <ul><li>IP address को public जगह share करते समय privacy का ध्यान रखें।</li><li>महत्वपूर्ण files पर काम करने से पहले original copy सुरक्षित रखें।</li><li>Private या sensitive documents के लिए privacy information पढ़कर online processing करें।</li></ul>
-    <div class="atp-faq">
-      <h3>Frequently Asked Questions</h3>
-      <details><summary>क्या My IP Address free में इस्तेमाल किया जा सकता है?</summary><p>AllToolsPro पर उपलब्ध tool को page पर बताए गए terms और limits के अनुसार इस्तेमाल करें।</p></details>
-      <details><summary>यह tool कैसे काम करता है?</summary><p>Page खोलें → displayed IP/network information देखें.</p></details>
-      <details><summary>Result डाउनलोड करने से पहले क्या जाँचें?</summary><p>Output को एक बार खोलकर content, formatting और quality verify करें।</p></details>
-    </div>
-  </article>
-  <aside class="atp-side">
-    <div class="atp-info"><h3>⚡ Quick Guide</h3><p>Page खोलें → displayed IP/network information देखें.</p></div>
-    <div class="atp-info"><h3>🔒 Safety & Privacy</h3><p>Important files की backup copy रखें और sensitive information के लिए privacy details देखें।</p></div>
-    <div class="atp-info"><h3>🔗 Related Tools</h3><div class="atp-related"><a href="word-counter.html">Word Counter →</a><a href="qr-generator.html">QR Generator →</a><a href="password-generator.html">Password Generator →</a><a href="age-calculator.html">Age Calculator →</a></div></div>
-  </aside>
-</section>
-
-<a class="atp-top" href="#" aria-label="Back to top">↑</a>
-
-
-
-<section class="atp-guide-final" id="how-it-works" aria-labelledby="how-it-works-title">
- <div class="atp-guide-card-final">
-  <h2 id="how-it-works-title">📘 My IP Address — यह Tool कैसे काम करता है?</h2>
-  <p>अपना public IP address देखने के लिए उपयोग करें।</p>
-  <h3>कैसे इस्तेमाल करें?</h3>
-  <div class="atp-guide-steps-final">
-   <div class="atp-guide-step-final"><strong>Step 1</strong><span>अपनी supported file या required input चुनें/दर्ज करें।</span></div>
-   <div class="atp-guide-step-final"><strong>Step 2</strong><span>Tool में उपलब्ध options/settings को जरूरत के अनुसार चुनें।</span></div>
-   <div class="atp-guide-step-final"><strong>Step 3</strong><span>Convert / Process / Generate button दबाएँ और result को check करके download/save करें।</span></div>
-  </div>
-  <h3>ध्यान रखने वाली बातें</h3>
-  <ul><li>Supported format और size limit tool के निर्देश के अनुसार रखें।</li><li>Important files की original copy सुरक्षित रखें।</li><li>Output download करने से पहले quality और content check करें।</li></ul>
-  <h3>FAQ</h3>
-  <div><strong>क्या यह tool mobile पर चलेगा?</strong><p>हाँ, page को mobile और desktop दोनों screen sizes के लिए responsive रखा गया है।</p></div>
-  <div><strong>Tool इस्तेमाल करने के बाद क्या करें?</strong><p>Result को verify करें और जरूरत होने पर download/save करें।</p></div>
- </div>
-</section>
+<div class="atp-article-wrap"><article class="atp-article">
+<div class="atp-crumb"><a href="/index.html">Home</a> › <a href="/blog.html">Blog</a> › My IP Address</div>
+<span class="atp-cat">Utility Tools</span>
+<h1>What Is My IP Address? How to Check It and What It Reveals</h1>
+<div class="atp-meta">By AllToolsPro · Updated 12 October 2026 · 5 min read</div>
+<p>Every device that reaches the internet does so through an IP address, a number that lets servers know where to send data back. Most of the time you never think about it. But when you are setting up a remote camera, troubleshooting a connection, whitelisting an office network or testing a VPN, you suddenly need to know what the outside world sees.</p><p>The What is my IP tool shows that in one step. Here is what it displays, how it gets the information, and what you should and should not read into it.</p>
+<h2>What your public IP address is</h2><p>There are two kinds of IP address you may meet. Your device has a <strong>private</strong> address on your home or office Wi-Fi, often beginning with 192.168. Websites never see that. They see your <strong>public</strong> address, which belongs to your internet provider's network and is shared by your router on behalf of every device behind it.</p><p>The tool reports the public one. If you are on mobile data, it is typically an address of your mobile carrier, and it can change when you reconnect or move between networks.</p><h2>How to use the tool, step by step</h2><ol><li>Open the page. A loading message, <strong>Fetching network data...</strong>, appears briefly.</li><li>Read the large card labelled <strong>Your Public IP Address</strong>.</li><li>Click <strong>Copy IP</strong> to copy the address; the button briefly changes to <strong>Copied!</strong>.</li><li>Scan the boxes below for <strong>Location</strong>, <strong>Internet Provider</strong>, <strong>Country</strong> and <strong>Timezone</strong>.</li><li>Use <strong>Refresh Data</strong> after switching Wi-Fi, mobile data or a VPN, to look up the new details.</li></ol><h2>When knowing your IP is useful</h2><ul><li><strong>Remote access setups:</strong> confirming the address to allow in a server firewall or a cloud dashboard.</li><li><strong>VPN testing:</strong> checking that the address and country change after you connect.</li><li><strong>Support calls:</strong> giving your provider or an IT helper the address they ask for.</li><li><strong>Comparing networks:</strong> seeing how your home broadband and your phone hotspot appear differently.</li><li><strong>Region-locked content:</strong> checking which country a site is likely to think you are in.</li></ul><h2>How the lookup works, and a privacy note</h2><p>Unlike most tools on this site, this one cannot work purely inside your browser, because your browser does not know its own public address. When the page loads, it sends a request to a third-party IP lookup service, <strong>ipapi.co</strong>, which replies with your IP and related details. So that service does see your address, as any website you visit does, and its own privacy terms apply to it.</p><p>The page states that it does not store your IP address on our servers. The results are shown only to you and are not saved by the page, but the lookup itself does involve the external service.</p><h2>Reading the location data sensibly</h2><p>The location is an estimate drawn from databases that map address ranges to places. It is usually accurate to the country and often to the region or city, but it is not a street address. Mobile users in particular can appear in a different city, because carriers route traffic through central points.</p><p>The <strong>Internet Provider</strong> field shows the organisation that owns the address range. If you use a VPN, it will show the VPN company rather than your own provider. This is normal and a sign that the VPN is working.</p><h2>Troubleshooting</h2><p><strong>Error loading data.</strong> The page suggests disabling your ad-blocker or refreshing. Privacy extensions and some DNS filters block requests to lookup services. Try pausing them for this page, or switch network.</p><p><strong>The location is wrong.</strong> The databases are estimates. Mismatch is common with mobile networks and with ISPs that serve a wide area.</p><p><strong>The address keeps changing.</strong> Many Indian home and mobile connections use dynamic or shared addresses. If you need a fixed address for work, ask your provider about a static IP.</p><p><strong>Rate limits.</strong> Free lookup services limit requests, so if you refresh many times in a short period the lookup may fail temporarily.</p><h2>Limits and what an IP cannot tell you</h2><p>An IP address does not reveal your name, phone number or exact home. The tool also does not check whether your IP is blacklisted, scan open ports, detect leaks or test connection speed. It shows your IPv4 or IPv6 address, whichever your connection uses, and nothing about DNS. For deeper network diagnostics, you need dedicated testing tools. For a quick look at what a website sees, this is the fast route.</p><p>Finally, be careful about posting your address publicly. It is not a password, but there is rarely a reason to share it widely.</p>
+<div class="atp-cta"><h2>Try the My IP Address tool</h2><p>Free, no signup, works right in your browser.</p><a href="/my-ip.html">Open My IP Address</a></div>
+<h2>Frequently asked questions</h2>
+<div class="atp-faq"><details><summary>Does this tool send my IP to another service?</summary><p>Yes. It uses the public lookup service ipapi.co to get your address and location details, so that service receives the request. The page says it does not store your IP on its own servers.</p></details><details><summary>Why is my location shown in the wrong city?</summary><p>IP location is an estimate based on address-range databases. Mobile carriers and some broadband providers can make you appear in a nearby or even distant city.</p></details><details><summary>Why does my IP change?</summary><p>Many providers assign dynamic addresses, and mobile networks share addresses across users. Reconnecting or switching networks can give you a new one.</p></details><details><summary>Why do I see an error instead of my IP?</summary><p>Ad-blockers, privacy extensions or network filters can block the lookup request. Disable them for the page or try another network, then refresh.</p></details><details><summary>Does a VPN change what this tool shows?</summary><p>Yes. With a VPN on, the address, provider and location usually reflect the VPN server rather than your own connection.</p></details></div>
+<h2>Related guides</h2><div class="atp-related"><a href="/blog/password-generator.html">Password Generator: Create Strong Passwords Safely</a><a href="/blog/qr-generator.html">QR Code Generator: Create Custom QR Codes Free</a><a href="/blog/age-calculator.html">Age Calculator: Exact Age in Years, Months and Days</a></div>
+</article></div>
 <footer class="atp-footer-final">
   <div class="inner">
-    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 330 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
+    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
 <defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
 <rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
 <path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All</text>
-<text x="126" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#2563eb">Tools</text>
-<text x="244" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">Pro</text>
+<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
 </svg></div>
     <div class="atp-footer-grid">
       <div>
         <h3>AllToolsPro</h3>
         <p style="margin:0;color:#94a3b8;font-size:.9rem">Free online PDF, image, AI and utility tools. Choose a tool below and use it directly in your browser.</p>
-        <a href="index.html">Home Page</a>
-        <a href="all-tools.html">All Tools</a>
-        <a href="about-us.html">About Us</a>
+        <a href="/index.html">Home Page</a>
+        <a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a>
+        <a href="/about-us.html">About Us</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
       </div>
-      <div><h3>PDF Tools</h3><a href="add-watermark.html">Add Watermark</a><a href="compress-pdf.html">Compress Pdf</a><a href="edit-pdf.html">Edit Pdf</a><a href="excel-to-pdf.html">Excel to PDF</a><a href="extract-pages.html">Extract PDF Pages</a><a href="html-to-pdf.html">HTML to PDF</a><a href="merge-pdf.html">Merge Pdf</a><a href="organize-pdf.html">Organize Pdf</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="ppt-to-pdf.html">PPT to PDF</a><a href="remove-pages.html">Remove PDF Pages</a><a href="repair-pdf.html">Repair Pdf</a><a href="rotate-pdf.html">Rotate Pdf</a><a href="scan-to-pdf.html">Scan To Pdf</a><a href="split-pdf.html">Split Pdf</a><a href="text-to-pdf.html">Text To Pdf</a><a href="word-to-pdf.html">Word to PDF</a></div>
-      <div><h3>Image Tools</h3><a href="image-compressor.html">Image Compressor</a><a href="image-converter.html">Image Converter</a><a href="image-cropper.html">Image Cropper</a><a href="image-resizer.html">Image Resizer</a><a href="image-rotator.html">Image Rotator</a><a href="image-to-text.html">Image to Text</a><a href="jpg-to-pdf.html">JPG to PDF</a></div>
-      <div><h3>Utility & AI Tools</h3><a href="age-calculator.html">Age Calculator</a><a href="ai-to-human-text.html">AI to Human Text</a><a href="barcode-generator.html">Barcode Generator</a><a href="keyword-density.html">Keyword Density</a><a href="meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="my-ip.html">My IP Address</a><a href="password-generator.html">Password Generator</a><a href="qr-generator.html">QR Code Generator</a><a href="word-counter.html">Word Counter</a></div>
+      <div><h3>PDF Tools</h3><a href="/add-watermark.html">Add Watermark</a><a href="/compress-pdf.html">Compress Pdf</a><a href="/edit-pdf.html">Edit Pdf</a><a href="/excel-to-pdf.html">Excel to PDF</a><a href="/extract-pages.html">Extract PDF Pages</a><a href="/html-to-pdf.html">HTML to PDF</a><a href="/merge-pdf.html">Merge Pdf</a><a href="/organize-pdf.html">Organize Pdf</a><a href="/pdf-to-jpg.html">PDF to JPG</a><a href="/ppt-to-pdf.html">PPT to PDF</a><a href="/remove-pages.html">Remove PDF Pages</a><a href="/repair-pdf.html">Repair Pdf</a><a href="/rotate-pdf.html">Rotate Pdf</a><a href="/scan-to-pdf.html">Scan To Pdf</a><a href="/split-pdf.html">Split Pdf</a><a href="/text-to-pdf.html">Text To Pdf</a><a href="/word-to-pdf.html">Word to PDF</a></div>
+      <div><h3>Image Tools</h3><a href="/image-compressor.html">Image Compressor</a><a href="/image-converter.html">Image Converter</a><a href="/image-cropper.html">Image Cropper</a><a href="/image-resizer.html">Image Resizer</a><a href="/image-rotator.html">Image Rotator</a><a href="/image-to-text.html">Image to Text</a><a href="/jpg-to-pdf.html">JPG to PDF</a></div>
+      <div><h3>Utility & AI Tools</h3><a href="/age-calculator.html">Age Calculator</a><a href="/ai-to-human-text.html">AI to Human Text</a><a href="/barcode-generator.html">Barcode Generator</a><a href="/keyword-density.html">Keyword Density</a><a href="/meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="/my-ip.html">My IP Address</a><a href="/password-generator.html">Password Generator</a><a href="/qr-generator.html">QR Code Generator</a><a href="/word-counter.html">Word Counter</a></div>
     </div>
-    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="index.html">Home</a> · <a href="all-tools.html">All Tools</a> · <a href="about-us.html">About</a></span></div>
+    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms</a></span></div>
   </div>
 </footer>
 </body>

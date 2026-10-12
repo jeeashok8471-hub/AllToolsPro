@@ -3,99 +3,25 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organize PDF Online | AllToolsPro</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>How to Reorder and Delete PDF Pages Visually | AllToolsPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Libraries -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-
     <style>
-        :root {
-            --primary: #0061ff;
-            --primary-soft: #f0f7ff;
-            --dark: #0f172a;
-            --text-gray: #64748b;
-            --white: #ffffff;
-            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
-
-        header { 
-            background: var(--white); padding: 15px 5%; display: flex; 
-            justify-content: space-between; align-items: center; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
-
-        .tool-container { max-width: 1100px; margin: 40px auto; padding: 20px; }
-        .tool-header { text-align: center; margin-bottom: 30px; }
-        
-        /* Upload Area */
-        .upload-box {
-            background: white; border: 3px dashed #cbd5e1; border-radius: 24px; 
-            padding: 50px; text-align: center; cursor: pointer; transition: 0.3s;
-        }
-        .upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
-        .upload-box i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
-        .upload-box input { display: none; }
-
-        /* Organize Workspace */
-        #workspace { display: none; margin-top: 30px; }
-        .controls { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 20px; background: white; padding: 15px 25px; 
-            border-radius: 15px; box-shadow: var(--shadow);
-        }
-
-        #page-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px; margin-bottom: 40px;
-        }
-
-        /* Page Card */
-        .page-card {
-            background: white; padding: 10px; border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 2px solid transparent;
-            position: relative; cursor: grab; transition: 0.2s;
-        }
-        .page-card:active { cursor: grabbing; border-color: var(--primary); }
-        .page-card img { width: 100%; border-radius: 8px; border: 1px solid #eee; }
-        
-        .page-num {
-            position: absolute; top: -10px; left: -10px;
-            background: var(--primary); color: white; width: 25px; height: 25px;
-            border-radius: 50%; font-size: 0.75rem; font-weight: 800;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .delete-page {
-            position: absolute; top: -10px; right: -10px;
-            background: #ff4d4d; color: white; width: 25px; height: 25px;
-            border-radius: 50%; font-size: 0.7rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; border: none;
-        }
-
-        .btn-main {
-            background: var(--primary); color: white; border: none;
-            padding: 12px 30px; border-radius: 50px; font-weight: 700;
-            cursor: pointer; transition: 0.3s;
-        }
-        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,97,255,0.3); }
-
-        #loading { display: none; text-align: center; padding: 40px; }
-
-        @media (max-width: 768px) { #page-grid { grid-template-columns: repeat(2, 1fr); } }
+        :root { --primary: #0061ff; --dark: #0f172a; --bg: #f8fbff; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); line-height: 1.8; color: var(--dark); padding: 40px 20px; }
+        .card { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        h1 { color: var(--primary); font-weight: 800; font-size: 2.5rem; margin-bottom: 20px; }
+        p { margin-bottom: 20px; font-size: 1.1rem; color: #475569; }
+        .feature-list { list-style: none; padding: 0; margin: 30px 0; }
+        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .feature-list i { color: var(--primary); }
+        .btn-back { display: inline-block; margin-top: 30px; padding: 15px 35px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; }
+        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
     </style>
 
-<!-- AllToolsPro favicon -->
+    <!-- AllToolsPro favicon -->
 
+<style>h2{font-size:1.3rem;margin:26px 0 8px;color:#0f172a}.card a{color:#0061ff}</style>
 <style id="atp-global-final">
 :root{--atp-blue:#2563eb;--atp-blue2:#4f46e5;--atp-ink:#0f172a;--atp-muted:#64748b;--atp-bg:#f6f9ff;--atp-card:#fff;--atp-border:#e2e8f0}
 *{box-sizing:border-box}
@@ -116,7 +42,7 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
 .atp-footer-final{background:#0f172a;color:#cbd5e1;margin-top:48px;padding:38px 18px 28px}
 .atp-footer-final .inner{max-width:1200px;margin:auto}
 .atp-footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.atp-footer-brand .atp-logo-svg{width:170px;filter:brightness(0) invert(1)}
+.atp-footer-brand .atp-logo-svg{width:170px}.atp-footer-brand .atp-logo-svg text{fill:#fff}.atp-footer-brand .atp-logo-svg tspan{fill:#93c5fd}
 .atp-footer-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:24px}
 .atp-footer-final h3{color:#fff;font-size:1rem;margin:0 0 10px}
 .atp-footer-final a{color:#cbd5e1;text-decoration:none;display:block;margin:6px 0;font-size:.88rem}
@@ -146,254 +72,107 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
      crossorigin="anonymous"></script>
 
     <!-- AllToolsPro SEO + favicon -->
-    <link rel="canonical" href="https://www.alltoolspro.in/organize-pdf.html" />
-    <meta name="description" content="Organize PDF Online online with AllToolsPro. Free, fast and browser-based—use the tool without installing software or creating an account." />
+    <link rel="canonical" href="https://www.alltoolspro.in/blog/organize-pdf.html" />
+    <meta name="description" content="See thumbnails of every PDF page, drag them into a new order, delete the ones you do not need, and save a tidy copy. Free, browser-based and private." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#2563eb" />
-    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Organize PDF Online | AllToolsPro" />
-    <meta property="og:description" content="Organize PDF Online online with AllToolsPro. Free, fast and browser-based—use the tool without installing software or creating an account." />
-    <meta property="og:url" content="https://www.alltoolspro.in/organize-pdf.html" />
+    <meta property="og:title" content="How to Reorder and Delete PDF Pages Visually | AllToolsPro" />
+    <meta property="og:description" content="See thumbnails of every PDF page, drag them into a new order, delete the ones you do not need, and save a tidy copy. Free, browser-based and private." />
+    <meta property="og:url" content="https://www.alltoolspro.in/blog/organize-pdf.html" />
     <meta property="og:site_name" content="AllToolsPro" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Organize PDF Online | AllToolsPro" />
-    <meta name="twitter:description" content="Organize PDF Online online with AllToolsPro. Free, fast and browser-based—use the tool without installing software or creating an account." />
+    <meta name="twitter:title" content="How to Reorder and Delete PDF Pages Visually | AllToolsPro" />
+    <meta name="twitter:description" content="See thumbnails of every PDF page, drag them into a new order, delete the ones you do not need, and save a tidy copy. Free, browser-based and private." />
 
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Organize PDF Online","url":"https://www.alltoolspro.in/organize-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"provider":{"@type":"Organization","name":"AllToolsPro","url":"https://www.alltoolspro.in/"}}</script>
+
+<style>
+body{padding:0!important;background:#f6f9ff}
+.atp-article-wrap{max-width:820px;margin:28px auto 0;padding:0 16px}
+.atp-article{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:40px 44px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.atp-crumb{font-size:.85rem;color:#64748b;margin-bottom:14px}.atp-crumb a{color:#2563eb;text-decoration:none;font-weight:700}
+.atp-cat{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;background:#eff6ff;padding:5px 11px;border-radius:99px}
+.atp-article h1{font-size:clamp(1.65rem,4.2vw,2.35rem);line-height:1.2;margin:14px 0 10px;color:#0f172a;font-weight:800}
+.atp-meta{color:#64748b;font-size:.88rem;margin-bottom:22px}
+.atp-article h2{font-size:1.4rem;line-height:1.3;margin:34px 0 10px;color:#0f172a}
+.atp-article h3{font-size:1.1rem;margin:22px 0 6px}
+.atp-article p,.atp-article li{font-size:1.04rem;line-height:1.8;color:#334155}
+.atp-article p{margin:0 0 16px}.atp-article ul,.atp-article ol{padding-left:22px;margin:0 0 18px}.atp-article li{margin-bottom:8px}
+.atp-article a{color:#2563eb}
+.atp-article table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:.95rem}.atp-article th,.atp-article td{border:1px solid #e2e8f0;padding:9px 11px;text-align:left}.atp-article th{background:#f1f5f9}
+.atp-cta{margin:34px 0;padding:24px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#4f46e5 60%,#7c3aed);color:#fff}
+.atp-cta h2{color:#fff;margin:0 0 6px;font-size:1.25rem}.atp-cta p{color:#e0e7ff;margin:0 0 14px}
+.atp-cta a{display:inline-block;background:#fff;color:#2563eb!important;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:12px}
+.atp-faq details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}
+.atp-faq summary{cursor:pointer;font-weight:700;color:#0f172a}.atp-faq details p{margin:10px 0 0}
+.atp-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:10px}
+.atp-related a,.atp-card{display:block;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;background:#fff;text-decoration:none!important;color:#0f172a!important;font-weight:700;line-height:1.4}
+.atp-related a:hover,.atp-card:hover{border-color:#2563eb;box-shadow:0 6px 18px rgba(37,99,235,.12)}
+.atp-card small{display:block;font-weight:400;color:#64748b;margin-top:6px;font-size:.88rem;line-height:1.5}
+@media(max-width:600px){.atp-article{padding:24px 18px;border-radius:16px}}
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How to Reorder and Delete PDF Pages with Drag and Drop", "description": "See thumbnails of every PDF page, drag them into a new order, delete the ones you do not need, and save a tidy copy. Free, browser-based and private.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in"}, "publisher": {"@type": "Organization", "name": "AllToolsPro", "logo": {"@type": "ImageObject", "url": "https://www.alltoolspro.in/favicon-512.png"}}, "mainEntityOfPage": "https://www.alltoolspro.in/blog/organize-pdf.html"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I reorder pages by dragging?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Drag the thumbnail cards to a new position, then click Save Organized PDF."}}, {"@type": "Question", "name": "How do I delete a page?", "acceptedAnswer": {"@type": "Answer", "text": "Click the cross on the page card. The page count updates immediately."}}, {"@type": "Question", "name": "Is there an undo option?", "acceptedAnswer": {"@type": "Answer", "text": "No. If you make a mistake, reload the original file and start again."}}, {"@type": "Question", "name": "Can I rotate a single page here?", "acceptedAnswer": {"@type": "Answer", "text": "No. This tool only reorders and deletes pages."}}, {"@type": "Question", "name": "Does the file leave my device?", "acceptedAnswer": {"@type": "Answer", "text": "The page processes everything in your browser and describes no upload step."}}]}]}</script>
+<style id="atp-fb">.atp-header-final,.atp-footer-final{width:100%}.atp-header-final .inner,.atp-footer-final .inner{width:100%}.atp-footer-bottom a{display:inline!important;margin:0!important}.atp-footer-bottom span:last-child{display:flex;flex-wrap:wrap;gap:6px 14px}</style>
+<style>.atp-article{overflow-wrap:anywhere}.atp-article table{display:block;overflow-x:auto}.atp-article pre,.atp-article code{white-space:pre-wrap}</style><meta name="keywords" content="organize pdf, reorder pdf pages, rearrange pdf pages, pdf page organizer, how to, guide" />
 </head>
 <body>
-
 <header class="atp-header-final">
  <div class="inner">
-  <a class="atp-logo-wrap" href="index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 330 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
+  <a class="atp-logo-wrap" href="/index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
 <defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
 <rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
 <path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All</text>
-<text x="126" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#2563eb">Tools</text>
-<text x="244" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">Pro</text>
+<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
 </svg></a>
   <nav class="atp-nav-final" aria-label="Main navigation">
-   <a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About</a>
+   <a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About</a> · <a href="/blog.html">Blog</a>
   </nav>
   <details class="atp-menu-toggle"><summary>☰ Menu</summary>
-   <nav class="atp-menu-final"><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About Us</a></nav>
+   <nav class="atp-menu-final"><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About Us</a></nav>
   </details>
  </div>
 </header>
-
-    
-<div class="atp-breadcrumb"><a href="index.html">Home</a> &nbsp;›&nbsp; <span>Organize PDF</span></div>
-<section class="atp-hero"><div class="atp-hero-card">
-  <div class="atp-kicker">AllToolsPro Online Tool</div>
-  <h1>Organize PDF</h1>
-  <p>PDF pages का order व्यवस्थित करने के लिए उपयोग करें.</p>
-</div></section>
-<div class="tool-container">
-        <div class="tool-header">
-            <h1>Organize PDF</h1>
-            <p>Drag and drop pages to reorder, or click to delete unwanted pages.</p>
-        </div>
-
-        <div class="upload-box" onclick="document.getElementById('pdf-input').click()">
-            <i class="fas fa-sort-amount-down"></i>
-            <h3>Select PDF to Organize</h3>
-            <p>Your PDF pages will appear as thumbnails</p>
-            <input type="file" id="pdf-input" accept="application/pdf">
-        </div>
-
-        <div id="loading">
-            <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary)"></i>
-            <p style="margin-top:10px">Generating Page Previews...</p>
-        </div>
-
-        <div id="workspace">
-            <div class="controls">
-                <span id="page-count" style="font-weight:700">Total: 0 Pages</span>
-                <button class="btn-main" id="save-btn"><i class="fas fa-download"></i> Save Organized PDF</button>
-            </div>
-            <div id="page-grid"></div>
-        </div>
-    </div>
-
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-        const pdfInput = document.getElementById('pdf-input');
-        const workspace = document.getElementById('workspace');
-        const pageGrid = document.getElementById('page-grid');
-        const loading = document.getElementById('loading');
-        const saveBtn = document.getElementById('save-btn');
-        const pageCountText = document.getElementById('page-count');
-
-        let originalPdfDoc = null;
-        let originalBytes = null;
-
-        // Initialize Sortable for Drag and Drop
-        new Sortable(pageGrid, {
-            animation: 150,
-            ghostClass: 'sortable-ghost'
-        });
-
-        pdfInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            loading.style.display = 'block';
-            document.querySelector('.upload-box').style.display = 'none';
-
-            originalBytes = await file.arrayBuffer();
-            const pdf = await pdfjsLib.getDocument({ data: originalBytes }).promise;
-            const totalPages = pdf.numPages;
-
-            pageGrid.innerHTML = '';
-
-            for (let i = 1; i <= totalPages; i++) {
-                const page = await pdf.getPage(i);
-                const viewport = page.getViewport({ scale: 0.3 });
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                await page.render({ canvasContext: context, viewport: viewport }).promise;
-                const thumbUrl = canvas.toDataURL();
-
-                const card = document.createElement('div');
-                card.className = 'page-card';
-                card.dataset.index = i - 1; // 0-based index
-                card.innerHTML = `
-                    <div class="page-num">${i}</div>
-                    <button class="delete-page" onclick="this.parentElement.remove(); updateCount();"><i class="fas fa-times"></i></button>
-                    <img src="${thumbUrl}" alt="Page ${i}">
-                `;
-                pageGrid.appendChild(card);
-            }
-
-            loading.style.display = 'none';
-            workspace.style.display = 'block';
-            updateCount();
-        });
-
-        function updateCount() {
-            const currentPages = pageGrid.children.length;
-            pageCountText.innerText = `Total: ${currentPages} Pages`;
-        }
-
-        saveBtn.addEventListener('click', async () => {
-            const cards = Array.from(pageGrid.children);
-            if (cards.length === 0) return alert('No pages left to save!');
-
-            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-            saveBtn.disabled = true;
-
-            try {
-                const { PDFDocument } = PDFLib;
-                const sourcePdf = await PDFDocument.load(originalBytes);
-                const organizedPdf = await PDFDocument.create();
-
-                for (const card of cards) {
-                    const originalIndex = parseInt(card.dataset.index);
-                    const [copiedPage] = await organizedPdf.copyPages(sourcePdf, [originalIndex]);
-                    organizedPdf.addPage(copiedPage);
-                }
-
-                const pdfBytes = await organizedPdf.save();
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'Organized_Document_AllToolsPro.pdf';
-                link.click();
-
-            } catch (err) {
-                console.error(err);
-                alert('An error occurred during organization.');
-            } finally {
-                saveBtn.innerHTML = '<i class="fas fa-download"></i> Save Organized PDF';
-                saveBtn.disabled = false;
-            }
-        });
-    </script>
-
-<section id="alltoolspro-guide" class="atp-layout" aria-label="Organize PDF guide">
-  <article class="atp-guide">
-    <div class="atp-kicker" style="color:#2563eb">AllToolsPro Guide</div>
-    <h2>Organize PDF — यह Tool कैसे काम करता है?</h2>
-    <p>PDF pages का order व्यवस्थित करने के लिए उपयोग करें.</p>
-    <h3>Step-by-Step तरीका</h3>
-    <div class="atp-step"><strong>1. Input दें:</strong> PDF upload करें</div>
-    <div class="atp-step"><strong>2. Settings चुनें:</strong> Tool में उपलब्ध options को अपनी जरूरत के अनुसार सेट करें।</div>
-    <div class="atp-step"><strong>3. Process करें:</strong> Convert, Generate, Compress, Process या संबंधित button दबाएँ।</div>
-    <div class="atp-step"><strong>4. Result जाँचें:</strong> तैयार output को खोलकर content, quality और formatting check करें।</div>
-    <div class="atp-step"><strong>5. Download करें:</strong> सही output को अपने device में save/download करें।</div>
-    <h3>इस Tool का उपयोग कब करें?</h3>
-    <p>PDF pages का order व्यवस्थित करने के लिए उपयोग करें. यह tool सामान्य online workflow को आसान बनाने के लिए बनाया गया है।</p>
-    <h3>Important Tips</h3>
-    <ul><li>Final page order को एक बार review करें।</li><li>महत्वपूर्ण files पर काम करने से पहले original copy सुरक्षित रखें।</li><li>Private या sensitive documents के लिए privacy information पढ़कर online processing करें।</li></ul>
-    <div class="atp-faq">
-      <h3>Frequently Asked Questions</h3>
-      <details><summary>क्या Organize PDF free में इस्तेमाल किया जा सकता है?</summary><p>AllToolsPro पर उपलब्ध tool को page पर बताए गए terms और limits के अनुसार इस्तेमाल करें।</p></details>
-      <details><summary>यह tool कैसे काम करता है?</summary><p>PDF upload करें → pages arrange करें → नई PDF तैयार करें → download करें.</p></details>
-      <details><summary>Result डाउनलोड करने से पहले क्या जाँचें?</summary><p>Output को एक बार खोलकर content, formatting और quality verify करें।</p></details>
-    </div>
-  </article>
-  <aside class="atp-side">
-    <div class="atp-info"><h3>⚡ Quick Guide</h3><p>PDF upload करें → pages arrange करें → नई PDF तैयार करें → download करें.</p></div>
-    <div class="atp-info"><h3>🔒 Safety & Privacy</h3><p>Important files की backup copy रखें और sensitive information के लिए privacy details देखें।</p></div>
-    <div class="atp-info"><h3>🔗 Related Tools</h3><div class="atp-related"><a href="compress-pdf.html">Compress PDF →</a><a href="merge-pdf.html">Merge PDF →</a><a href="split-pdf.html">Split PDF →</a><a href="pdf-to-jpg.html">PDF to JPG →</a></div></div>
-  </aside>
-</section>
-
-<a class="atp-top" href="#" aria-label="Back to top">↑</a>
-
-
-
-<section class="atp-guide-final" id="how-it-works" aria-labelledby="how-it-works-title">
- <div class="atp-guide-card-final">
-  <h2 id="how-it-works-title">📘 Organize Pdf — यह Tool कैसे काम करता है?</h2>
-  <p>Organize Pdf से संबंधित काम जल्दी और आसान तरीके से करने के लिए इस tool का उपयोग करें।</p>
-  <h3>कैसे इस्तेमाल करें?</h3>
-  <div class="atp-guide-steps-final">
-   <div class="atp-guide-step-final"><strong>Step 1</strong><span>अपनी supported file या required input चुनें/दर्ज करें।</span></div>
-   <div class="atp-guide-step-final"><strong>Step 2</strong><span>Tool में उपलब्ध options/settings को जरूरत के अनुसार चुनें।</span></div>
-   <div class="atp-guide-step-final"><strong>Step 3</strong><span>Convert / Process / Generate button दबाएँ और result को check करके download/save करें।</span></div>
-  </div>
-  <h3>ध्यान रखने वाली बातें</h3>
-  <ul><li>Supported format और size limit tool के निर्देश के अनुसार रखें।</li><li>Important files की original copy सुरक्षित रखें।</li><li>Output download करने से पहले quality और content check करें।</li></ul>
-  <h3>FAQ</h3>
-  <div><strong>क्या यह tool mobile पर चलेगा?</strong><p>हाँ, page को mobile और desktop दोनों screen sizes के लिए responsive रखा गया है।</p></div>
-  <div><strong>Tool इस्तेमाल करने के बाद क्या करें?</strong><p>Result को verify करें और जरूरत होने पर download/save करें।</p></div>
- </div>
-</section>
+<div class="atp-article-wrap"><article class="atp-article">
+<div class="atp-crumb"><a href="/index.html">Home</a> › <a href="/blog.html">Blog</a> › Organize PDF</div>
+<span class="atp-cat">PDF Tools</span>
+<h1>How to Reorder and Delete PDF Pages with Drag and Drop</h1>
+<div class="atp-meta">By AllToolsPro · Updated 12 October 2026 · 5 min read</div>
+<p>Scanning a stack of papers rarely goes perfectly. Pages come out in the wrong sequence, one is upside down, another is a duplicate. Fixing that by typing page numbers is awkward when you cannot see what each page contains.</p><p>The Organize PDF tool solves this by turning your document into a grid of thumbnails you can drag around. Here is how it works and what it does not cover.</p>
+<h2>What you get</h2><p>After you pick a file, the tool draws a small preview of every page, each with its number. You can drag any thumbnail to a new position, or click the cross on a card to delete that page. When the layout looks right, you save, and the tool builds a new PDF in exactly the order shown on screen.</p><p>Seeing the pages is the real benefit. It is far easier to spot that the signed page belongs at the end when you can see it.</p><h2>Step-by-step instructions</h2><ol><li>Click <strong>Select PDF to Organize</strong>. The upload box says your pages will appear as thumbnails.</li><li>Wait while "Generating Page Previews" runs. Longer documents take longer.</li><li>Drag a page card to a new spot in the grid to reorder it.</li><li>To drop a page, click the small cross on its card. The <strong>Total</strong> counter updates.</li><li>Click <strong>Save Organized PDF</strong>. The file is saved as <em>Organized_Document_AllToolsPro.pdf</em>.</li></ol><h2>Where it helps</h2><ul><li><strong>Scanned applications:</strong> Put the form first, then ID proof, then supporting certificates, in the order a portal or office expects.</li><li><strong>Students:</strong> Arrange assignment pages after a phone scan came out jumbled.</li><li><strong>Merged documents:</strong> Fix the order after combining several files, without starting over.</li><li><strong>Small business paperwork:</strong> Put invoice pages in date order, and remove accidental duplicates.</li></ul><h2>Tips for smooth organising</h2><ul><li>On a phone, drag with a firm, steady touch, and scroll the page first so your target position is visible. Long documents are easier to manage on a larger screen.</li><li>Delete and reorder in one session, then save once. Each save creates a new file.</li><li>Use the page numbers on the cards as a reference. They show the original position, not the new one.</li><li>Open the saved PDF and check the sequence before you submit it.</li></ul><h2>Common problems</h2><p><strong>Previews are slow.</strong> Thumbnails are drawn one page at a time in your browser, so big or image-heavy PDFs take a while. Be patient, and avoid switching tabs on a low-memory phone.</p><p><strong>"No pages left to save!"</strong> You deleted every card. Reload the file and try again.</p><p><strong>Deleted a page by mistake.</strong> There is no undo button. Reload the original file and redo your changes.</p><p><strong>The file will not load.</strong> A damaged or password-protected PDF may fail. Try a repair tool, or remove the password first.</p><h2>A sensible workflow with other tools</h2><p>Organize PDF works best as the finishing touch. A common sequence is to merge several scans into one document, run the organiser to correct the order and delete duplicate or blank pages, and then compress the final file if a size limit applies.</p><p>Before you start, decide on the target order on paper. For an application bundle, that might be the form, the identity proof, the address proof, then educational certificates. With the order planned, dragging cards becomes quick, and you avoid shuffling pages back and forth.</p><p>Remember that the thumbnails are small previews, so they are good for spotting layout and order but not for reading fine print. If you need to confirm a specific detail, open the saved file in a viewer and check at full size. Keep the original as a safety net, because the saved document is a new copy and the tool has no undo for mistakes made during a session.</p><h2>Privacy and security</h2><p>Previews are generated and the new PDF is assembled inside your browser. The page does not describe any upload step. As with any document tool, be cautious on shared computers, and clear unneeded downloads afterward.</p><h2>What it does not do</h2><p>This is a layout tool, not an editor. It does not rotate individual pages, change page content, add page numbers or add new pages. If scanned pages are sideways, rotate the file first with a rotation tool. For very long documents, thumbnail generation can be heavy on older devices, and a typed-list tool such as remove-pages or extract-pages may be quicker if you already know the page numbers. Because it relies on external preview libraries loaded by the page, you also need an internet connection to start it.</p><p>If your document has dozens of pages, work in short bursts. Reorder one section, scroll to confirm, then move on. Saving only when you are satisfied keeps the process calm and avoids accidental changes late in a long session.</p><p>For students and job seekers working from a phone, closing other apps and tabs first can make thumbnail generation noticeably smoother.</p>
+<div class="atp-cta"><h2>Try the Organize PDF tool</h2><p>Free, no signup, works right in your browser.</p><a href="/organize-pdf.html">Open Organize PDF</a></div>
+<h2>Frequently asked questions</h2>
+<div class="atp-faq"><details><summary>Can I reorder pages by dragging?</summary><p>Yes. Drag the thumbnail cards to a new position, then click Save Organized PDF.</p></details><details><summary>How do I delete a page?</summary><p>Click the cross on the page card. The page count updates immediately.</p></details><details><summary>Is there an undo option?</summary><p>No. If you make a mistake, reload the original file and start again.</p></details><details><summary>Can I rotate a single page here?</summary><p>No. This tool only reorders and deletes pages.</p></details><details><summary>Does the file leave my device?</summary><p>The page processes everything in your browser and describes no upload step.</p></details></div>
+<h2>Related guides</h2><div class="atp-related"><a href="/blog/pdf-to-jpg.html">How to Convert PDF to JPG Images Online for Free</a><a href="/blog/ppt-to-pdf.html">PPT to PDF Online: How It Works and When to Use It</a><a href="/blog/remove-pages.html">How to Remove Pages from a PDF Online for Free</a></div>
+</article></div>
 <footer class="atp-footer-final">
   <div class="inner">
-    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 330 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
+    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
 <defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
 <rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
 <path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All</text>
-<text x="126" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#2563eb">Tools</text>
-<text x="244" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">Pro</text>
+<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
 </svg></div>
     <div class="atp-footer-grid">
       <div>
         <h3>AllToolsPro</h3>
         <p style="margin:0;color:#94a3b8;font-size:.9rem">Free online PDF, image, AI and utility tools. Choose a tool below and use it directly in your browser.</p>
-        <a href="index.html">Home Page</a>
-        <a href="all-tools.html">All Tools</a>
-        <a href="about-us.html">About Us</a>
+        <a href="/index.html">Home Page</a>
+        <a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a>
+        <a href="/about-us.html">About Us</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
       </div>
-      <div><h3>PDF Tools</h3><a href="add-watermark.html">Add Watermark</a><a href="compress-pdf.html">Compress Pdf</a><a href="edit-pdf.html">Edit Pdf</a><a href="excel-to-pdf.html">Excel to PDF</a><a href="extract-pages.html">Extract PDF Pages</a><a href="html-to-pdf.html">HTML to PDF</a><a href="merge-pdf.html">Merge Pdf</a><a href="organize-pdf.html">Organize Pdf</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="ppt-to-pdf.html">PPT to PDF</a><a href="remove-pages.html">Remove PDF Pages</a><a href="repair-pdf.html">Repair Pdf</a><a href="rotate-pdf.html">Rotate Pdf</a><a href="scan-to-pdf.html">Scan To Pdf</a><a href="split-pdf.html">Split Pdf</a><a href="text-to-pdf.html">Text To Pdf</a><a href="word-to-pdf.html">Word to PDF</a></div>
-      <div><h3>Image Tools</h3><a href="image-compressor.html">Image Compressor</a><a href="image-converter.html">Image Converter</a><a href="image-cropper.html">Image Cropper</a><a href="image-resizer.html">Image Resizer</a><a href="image-rotator.html">Image Rotator</a><a href="image-to-text.html">Image to Text</a><a href="jpg-to-pdf.html">JPG to PDF</a></div>
-      <div><h3>Utility & AI Tools</h3><a href="age-calculator.html">Age Calculator</a><a href="ai-to-human-text.html">AI to Human Text</a><a href="barcode-generator.html">Barcode Generator</a><a href="keyword-density.html">Keyword Density</a><a href="meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="my-ip.html">My IP Address</a><a href="password-generator.html">Password Generator</a><a href="qr-generator.html">QR Code Generator</a><a href="word-counter.html">Word Counter</a></div>
+      <div><h3>PDF Tools</h3><a href="/add-watermark.html">Add Watermark</a><a href="/compress-pdf.html">Compress Pdf</a><a href="/edit-pdf.html">Edit Pdf</a><a href="/excel-to-pdf.html">Excel to PDF</a><a href="/extract-pages.html">Extract PDF Pages</a><a href="/html-to-pdf.html">HTML to PDF</a><a href="/merge-pdf.html">Merge Pdf</a><a href="/organize-pdf.html">Organize Pdf</a><a href="/pdf-to-jpg.html">PDF to JPG</a><a href="/ppt-to-pdf.html">PPT to PDF</a><a href="/remove-pages.html">Remove PDF Pages</a><a href="/repair-pdf.html">Repair Pdf</a><a href="/rotate-pdf.html">Rotate Pdf</a><a href="/scan-to-pdf.html">Scan To Pdf</a><a href="/split-pdf.html">Split Pdf</a><a href="/text-to-pdf.html">Text To Pdf</a><a href="/word-to-pdf.html">Word to PDF</a></div>
+      <div><h3>Image Tools</h3><a href="/image-compressor.html">Image Compressor</a><a href="/image-converter.html">Image Converter</a><a href="/image-cropper.html">Image Cropper</a><a href="/image-resizer.html">Image Resizer</a><a href="/image-rotator.html">Image Rotator</a><a href="/image-to-text.html">Image to Text</a><a href="/jpg-to-pdf.html">JPG to PDF</a></div>
+      <div><h3>Utility & AI Tools</h3><a href="/age-calculator.html">Age Calculator</a><a href="/ai-to-human-text.html">AI to Human Text</a><a href="/barcode-generator.html">Barcode Generator</a><a href="/keyword-density.html">Keyword Density</a><a href="/meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="/my-ip.html">My IP Address</a><a href="/password-generator.html">Password Generator</a><a href="/qr-generator.html">QR Code Generator</a><a href="/word-counter.html">Word Counter</a></div>
     </div>
-    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="index.html">Home</a> · <a href="all-tools.html">All Tools</a> · <a href="about-us.html">About</a></span></div>
+    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms</a></span></div>
   </div>
 </footer>
 </body>
