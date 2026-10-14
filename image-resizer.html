@@ -3,25 +3,85 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Resize Images Online by Pixels | AllToolsPro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>Image Resizer – Resize Photo in Pixels, cm &amp; KB Online | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --primary: #0061ff; --dark: #0f172a; --bg: #f8fbff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); line-height: 1.8; color: var(--dark); padding: 40px 20px; }
-        .card { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        h1 { color: var(--primary); font-weight: 800; font-size: 2.5rem; margin-bottom: 20px; }
-        p { margin-bottom: 20px; font-size: 1.1rem; color: #475569; }
-        .feature-list { list-style: none; padding: 0; margin: 30px 0; }
-        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .feature-list i { color: var(--primary); }
-        .btn-back { display: inline-block; margin-top: 30px; padding: 15px 35px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; }
-        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .main-card { background: white; border-radius: 24px; padding: 40px; box-shadow: var(--shadow); text-align: center; }
+
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; }
+
+        /* Upload Zone */
+        .upload-box {
+            border: 3px dashed #cbd5e1; border-radius: 20px; padding: 50px 20px;
+            cursor: pointer; transition: 0.3s; position: relative; margin-bottom: 20px;
+        }
+        .upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-box i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .upload-box input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* Workspace Area */
+        #workspace { display: none; margin-top: 30px; text-align: left; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: #f8fbff; padding: 15px; border-radius: 15px; border: 1px solid var(--border); }
+        .stat-card span { display: block; font-size: 0.7rem; color: var(--text-gray); font-weight: 800; text-transform: uppercase; }
+        .stat-card p { font-size: 1rem; font-weight: 700; color: var(--dark); }
+
+        /* Control Panel */
+        .controls { background: #f1f5f9; padding: 25px; border-radius: 20px; margin-bottom: 25px; }
+        .control-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        
+        .input-group label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; }
+        .input-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); outline: none; font-weight: 600; }
+        .input-group input:focus { border-color: var(--primary); }
+
+        .slider-group { margin-top: 10px; }
+        .slider-header { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; }
+        input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; height: 6px; }
+
+        .btn-download {
+            width: 100%; padding: 18px; background: var(--primary); color: white; 
+            border: none; border-radius: 50px; font-weight: 800; font-size: 1.1rem; 
+            cursor: pointer; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); transition: 0.3s;
+        }
+        .btn-download:hover { background: #0052cc; transform: translateY(-2px); }
+
+        .preview-thumb { max-width: 100px; border-radius: 10px; margin: 0 auto 20px; display: block; box-shadow: var(--shadow); border: 3px solid white; }
+
+        @media (max-width: 768px) {
+            .control-row, .stats-grid { grid-template-columns: 1fr; }
+            .main-card { padding: 25px; }
+        }
     </style>
 
-    <!-- AllToolsPro favicon -->
+<!-- AllToolsPro favicon -->
 
-<style>h2{font-size:1.3rem;margin:26px 0 8px;color:#0f172a}.card a{color:#0061ff}</style>
 <style id="atp-global-final">
 :root{--atp-blue:#2563eb;--atp-blue2:#4f46e5;--atp-ink:#0f172a;--atp-muted:#64748b;--atp-bg:#f6f9ff;--atp-card:#fff;--atp-border:#e2e8f0}
 *{box-sizing:border-box}
@@ -72,107 +132,242 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
      crossorigin="anonymous"></script>
 
     <!-- AllToolsPro SEO + favicon -->
-    <link rel="canonical" href="https://www.alltoolspro.in/blog/image-resizer.html" />
-    <meta name="description" content="Change an image&amp;#x27;s width and height in pixels, keep its proportions and trim file size with a quality slider. A simple guide for forms, profiles and web use." />
+    <link rel="canonical" href="https://www.alltoolspro.in/image-resizer.html" />
+    <meta name="description" content="Resize images to exact pixel sizes online for free. Ideal for passport photos, signatures and exam forms. No signup needed." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#2563eb" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="How to Resize Images Online by Pixels | AllToolsPro" />
-    <meta property="og:description" content="Change an image&amp;#x27;s width and height in pixels, keep its proportions and trim file size with a quality slider. A simple guide for forms, profiles and web use." />
-    <meta property="og:url" content="https://www.alltoolspro.in/blog/image-resizer.html" />
+    <meta property="og:title" content="Image Resizer – Resize Photo in Pixels, cm &amp; KB Online | AllToolsPro" />
+    <meta property="og:description" content="Resize images to exact pixel sizes online for free. Ideal for passport photos, signatures and exam forms. No signup needed." />
+    <meta property="og:url" content="https://www.alltoolspro.in/image-resizer.html" />
     <meta property="og:site_name" content="AllToolsPro" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="How to Resize Images Online by Pixels | AllToolsPro" />
-    <meta name="twitter:description" content="Change an image&amp;#x27;s width and height in pixels, keep its proportions and trim file size with a quality slider. A simple guide for forms, profiles and web use." />
+    <meta name="twitter:title" content="Image Resizer – Resize Photo in Pixels, cm &amp; KB Online | AllToolsPro" />
+    <meta name="twitter:description" content="Resize images to exact pixel sizes online for free. Ideal for passport photos, signatures and exam forms. No signup needed." />
 
 
-
-<style>
-body{padding:0!important;background:#f6f9ff}
-.atp-article-wrap{max-width:820px;margin:28px auto 0;padding:0 16px}
-.atp-article{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:40px 44px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
-.atp-crumb{font-size:.85rem;color:#64748b;margin-bottom:14px}.atp-crumb a{color:#2563eb;text-decoration:none;font-weight:700}
-.atp-cat{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;background:#eff6ff;padding:5px 11px;border-radius:99px}
-.atp-article h1{font-size:clamp(1.65rem,4.2vw,2.35rem);line-height:1.2;margin:14px 0 10px;color:#0f172a;font-weight:800}
-.atp-meta{color:#64748b;font-size:.88rem;margin-bottom:22px}
-.atp-article h2{font-size:1.4rem;line-height:1.3;margin:34px 0 10px;color:#0f172a}
-.atp-article h3{font-size:1.1rem;margin:22px 0 6px}
-.atp-article p,.atp-article li{font-size:1.04rem;line-height:1.8;color:#334155}
-.atp-article p{margin:0 0 16px}.atp-article ul,.atp-article ol{padding-left:22px;margin:0 0 18px}.atp-article li{margin-bottom:8px}
-.atp-article a{color:#2563eb}
-.atp-article table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:.95rem}.atp-article th,.atp-article td{border:1px solid #e2e8f0;padding:9px 11px;text-align:left}.atp-article th{background:#f1f5f9}
-.atp-cta{margin:34px 0;padding:24px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#4f46e5 60%,#7c3aed);color:#fff}
-.atp-cta h2{color:#fff;margin:0 0 6px;font-size:1.25rem}.atp-cta p{color:#e0e7ff;margin:0 0 14px}
-.atp-cta a{display:inline-block;background:#fff;color:#2563eb!important;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:12px}
-.atp-faq details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}
-.atp-faq summary{cursor:pointer;font-weight:700;color:#0f172a}.atp-faq details p{margin:10px 0 0}
-.atp-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:10px}
-.atp-related a,.atp-card{display:block;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;background:#fff;text-decoration:none!important;color:#0f172a!important;font-weight:700;line-height:1.4}
-.atp-related a:hover,.atp-card:hover{border-color:#2563eb;box-shadow:0 6px 18px rgba(37,99,235,.12)}
-.atp-card small{display:block;font-weight:400;color:#64748b;margin-top:6px;font-size:.88rem;line-height:1.5}
-@media(max-width:600px){.atp-article{padding:24px 18px;border-radius:16px}}
-</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How to Resize an Image to the Exact Pixel Size You Need", "description": "Change an image's width and height in pixels, keep its proportions and trim file size with a quality slider. A simple guide for forms, profiles and web use.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in"}, "publisher": {"@type": "Organization", "name": "AllToolsPro", "logo": {"@type": "ImageObject", "url": "https://www.alltoolspro.in/favicon-512.png"}}, "mainEntityOfPage": "https://www.alltoolspro.in/blog/image-resizer.html"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Will resizing stretch my photo?", "acceptedAnswer": {"@type": "Answer", "text": "No, not by default. When you change width or height, the other value adjusts to keep the original proportions."}}, {"@type": "Question", "name": "Can I enter a target size in KB?", "acceptedAnswer": {"@type": "Answer", "text": "There is no KB field. You use the quality slider and the dimension boxes, and the page shows an estimated size so you can adjust until it fits."}}, {"@type": "Question", "name": "What file type do I get back?", "acceptedAnswer": {"@type": "Answer", "text": "A JPG, regardless of the format you uploaded."}}, {"@type": "Question", "name": "Is it better to resize before compressing?", "acceptedAnswer": {"@type": "Answer", "text": "They happen together here. Reducing pixel dimensions usually saves more space than lowering quality alone, so try that first."}}, {"@type": "Question", "name": "Does the tool upload my image?", "acceptedAnswer": {"@type": "Answer", "text": "No upload step exists in the page's code. The image is processed in your browser."}}]}]}</script>
-<style id="atp-fb">.atp-header-final,.atp-footer-final{width:100%}.atp-header-final .inner,.atp-footer-final .inner{width:100%}.atp-footer-bottom a{display:inline!important;margin:0!important}.atp-footer-bottom span:last-child{display:flex;flex-wrap:wrap;gap:6px 14px}</style>
-<style>.atp-article{overflow-wrap:anywhere}.atp-article table{display:block;overflow-x:auto}.atp-article pre,.atp-article code{white-space:pre-wrap}</style><meta name="keywords" content="image resizer, resize image online, resize photo in pixels, passport photo size, signature resize, how to, guide" />
+<style id="atp-prose">.atp-prose p,.atp-prose li{font-size:1.02rem;line-height:1.8;color:#334155}.atp-prose h3{margin:24px 0 8px;font-size:1.15rem;color:#0f172a}
+.atp-prose ul,.atp-prose ol{padding-left:22px}.atp-prose a{color:#2563eb}
+.atp-prose table{border-collapse:collapse;width:100%;font-size:.95rem}.atp-prose th,.atp-prose td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left}
+.atp-faq-final details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}.atp-faq-final summary{cursor:pointer;font-weight:700}.atp-faq-final p{margin:10px 0 0}
+.atp-related-final{display:flex;flex-wrap:wrap;gap:10px}.atp-related-final a{border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;background:#fff;color:#1d4ed8;font-weight:700;text-decoration:none}
+</style>
+<link rel="stylesheet" href="alltoolspro-tool.css">
+<meta name="keywords" content="image resizer, resize image online, resize photo in pixels, resize image for passport size, signature resize, photo resizer, change image size" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Image Resizer – Resize Photo in Pixels, cm & KB Online", "url": "https://www.alltoolspro.in/image-resizer.html", "description": "Resize images to exact pixel sizes online for free. Ideal for passport photos, signatures and exam forms. No signup needed.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "provider": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in/"}, "keywords": "image resizer, resize image online, resize photo in pixels, resize image for passport size, signature resize, photo resizer, change image size"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.alltoolspro.in/"}, {"@type": "ListItem", "position": 2, "name": "All Tools", "item": "https://www.alltoolspro.in/all-tools.html"}, {"@type": "ListItem", "position": 3, "name": "Image Resizer", "item": "https://www.alltoolspro.in/image-resizer.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is the Image Resizer tool on AllToolsPro free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Image Resizer is completely free on AllToolsPro. There is no registration, no signup and no watermark, and it works on mobile phones and computers."}}, {"@type": "Question", "name": "Will resizing stretch my photo?", "acceptedAnswer": {"@type": "Answer", "text": "No, not by default. When you change width or height, the other value adjusts to keep the original proportions."}}, {"@type": "Question", "name": "Can I enter a target size in KB?", "acceptedAnswer": {"@type": "Answer", "text": "There is no KB field. You use the quality slider and the dimension boxes, and the page shows an estimated size so you can adjust until it fits."}}, {"@type": "Question", "name": "What file type do I get back?", "acceptedAnswer": {"@type": "Answer", "text": "A JPG, regardless of the format you uploaded."}}]}</script>
 </head>
 <body>
+
 <header class="atp-header-final">
  <div class="inner">
-  <a class="atp-logo-wrap" href="/index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
-<rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
-<path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
-</svg></a>
+  <a class="atp-logo-wrap" href="index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 410 96" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs><rect x="4" y="8" width="80" height="80" rx="22" fill="url(#atpG)"/><path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/><text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text></svg></a>
   <nav class="atp-nav-final" aria-label="Main navigation">
-   <a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About</a> · <a href="/blog.html">Blog</a>
+   <a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About</a>
   </nav>
   <details class="atp-menu-toggle"><summary>☰ Menu</summary>
-   <nav class="atp-menu-final"><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About Us</a></nav>
+   <nav class="atp-menu-final"><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About Us</a></nav>
   </details>
  </div>
 </header>
-<div class="atp-article-wrap"><article class="atp-article">
-<div class="atp-crumb"><a href="/index.html">Home</a> › <a href="/blog.html">Blog</a> › Image Resizer</div>
-<span class="atp-cat">Image Tools</span>
-<h1>How to Resize an Image to the Exact Pixel Size You Need</h1>
-<div class="atp-meta">By AllToolsPro · Updated 12 October 2026 · 5 min read</div>
-<p>Different places want different image sizes. A profile picture must be small and square-ish, a banner must be wide, and an application form may ask for specific pixel dimensions. Uploading a giant camera photo to all of them is wasteful and sometimes impossible.</p><p>Resizing fixes this. Below is how the AllToolsPro Image Resizer works, what to watch for, and how to avoid the usual stretched-photo problems.</p>
-<h2>Resizing versus compressing versus cropping</h2><p>These three get confused often. <strong>Resizing</strong> changes the number of pixels, so the whole picture is scaled up or down. <strong>Compressing</strong> lowers the stored detail to reduce file size. <strong>Cropping</strong> cuts away part of the picture. This tool resizes, and it also includes a quality slider, so you can shrink pixels and file size together.</p><p>In short, use this tool whenever the problem is that the picture is simply too large in pixels, not that it is the wrong shape or the wrong format. Identifying the real problem first saves you from trying three tools when one will do.</p><h2>Step-by-step: resize a picture</h2><ol><li>Tap <strong>Click to Select Image</strong> and choose a photo. JPG, PNG and WebP are listed as supported.</li><li>The <strong>Original</strong> card shows the current size in KB and the pixel dimensions.</li><li>Type a new number into <strong>Width (Pixels)</strong> or <strong>Height (Pixels)</strong>. The other box updates on its own so the proportions are preserved.</li><li>Use the <strong>Image Quality (Compress Size)</strong> slider if you also want a lighter file. It goes from 5% to 100% and starts at 80%.</li><li>Read the <strong>New (Estimated)</strong> card. When it matches what you need, press <strong>Resize &amp; Download</strong>.</li></ol><p>The preview and the estimate are updated live, so you can keep adjusting without downloading repeatedly. The file is created only when you press the download button.</p><h2>Everyday uses</h2><ul><li><strong>Profile photos:</strong> reduce a selfie to a sensible size for social or work profiles.</li><li><strong>Application forms:</strong> when a portal specifies pixel dimensions or a maximum KB, set them here. Always confirm the portal&#39;s latest requirements, because they change.</li><li><strong>Online stores:</strong> bring product photos to one consistent size so a catalogue looks tidy.</li><li><strong>Blog and website images:</strong> a 4000-pixel photo is far larger than most layouts need.</li><li><strong>Presentations and documents:</strong> smaller pictures keep PPT and Word files manageable.</li></ul><p>Resizing is also handy when you keep hitting an upload limit on a slow connection: a smaller image uploads faster and uses less mobile data. Social media creators who cross-post often resize one master picture into several smaller versions for different platforms rather than trusting each app to shrink it automatically.</p><h2>Tips for clean results</h2><ul><li><strong>Scale down, not up.</strong> Making a small image bigger cannot add detail, so it looks soft.</li><li><strong>Let the ratio lock work for you.</strong> Edit only one of the two boxes unless you really need a different shape.</li><li><strong>Need an exact shape?</strong> If a form wants, say, a particular width-to-height ratio that differs from your photo, crop first, then resize.</li><li><strong>Keep the original.</strong> Resize a copy so you can redo it if the first attempt is off.</li></ul><p>Typical starting points: roughly 800 to 1200 pixels wide is plenty for most blog images; a few hundred pixels is enough for a small avatar. Always compare against the exact requirement of the site you are uploading to, as these vary and change over time.</p><h2>Troubleshooting</h2><h3>I can&#39;t set a width and height that don&#39;t match the ratio</h3><p>The boxes are linked to the original proportions, so changing one rewrites the other. To get a different shape, crop the image to the right ratio first with the Image Cropper, then resize.</p><h3>The download is a JPG even though I uploaded a PNG</h3><p>The output is always JPG. Transparent areas in a PNG can come out dark, so this is not suitable for logos with see-through backgrounds.</p><h3>The estimate is bigger than my limit</h3><p>Lower the quality slider and reduce the dimensions further. There is no field for entering a target KB value.</p><h2>Why proportions matter</h2><p>If an image is stretched, circles become ovals and faces look wrong. By linking width and height to the original ratio, the tool protects you from that mistake. Rounding means the numbers may differ by a pixel from what you calculate by hand, which is normal. If a form demands an exact pixel pair that does not match your photo&#39;s shape, crop to the correct ratio first and then resize, rather than forcing the picture into the wrong shape.</p><h2>Privacy</h2><p>Resizing happens inside your browser: the page loads the image, redraws it on a hidden canvas and creates the new file locally. The tool&#39;s code has no upload step. If a document is truly confidential, consider whether any online tool is appropriate and check the privacy policy.</p><p>Finally, remember that enlarging is not the same as improving. If a portal demands a larger image than you have, the better fix is to retake the photo at higher resolution rather than stretching the existing one.</p><h2>When another tool is better</h2><p>This resizer works on one image at a time, uses pixels only (no centimetres or inches), always saves JPG, and offers no preset sizes or batch processing. For changing format, use the Image Converter. For cutting out part of a photo, use the Image Cropper. For print work needing precise DPI, use dedicated design software.</p>
-<div class="atp-cta"><h2>Try the Image Resizer tool</h2><p>Free, no signup, works right in your browser.</p><a href="/image-resizer.html">Open Image Resizer</a></div>
-<h2>Frequently asked questions</h2>
-<div class="atp-faq"><details><summary>Will resizing stretch my photo?</summary><p>No, not by default. When you change width or height, the other value adjusts to keep the original proportions.</p></details><details><summary>Can I enter a target size in KB?</summary><p>There is no KB field. You use the quality slider and the dimension boxes, and the page shows an estimated size so you can adjust until it fits.</p></details><details><summary>What file type do I get back?</summary><p>A JPG, regardless of the format you uploaded.</p></details><details><summary>Is it better to resize before compressing?</summary><p>They happen together here. Reducing pixel dimensions usually saves more space than lowering quality alone, so try that first.</p></details><details><summary>Does the tool upload my image?</summary><p>No upload step exists in the page's code. The image is processed in your browser.</p></details></div>
-<h2>Related guides</h2><div class="atp-related"><a href="/blog/image-rotator.html">Rotate and Flip Images Online for Free</a><a href="/blog/image-compressor.html">How to Compress Images Online for Free</a><a href="/blog/image-converter.html">Convert Images to JPG, PNG or WebP Online</a></div>
-</article></div>
+
+    
+<div class="atp-breadcrumb"><a href="index.html">Home</a> &nbsp;›&nbsp; <span>Image Resizer</span></div>
+<section class="atp-hero"><div class="atp-hero-card">
+  <div class="atp-kicker">AllToolsPro Online Tool</div>
+  <h2 class="atp-hero-title">Image Resizer</h2>
+  <p>Resize images to exact pixel sizes online for free. Ideal for passport photos, signatures and exam forms. No signup needed.</p>
+</div></section>
+<div class="container">
+        <div class="main-card">
+            <h1>Image Resizer – Change Size Online</h1>
+            <p class="subtitle">Adjust width, height, and file size (KB) of your photos instantly.</p>
+
+            <!-- Step 1: Upload -->
+            <div class="upload-box" id="upload-box">
+                <i class="fas fa-expand-arrows-alt"></i>
+                <h3 id="file-name">Click to Select Image</h3>
+                <p>JPG, PNG, WebP supported</p>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+
+            <!-- Step 2: Controls -->
+            <div id="workspace">
+                <img alt="" id="img-preview" class="preview-thumb" src="">
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span>Original</span>
+                        <p id="old-stats">0 KB | 0 x 0 px</p>
+                    </div>
+                    <div class="stat-card" style="border-color: var(--primary);">
+                        <span>New (Estimated)</span>
+                        <p id="new-stats" style="color: var(--primary);">0 KB | 0 x 0 px</p>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="control-row">
+                        <div class="input-group">
+                            <label>Width (Pixels)</label>
+                            <input type="number" id="width-px">
+                        </div>
+                        <div class="input-group">
+                            <label>Height (Pixels)</label>
+                            <input type="number" id="height-px">
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Image Quality (Compress Size)</span>
+                            <span id="quality-label" style="color: var(--primary);">80%</span>
+                        </div>
+                        <input type="range" id="quality-slider" min="5" max="100" value="80">
+                        <p style="font-size: 0.7rem; color: var(--text-gray); margin-top: 8px;">Lower quality reduces file size (KB) significantly.</p>
+                    </div>
+                </div>
+
+                <button class="btn-download" id="download-btn">Resize & Download</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const workspace = document.getElementById('workspace');
+        const oldStats = document.getElementById('old-stats');
+        const newStats = document.getElementById('new-stats');
+        const widthPx = document.getElementById('width-px');
+        const heightPx = document.getElementById('height-px');
+        const qualitySlider = document.getElementById('quality-slider');
+        const qualityLabel = document.getElementById('quality-label');
+        const downloadBtn = document.getElementById('download-btn');
+        const imgPreview = document.getElementById('img-preview');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let originalImg = new Image();
+        let originalSize = 0;
+        let ratio = 1;
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + " B";
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+            return (bytes / 1048576).toFixed(1) + " MB";
+        }
+
+        imageInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            originalSize = file.size;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                originalImg.src = event.target.result;
+                imgPreview.src = event.target.result;
+                
+                originalImg.onload = () => {
+                    ratio = originalImg.width / originalImg.height;
+                    widthPx.value = originalImg.width;
+                    heightPx.value = originalImg.height;
+                    
+                    oldStats.innerText = `${formatSize(originalSize)} | ${originalImg.width}x${originalImg.height}px`;
+                    
+                    document.getElementById('upload-box').style.display = 'none';
+                    workspace.style.display = 'block';
+                    updateLiveStats();
+                };
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // Aspect Ratio Logic
+        widthPx.oninput = () => {
+            heightPx.value = Math.round(widthPx.value / ratio);
+            updateLiveStats();
+        };
+
+        heightPx.oninput = () => {
+            widthPx.value = Math.round(heightPx.value * ratio);
+            updateLiveStats();
+        };
+
+        qualitySlider.oninput = () => {
+            qualityLabel.innerText = qualitySlider.value + "%";
+            updateLiveStats();
+        };
+
+        function updateLiveStats() {
+            const w = parseInt(widthPx.value) || 1;
+            const h = parseInt(heightPx.value) || 1;
+            const q = qualitySlider.value / 100;
+
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(originalImg, 0, 0, w, h);
+
+            const dataUrl = canvas.toDataURL('image/jpeg', q);
+            const head = 'data:image/jpeg;base64,';
+            const size = Math.round((dataUrl.length - head.length) * 3 / 4);
+            
+            newStats.innerText = `${formatSize(size)} | ${w}x${h}px`;
+            return dataUrl;
+        }
+
+        downloadBtn.onclick = () => {
+            const finalData = updateLiveStats();
+            const link = document.createElement('a');
+            link.href = finalData;
+            link.download = "AllToolsPro-Resized.jpg";
+            link.click();
+        };
+    </script>
+
+<a class="atp-top" href="#" aria-label="Back to top">↑</a>
+
+
+
+<section class="atp-guide-final" id="guide" aria-labelledby="guide-title">
+ <div class="atp-guide-card-final atp-prose">
+  <h2 id="guide-title">How to Resize an Image to the Exact Pixel Size You Need</h2>
+  <p>Different places want different image sizes. A profile picture must be small and square-ish, a banner must be wide, and an application form may ask for specific pixel dimensions. Uploading a giant camera photo to all of them is wasteful and sometimes impossible.</p><p>Resizing fixes this. Below is how the AllToolsPro Image Resizer works, what to watch for, and how to avoid the usual stretched-photo problems.</p>
+  <h3>Resizing versus compressing versus cropping</h3><p>These three get confused often. <strong>Resizing</strong> changes the number of pixels, so the whole picture is scaled up or down. <strong>Compressing</strong> lowers the stored detail to reduce file size. <strong>Cropping</strong> cuts away part of the picture. This tool resizes, and it also includes a quality slider, so you can shrink pixels and file size together.</p><p>In short, use this tool whenever the problem is that the picture is simply too large in pixels, not that it is the wrong shape or the wrong format. Identifying the real problem first saves you from trying three tools when one will do.</p><h3>Step-by-step: resize a picture</h3><ol><li>Tap <strong>Click to Select Image</strong> and choose a photo. JPG, PNG and WebP are listed as supported.</li><li>The <strong>Original</strong> card shows the current size in KB and the pixel dimensions.</li><li>Type a new number into <strong>Width (Pixels)</strong> or <strong>Height (Pixels)</strong>. The other box updates on its own so the proportions are preserved.</li><li>Use the <strong>Image Quality (Compress Size)</strong> slider if you also want a lighter file. It goes from 5% to 100% and starts at 80%.</li><li>Read the <strong>New (Estimated)</strong> card. When it matches what you need, press <strong>Resize &amp; Download</strong>.</li></ol><p>The preview and the estimate are updated live, so you can keep adjusting without downloading repeatedly. The file is created only when you press the download button.</p><h3>Everyday uses</h3><ul><li><strong>Profile photos:</strong> reduce a selfie to a sensible size for social or work profiles.</li><li><strong>Application forms:</strong> when a portal specifies pixel dimensions or a maximum KB, set them here. Always confirm the portal&#39;s latest requirements, because they change.</li><li><strong>Online stores:</strong> bring product photos to one consistent size so a catalogue looks tidy.</li><li><strong>Blog and website images:</strong> a 4000-pixel photo is far larger than most layouts need.</li><li><strong>Presentations and documents:</strong> smaller pictures keep PPT and Word files manageable.</li></ul><p>Resizing is also handy when you keep hitting an upload limit on a slow connection: a smaller image uploads faster and uses less mobile data. Social media creators who cross-post often resize one master picture into several smaller versions for different platforms rather than trusting each app to shrink it automatically.</p><h3>Tips for clean results</h3><ul><li><strong>Scale down, not up.</strong> Making a small image bigger cannot add detail, so it looks soft.</li><li><strong>Let the ratio lock work for you.</strong> Edit only one of the two boxes unless you really need a different shape.</li><li><strong>Need an exact shape?</strong> If a form wants, say, a particular width-to-height ratio that differs from your photo, crop first, then resize.</li><li><strong>Keep the original.</strong> Resize a copy so you can redo it if the first attempt is off.</li></ul><p>Typical starting points: roughly 800 to 1200 pixels wide is plenty for most blog images; a few hundred pixels is enough for a small avatar. Always compare against the exact requirement of the site you are uploading to, as these vary and change over time.</p><h3>Troubleshooting</h3><h3>I can&#39;t set a width and height that don&#39;t match the ratio</h3><p>The boxes are linked to the original proportions, so changing one rewrites the other. To get a different shape, crop the image to the right ratio first with the Image Cropper, then resize.</p><h3>The download is a JPG even though I uploaded a PNG</h3><p>The output is always JPG. Transparent areas in a PNG can come out dark, so this is not suitable for logos with see-through backgrounds.</p><h3>The estimate is bigger than my limit</h3><p>Lower the quality slider and reduce the dimensions further. There is no field for entering a target KB value.</p><h3>Why proportions matter</h3><p>If an image is stretched, circles become ovals and faces look wrong. By linking width and height to the original ratio, the tool protects you from that mistake. Rounding means the numbers may differ by a pixel from what you calculate by hand, which is normal. If a form demands an exact pixel pair that does not match your photo&#39;s shape, crop to the correct ratio first and then resize, rather than forcing the picture into the wrong shape.</p><h3>Privacy</h3><p>Resizing happens inside your browser: the page loads the image, redraws it on a hidden canvas and creates the new file locally. The tool&#39;s code has no upload step. If a document is truly confidential, consider whether any online tool is appropriate and check the privacy policy.</p><p>Finally, remember that enlarging is not the same as improving. If a portal demands a larger image than you have, the better fix is to retake the photo at higher resolution rather than stretching the existing one.</p><h3>When another tool is better</h3><p>This resizer works on one image at a time, uses pixels only (no centimetres or inches), always saves JPG, and offers no preset sizes or batch processing. For changing format, use the Image Converter. For cutting out part of a photo, use the Image Cropper. For print work needing precise DPI, use dedicated design software.</p>
+  <h3>Frequently asked questions</h3>
+  <div class="atp-faq-final"><details><summary>Is the Image Resizer tool on AllToolsPro free to use?</summary><p>Yes. Image Resizer is completely free on AllToolsPro. There is no registration, no signup and no watermark, and it works on mobile phones and computers.</p></details><details><summary>Will resizing stretch my photo?</summary><p>No, not by default. When you change width or height, the other value adjusts to keep the original proportions.</p></details><details><summary>Can I enter a target size in KB?</summary><p>There is no KB field. You use the quality slider and the dimension boxes, and the page shows an estimated size so you can adjust until it fits.</p></details><details><summary>What file type do I get back?</summary><p>A JPG, regardless of the format you uploaded.</p></details><details><summary>Is it better to resize before compressing?</summary><p>They happen together here. Reducing pixel dimensions usually saves more space than lowering quality alone, so try that first.</p></details><details><summary>Does the tool upload my image?</summary><p>No upload step exists in the page's code. The image is processed in your browser.</p></details></div>
+  <h3>Related searches</h3>
+  <p>image resizer · resize image online · resize photo in pixels · resize image for passport size · signature resize · photo resizer · change image size</p>
+  <h3>More free tools</h3>
+  <div class="atp-related-final"><a href="image-rotator.html">Image Rotator →</a><a href="image-compressor.html">Image Compressor →</a><a href="image-converter.html">Image Converter →</a><a href="image-cropper.html">Image Cropper →</a></div>
+ </div>
+</section>
 <footer class="atp-footer-final">
   <div class="inner">
-    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
-<rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
-<path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
-</svg></div>
+    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 410 96" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs><rect x="4" y="8" width="80" height="80" rx="22" fill="url(#atpG)"/><path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/><text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text></svg></div>
     <div class="atp-footer-grid">
       <div>
         <h3>AllToolsPro</h3>
         <p style="margin:0;color:#94a3b8;font-size:.9rem">Free online PDF, image, AI and utility tools. Choose a tool below and use it directly in your browser.</p>
-        <a href="/index.html">Home Page</a>
-        <a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a>
-        <a href="/about-us.html">About Us</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/privacy-policy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Service</a>
+        <a href="index.html">Home Page</a>
+        <a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a>
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
       </div>
-      <div><h3>PDF Tools</h3><a href="/add-watermark.html">Add Watermark</a><a href="/compress-pdf.html">Compress Pdf</a><a href="/edit-pdf.html">Edit Pdf</a><a href="/excel-to-pdf.html">Excel to PDF</a><a href="/extract-pages.html">Extract PDF Pages</a><a href="/html-to-pdf.html">HTML to PDF</a><a href="/merge-pdf.html">Merge Pdf</a><a href="/organize-pdf.html">Organize Pdf</a><a href="/pdf-to-jpg.html">PDF to JPG</a><a href="/ppt-to-pdf.html">PPT to PDF</a><a href="/remove-pages.html">Remove PDF Pages</a><a href="/repair-pdf.html">Repair Pdf</a><a href="/rotate-pdf.html">Rotate Pdf</a><a href="/scan-to-pdf.html">Scan To Pdf</a><a href="/split-pdf.html">Split Pdf</a><a href="/text-to-pdf.html">Text To Pdf</a><a href="/word-to-pdf.html">Word to PDF</a></div>
-      <div><h3>Image Tools</h3><a href="/image-compressor.html">Image Compressor</a><a href="/image-converter.html">Image Converter</a><a href="/image-cropper.html">Image Cropper</a><a href="/image-resizer.html">Image Resizer</a><a href="/image-rotator.html">Image Rotator</a><a href="/image-to-text.html">Image to Text</a><a href="/jpg-to-pdf.html">JPG to PDF</a></div>
-      <div><h3>Utility & AI Tools</h3><a href="/age-calculator.html">Age Calculator</a><a href="/ai-to-human-text.html">AI to Human Text</a><a href="/barcode-generator.html">Barcode Generator</a><a href="/keyword-density.html">Keyword Density</a><a href="/meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="/my-ip.html">My IP Address</a><a href="/password-generator.html">Password Generator</a><a href="/qr-generator.html">QR Code Generator</a><a href="/word-counter.html">Word Counter</a></div>
+      <div><h3>PDF Tools</h3><a href="add-watermark.html">Add Watermark</a><a href="compress-pdf.html">Compress Pdf</a><a href="edit-pdf.html">Edit Pdf</a><a href="excel-to-pdf.html">Excel to PDF</a><a href="extract-pages.html">Extract PDF Pages</a><a href="html-to-pdf.html">HTML to PDF</a><a href="merge-pdf.html">Merge Pdf</a><a href="organize-pdf.html">Organize Pdf</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="ppt-to-pdf.html">PPT to PDF</a><a href="remove-pages.html">Remove PDF Pages</a><a href="repair-pdf.html">Repair Pdf</a><a href="rotate-pdf.html">Rotate Pdf</a><a href="scan-to-pdf.html">Scan To Pdf</a><a href="split-pdf.html">Split Pdf</a><a href="text-to-pdf.html">Text To Pdf</a><a href="word-to-pdf.html">Word to PDF</a></div>
+      <div><h3>Image Tools</h3><a href="image-compressor.html">Image Compressor</a><a href="image-converter.html">Image Converter</a><a href="image-cropper.html">Image Cropper</a><a href="image-resizer.html">Image Resizer</a><a href="image-rotator.html">Image Rotator</a><a href="image-to-text.html">Image to Text</a><a href="jpg-to-pdf.html">JPG to PDF</a></div>
+      <div><h3>Utility & AI Tools</h3><a href="age-calculator.html">Age Calculator</a><a href="ai-to-human-text.html">AI to Human Text</a><a href="barcode-generator.html">Barcode Generator</a><a href="keyword-density.html">Keyword Density</a><a href="meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="my-ip.html">My IP Address</a><a href="password-generator.html">Password Generator</a><a href="qr-generator.html">QR Code Generator</a><a href="word-counter.html">Word Counter</a></div>
     </div>
-    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms</a></span></div>
+    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="about-us.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></span></div>
   </div>
 </footer>
 </body>

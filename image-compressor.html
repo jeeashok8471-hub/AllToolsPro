@@ -3,25 +3,72 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Compress Images Online for Free | AllToolsPro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>Image Compressor – Compress JPG, PNG &amp; WebP Online | AllToolsPro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --primary: #0061ff; --dark: #0f172a; --bg: #f8fbff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); line-height: 1.8; color: var(--dark); padding: 40px 20px; }
-        .card { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        h1 { color: var(--primary); font-weight: 800; font-size: 2.5rem; margin-bottom: 20px; }
-        p { margin-bottom: 20px; font-size: 1.1rem; color: #475569; }
-        .feature-list { list-style: none; padding: 0; margin: 30px 0; }
-        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .feature-list i { color: var(--primary); }
-        .btn-back { display: inline-block; margin-top: 30px; padding: 15px 35px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; }
-        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
+        :root {
+            --primary: #0061ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .main-card { background: white; border-radius: 24px; padding: 40px; box-shadow: var(--shadow); text-align: center; }
+
+        /* Upload Area */
+        .upload-box { border: 3px dashed #cbd5e1; border-radius: 20px; padding: 50px 20px; cursor: pointer; transition: 0.3s; position: relative; }
+        .upload-box:hover { border-color: var(--primary); background: #f0f7ff; }
+        .upload-box i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .upload-box input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* Dashboard Area */
+        #dashboard { display: none; margin-top: 30px; text-align: left; }
+        
+        .stats-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-item { background: #f8fbff; padding: 15px; border-radius: 15px; border: 1px solid #e2e8f0; }
+        .stat-item span { display: block; font-size: 0.75rem; color: var(--text-gray); font-weight: 700; text-transform: uppercase; }
+        .stat-item p { font-size: 1.1rem; font-weight: 800; color: var(--dark); }
+
+        /* Controls */
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .control-group { margin-bottom: 15px; }
+        .control-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
+        
+        .input-field { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; }
+        .input-field:focus { border-color: var(--primary); }
+
+        /* Quality Slider */
+        .slider-box { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 25px; }
+        input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+        .btn-download {
+            width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 50px;
+            font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); transition: 0.3s;
+        }
+        .btn-download:hover { background: #0052cc; transform: translateY(-2px); }
+
+        .preview-wrapper { text-align: center; margin-bottom: 20px; }
+        #img-preview { max-width: 120px; border-radius: 10px; border: 2px solid white; box-shadow: var(--shadow); }
+
+        @media (max-width: 768px) {
+            .stats-bar, .settings-grid { grid-template-columns: 1fr; }
+            .main-card { padding: 25px; }
+        }
     </style>
 
-    <!-- AllToolsPro favicon -->
+<!-- AllToolsPro favicon -->
 
-<style>h2{font-size:1.3rem;margin:26px 0 8px;color:#0f172a}.card a{color:#0061ff}</style>
 <style id="atp-global-final">
 :root{--atp-blue:#2563eb;--atp-blue2:#4f46e5;--atp-ink:#0f172a;--atp-muted:#64748b;--atp-bg:#f6f9ff;--atp-card:#fff;--atp-border:#e2e8f0}
 *{box-sizing:border-box}
@@ -72,107 +119,237 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
      crossorigin="anonymous"></script>
 
     <!-- AllToolsPro SEO + favicon -->
-    <link rel="canonical" href="https://www.alltoolspro.in/blog/image-compressor.html" />
-    <meta name="description" content="Shrink photo file size right in your browser. Learn how to use a quality slider and resize dimensions to get a smaller JPG for forms, email and web pages." />
+    <link rel="canonical" href="https://www.alltoolspro.in/image-compressor.html" />
+    <meta name="description" content="Compress images online to reduce size in KB without visible quality loss. Free JPG, PNG and WebP compressor for forms and websites." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#2563eb" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="How to Compress Images Online for Free | AllToolsPro" />
-    <meta property="og:description" content="Shrink photo file size right in your browser. Learn how to use a quality slider and resize dimensions to get a smaller JPG for forms, email and web pages." />
-    <meta property="og:url" content="https://www.alltoolspro.in/blog/image-compressor.html" />
+    <meta property="og:title" content="Image Compressor – Compress JPG, PNG &amp; WebP Online | AllToolsPro" />
+    <meta property="og:description" content="Compress images online to reduce size in KB without visible quality loss. Free JPG, PNG and WebP compressor for forms and websites." />
+    <meta property="og:url" content="https://www.alltoolspro.in/image-compressor.html" />
     <meta property="og:site_name" content="AllToolsPro" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="How to Compress Images Online for Free | AllToolsPro" />
-    <meta name="twitter:description" content="Shrink photo file size right in your browser. Learn how to use a quality slider and resize dimensions to get a smaller JPG for forms, email and web pages." />
+    <meta name="twitter:title" content="Image Compressor – Compress JPG, PNG &amp; WebP Online | AllToolsPro" />
+    <meta name="twitter:description" content="Compress images online to reduce size in KB without visible quality loss. Free JPG, PNG and WebP compressor for forms and websites." />
 
 
-
-<style>
-body{padding:0!important;background:#f6f9ff}
-.atp-article-wrap{max-width:820px;margin:28px auto 0;padding:0 16px}
-.atp-article{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:40px 44px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
-.atp-crumb{font-size:.85rem;color:#64748b;margin-bottom:14px}.atp-crumb a{color:#2563eb;text-decoration:none;font-weight:700}
-.atp-cat{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;background:#eff6ff;padding:5px 11px;border-radius:99px}
-.atp-article h1{font-size:clamp(1.65rem,4.2vw,2.35rem);line-height:1.2;margin:14px 0 10px;color:#0f172a;font-weight:800}
-.atp-meta{color:#64748b;font-size:.88rem;margin-bottom:22px}
-.atp-article h2{font-size:1.4rem;line-height:1.3;margin:34px 0 10px;color:#0f172a}
-.atp-article h3{font-size:1.1rem;margin:22px 0 6px}
-.atp-article p,.atp-article li{font-size:1.04rem;line-height:1.8;color:#334155}
-.atp-article p{margin:0 0 16px}.atp-article ul,.atp-article ol{padding-left:22px;margin:0 0 18px}.atp-article li{margin-bottom:8px}
-.atp-article a{color:#2563eb}
-.atp-article table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:.95rem}.atp-article th,.atp-article td{border:1px solid #e2e8f0;padding:9px 11px;text-align:left}.atp-article th{background:#f1f5f9}
-.atp-cta{margin:34px 0;padding:24px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#4f46e5 60%,#7c3aed);color:#fff}
-.atp-cta h2{color:#fff;margin:0 0 6px;font-size:1.25rem}.atp-cta p{color:#e0e7ff;margin:0 0 14px}
-.atp-cta a{display:inline-block;background:#fff;color:#2563eb!important;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:12px}
-.atp-faq details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}
-.atp-faq summary{cursor:pointer;font-weight:700;color:#0f172a}.atp-faq details p{margin:10px 0 0}
-.atp-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:10px}
-.atp-related a,.atp-card{display:block;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;background:#fff;text-decoration:none!important;color:#0f172a!important;font-weight:700;line-height:1.4}
-.atp-related a:hover,.atp-card:hover{border-color:#2563eb;box-shadow:0 6px 18px rgba(37,99,235,.12)}
-.atp-card small{display:block;font-weight:400;color:#64748b;margin-top:6px;font-size:.88rem;line-height:1.5}
-@media(max-width:600px){.atp-article{padding:24px 18px;border-radius:16px}}
-</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How to Compress Images Online Without Ruining Them", "description": "Shrink photo file size right in your browser. Learn how to use a quality slider and resize dimensions to get a smaller JPG for forms, email and web pages.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in"}, "publisher": {"@type": "Organization", "name": "AllToolsPro", "logo": {"@type": "ImageObject", "url": "https://www.alltoolspro.in/favicon-512.png"}}, "mainEntityOfPage": "https://www.alltoolspro.in/blog/image-compressor.html"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does compressing an image reduce its quality?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, slightly. JPEG compression discards some fine detail. At moderate settings such as 70-85% the loss is usually hard to notice, but very low settings create visible blockiness."}}, {"@type": "Question", "name": "Can I set an exact size like 50 KB?", "acceptedAnswer": {"@type": "Answer", "text": "Not directly. The tool has a quality slider and width/height boxes, and it shows an estimated size. You adjust them until the estimate is under your limit."}}, {"@type": "Question", "name": "What format does the compressed file download in?", "acceptedAnswer": {"@type": "Answer", "text": "It always downloads as a JPG file, whatever format you started with."}}, {"@type": "Question", "name": "Are my photos uploaded to a server?", "acceptedAnswer": {"@type": "Answer", "text": "The tool processes the image in your browser using a canvas, and its code contains no upload step."}}, {"@type": "Question", "name": "Does it work on a phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You can pick a photo from your gallery or camera and download the result, all from a mobile browser."}}]}]}</script>
-<style id="atp-fb">.atp-header-final,.atp-footer-final{width:100%}.atp-header-final .inner,.atp-footer-final .inner{width:100%}.atp-footer-bottom a{display:inline!important;margin:0!important}.atp-footer-bottom span:last-child{display:flex;flex-wrap:wrap;gap:6px 14px}</style>
-<style>.atp-article{overflow-wrap:anywhere}.atp-article table{display:block;overflow-x:auto}.atp-article pre,.atp-article code{white-space:pre-wrap}</style><meta name="keywords" content="image compressor, compress image online, reduce image size in kb, compress jpg, compress photo to 50kb, how to, guide" />
+<style id="atp-prose">.atp-prose p,.atp-prose li{font-size:1.02rem;line-height:1.8;color:#334155}.atp-prose h3{margin:24px 0 8px;font-size:1.15rem;color:#0f172a}
+.atp-prose ul,.atp-prose ol{padding-left:22px}.atp-prose a{color:#2563eb}
+.atp-prose table{border-collapse:collapse;width:100%;font-size:.95rem}.atp-prose th,.atp-prose td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left}
+.atp-faq-final details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}.atp-faq-final summary{cursor:pointer;font-weight:700}.atp-faq-final p{margin:10px 0 0}
+.atp-related-final{display:flex;flex-wrap:wrap;gap:10px}.atp-related-final a{border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;background:#fff;color:#1d4ed8;font-weight:700;text-decoration:none}
+</style>
+<link rel="stylesheet" href="alltoolspro-tool.css">
+<meta name="keywords" content="image compressor, compress image online, reduce image size in kb, compress jpg, compress png, compress photo to 50kb, compress image to 100kb, jpeg compressor" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Image Compressor – Compress JPG, PNG & WebP Online", "url": "https://www.alltoolspro.in/image-compressor.html", "description": "Compress images online to reduce size in KB without visible quality loss. Free JPG, PNG and WebP compressor for forms and websites.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "provider": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in/"}, "keywords": "image compressor, compress image online, reduce image size in kb, compress jpg, compress png, compress photo to 50kb, compress image to 100kb, jpeg compressor"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.alltoolspro.in/"}, {"@type": "ListItem", "position": 2, "name": "All Tools", "item": "https://www.alltoolspro.in/all-tools.html"}, {"@type": "ListItem", "position": 3, "name": "Image Compressor", "item": "https://www.alltoolspro.in/image-compressor.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is the Image Compressor tool on AllToolsPro free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Image Compressor is completely free on AllToolsPro. There is no registration, no signup and no watermark, and it works on mobile phones and computers."}}, {"@type": "Question", "name": "Does compressing an image reduce its quality?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, slightly. JPEG compression discards some fine detail. At moderate settings such as 70-85% the loss is usually hard to notice, but very low settings create visible blockiness."}}, {"@type": "Question", "name": "Can I set an exact size like 50 KB?", "acceptedAnswer": {"@type": "Answer", "text": "Not directly. The tool has a quality slider and width/height boxes, and it shows an estimated size. You adjust them until the estimate is under your limit."}}, {"@type": "Question", "name": "What format does the compressed file download in?", "acceptedAnswer": {"@type": "Answer", "text": "It always downloads as a JPG file, whatever format you started with."}}]}</script>
 </head>
 <body>
+
 <header class="atp-header-final">
  <div class="inner">
-  <a class="atp-logo-wrap" href="/index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
-<rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
-<path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
-</svg></a>
+  <a class="atp-logo-wrap" href="index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 410 96" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs><rect x="4" y="8" width="80" height="80" rx="22" fill="url(#atpG)"/><path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/><text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text></svg></a>
   <nav class="atp-nav-final" aria-label="Main navigation">
-   <a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About</a> · <a href="/blog.html">Blog</a>
+   <a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About</a>
   </nav>
   <details class="atp-menu-toggle"><summary>☰ Menu</summary>
-   <nav class="atp-menu-final"><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About Us</a></nav>
+   <nav class="atp-menu-final"><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About Us</a></nav>
   </details>
  </div>
 </header>
-<div class="atp-article-wrap"><article class="atp-article">
-<div class="atp-crumb"><a href="/index.html">Home</a> › <a href="/blog.html">Blog</a> › Image Compressor</div>
-<span class="atp-cat">Image Tools</span>
-<h1>How to Compress Images Online Without Ruining Them</h1>
-<div class="atp-meta">By AllToolsPro · Updated 12 October 2026 · 5 min read</div>
-<p>Almost everyone has hit the same wall: you pick a photo, press upload, and the site tells you the file is too large. Phone cameras now produce pictures of several megabytes each, while many forms, job portals and email systems accept only a fraction of that.</p><p>An image compressor solves this by reducing the file size while keeping the picture recognisable. This guide explains how the AllToolsPro Image Compressor works, what its controls really do, and how to get a small file without making your photo look muddy.</p>
-<h2>What image compression actually does</h2><p>A photo&#39;s file size depends on two things: how many pixels it contains and how much detail is stored for each region. Compression attacks both. Lowering the <strong>quality</strong> tells the JPEG encoder to discard fine detail that the eye rarely notices. Lowering the <strong>dimensions</strong> simply means fewer pixels to store.</p><p>The tool on AllToolsPro gives you both levers on one screen: a quality slider and width/height boxes. It also shows the original size next to a live estimate of the new size, so you can see the effect before you save anything.</p><h2>Step-by-step: compress a photo</h2><ol><li>Open the tool and tap the <strong>Select Photo</strong> box, then choose an image from your phone or computer.</li><li>Check the <strong>Original Info</strong> panel to see the current file size and pixel dimensions.</li><li>Move the <strong>File Quality (Compress)</strong> slider. It runs from 5% to 100% and starts at 80%. Watch the <strong>New Estimated Info</strong> panel update as you move it.</li><li>If you need an even smaller file, change <strong>Width (Pixels)</strong> or <strong>Height (Pixels)</strong>. The other value follows automatically, so the proportions stay correct.</li><li>When the estimate looks right, press <strong>Resize &amp; Download</strong>. The result is saved as a JPG file.</li></ol><p>Because the estimate is recalculated every time you touch a control, you can experiment freely. Nothing is saved until you press the download button, so there is no harm in dragging the slider to 20% just to see how bad it looks, then coming back up.</p><h2>Where compression helps in real life</h2><ul><li><strong>Online application forms:</strong> exam, scholarship and job portals often set a maximum size in KB for photos and scanned documents. Always check the portal&#39;s current requirements before you start.</li><li><strong>Email and WhatsApp:</strong> smaller attachments send faster on slow mobile data.</li><li><strong>Website and blog images:</strong> lighter images help pages load faster, which matters for visitors on budget phones.</li><li><strong>E-commerce listings:</strong> sellers uploading many product shots can keep each one light.</li><li><strong>Students:</strong> assignment portals sometimes cap upload size, and a compressed photo of handwritten notes usually fits.</li></ul><h2>Tips for the best results</h2><ul><li><strong>Start at 80% and go down slowly.</strong> For most photos the difference between 100% and 80% is hard to see, yet the file can shrink dramatically.</li><li><strong>Reduce dimensions for big phone photos.</strong> A 4000-pixel-wide picture is overkill for a form or a web page; shrinking it often saves more than the quality slider.</li><li><strong>Keep your original.</strong> The tool creates a new file, but it is good practice to store the untouched photo safely.</li><li><strong>Zoom in on the preview before downloading.</strong> Look at faces and text, because those show compression damage first.</li></ul><p>A useful routine for form uploads: first reduce the dimensions to something reasonable, such as a width of 800 to 1200 pixels for a general photo, then fine-tune with the quality slider. This keeps the picture looking sharp while still giving a small file, because you are not asking the encoder to squeeze a huge image too hard.</p><p>Photos with lots of fine texture, such as leaves, fabric or crowds, compress less gracefully than simple pictures with plain backgrounds. If a portrait against a flat wall drops to a tiny size easily, do not be surprised when a busy street scene needs a larger one.</p><h2>Common mistakes and troubleshooting</h2><h3>The file is still too big</h3><p>Lower the quality in small steps, then reduce the pixel dimensions. There is no box for typing a target size in KB, so you adjust the sliders until the estimate fits your limit.</p><h3>The picture looks blocky or blurry</h3><p>You have pushed quality too low. Raise it a little and shrink the dimensions instead.</p><h3>My transparent PNG got a dark background</h3><p>The output is always a JPG, and JPG cannot store transparency. Transparent areas can turn dark. If you need to keep a transparent background, this is not the right tool.</p><h2>A quick worked example</h2><p>Imagine a phone photo that is 4000 by 3000 pixels and weighs several megabytes. A job portal accepts a much smaller file. Upload the photo and note the Original Info line. Change Width to 1200 and the height follows to 900. Check the New Estimated Info line; it will likely already be far smaller. If it is still above the limit, bring quality down from 80% to around 65% and look again. Once the estimate fits, download, and open the saved file to confirm it still looks acceptable before you submit it.</p><p>This two-step approach, shrink the pixels first and trim quality second, usually gives a better-looking result than relying on quality alone.</p><h2>Privacy and security</h2><p>The page reads your image in your own browser and redraws it on a hidden canvas to calculate the new size. There is no upload step in the tool&#39;s code, so the photo is not sent to a server for compression. That makes it reasonable for ID-style photos, though you should still avoid using any online tool on documents you consider highly sensitive. If in doubt, read the site&#39;s privacy policy.</p><h2>Limits: when this isn&amp;#39;t the right tool</h2><p>This tool outputs JPG only, compresses one image at a time, and has no batch mode. It cannot keep transparency, and it does not let you pick an exact target size. If you want a different format, such as WebP, the Image Converter is a better fit. For printing or professional photography where every pixel matters, keep the original file and use heavier compression only for copies meant for screens.</p>
-<div class="atp-cta"><h2>Try the Image Compressor tool</h2><p>Free, no signup, works right in your browser.</p><a href="/image-compressor.html">Open Image Compressor</a></div>
-<h2>Frequently asked questions</h2>
-<div class="atp-faq"><details><summary>Does compressing an image reduce its quality?</summary><p>Yes, slightly. JPEG compression discards some fine detail. At moderate settings such as 70-85% the loss is usually hard to notice, but very low settings create visible blockiness.</p></details><details><summary>Can I set an exact size like 50 KB?</summary><p>Not directly. The tool has a quality slider and width/height boxes, and it shows an estimated size. You adjust them until the estimate is under your limit.</p></details><details><summary>What format does the compressed file download in?</summary><p>It always downloads as a JPG file, whatever format you started with.</p></details><details><summary>Are my photos uploaded to a server?</summary><p>The tool processes the image in your browser using a canvas, and its code contains no upload step.</p></details><details><summary>Does it work on a phone?</summary><p>Yes. You can pick a photo from your gallery or camera and download the result, all from a mobile browser.</p></details></div>
-<h2>Related guides</h2><div class="atp-related"><a href="/blog/image-converter.html">Convert Images to JPG, PNG or WebP Online</a><a href="/blog/image-cropper.html">How to Crop Photos Online for Free</a><a href="/blog/image-resizer.html">How to Resize Images Online by Pixels</a></div>
-</article></div>
+
+    
+<div class="atp-breadcrumb"><a href="index.html">Home</a> &nbsp;›&nbsp; <span>Image Compressor</span></div>
+<section class="atp-hero"><div class="atp-hero-card">
+  <div class="atp-kicker">AllToolsPro Online Tool</div>
+  <h2 class="atp-hero-title">Image Compressor</h2>
+  <p>Compress images online to reduce size in KB without visible quality loss. Free JPG, PNG and WebP compressor for forms and websites.</p>
+</div></section>
+<div class="container">
+        <div class="main-card">
+            <h1>Image Compressor – Reduce Size in KB</h1>
+            <p style="color:var(--text-gray); margin-bottom:30px;">Adjust Dimensions (Px) and Reduce File Size (KB/MB).</p>
+
+            <div class="upload-box" id="upload-box">
+                <i class="fas fa-expand-arrows-alt"></i>
+                <h3 id="display-name">Select Photo</h3>
+                <p>Set custom Width, Height and KB size</p>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+
+            <div id="dashboard">
+                <div class="preview-wrapper">
+                    <img alt="" id="img-preview" src="">
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span>Original Info</span>
+                        <p id="old-stats">0 KB | 0x0 px</p>
+                    </div>
+                    <div class="stat-item" style="border-color: #10b981;">
+                        <span>New Estimated Info</span>
+                        <p id="new-stats" style="color: #10b981;">0 KB | 0x0 px</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="control-group">
+                        <label>Width (Pixels):</label>
+                        <input type="number" id="width-input" class="input-field">
+                    </div>
+                    <div class="control-group">
+                        <label>Height (Pixels):</label>
+                        <input type="number" id="height-input" class="input-field">
+                    </div>
+                </div>
+
+                <div class="slider-box">
+                    <label style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:10px;">
+                        File Quality (Compress): <span id="quality-label" style="color:var(--primary)">80%</span>
+                    </label>
+                    <input type="range" id="quality-slider" min="5" max="100" value="80">
+                </div>
+
+                <button class="btn-download" id="download-btn">Resize & Download</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const dashboard = document.getElementById('dashboard');
+        const oldStats = document.getElementById('old-stats');
+        const newStats = document.getElementById('new-stats');
+        const widthInput = document.getElementById('width-input');
+        const heightInput = document.getElementById('height-input');
+        const qualitySlider = document.getElementById('quality-slider');
+        const qualityLabel = document.getElementById('quality-label');
+        const downloadBtn = document.getElementById('download-btn');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let originalImg = new Image();
+        let aspectRatio = 1;
+        let originalFileSize = 0;
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + " B";
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+            return (bytes / 1048576).toFixed(1) + " MB";
+        }
+
+        imageInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            originalFileSize = file.size;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                originalImg.src = event.target.result;
+                document.getElementById('img-preview').src = event.target.result;
+                
+                originalImg.onload = () => {
+                    aspectRatio = originalImg.width / originalImg.height;
+                    widthInput.value = originalImg.width;
+                    heightInput.value = originalImg.height;
+                    
+                    oldStats.innerText = `${formatSize(originalFileSize)} | ${originalImg.width}x${originalImg.height}px`;
+                    
+                    document.getElementById('upload-box').style.display = 'none';
+                    dashboard.style.display = 'block';
+                    updateLiveStats();
+                };
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // Aspect Ratio Lock Logic
+        widthInput.oninput = () => {
+            heightInput.value = Math.round(widthInput.value / aspectRatio);
+            updateLiveStats();
+        };
+
+        heightInput.oninput = () => {
+            widthInput.value = Math.round(heightInput.value * aspectRatio);
+            updateLiveStats();
+        };
+
+        qualitySlider.oninput = () => {
+            qualityLabel.innerText = qualitySlider.value + "%";
+            updateLiveStats();
+        };
+
+        function updateLiveStats() {
+            const w = widthInput.value || 1;
+            const h = heightInput.value || 1;
+            const q = qualitySlider.value / 100;
+
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(originalImg, 0, 0, w, h);
+
+            const dataUrl = canvas.toDataURL('image/jpeg', q);
+            const head = 'data:image/jpeg;base64,';
+            const size = Math.round((dataUrl.length - head.length) * 3 / 4);
+            
+            newStats.innerText = `${formatSize(size)} | ${w}x${h}px`;
+            return dataUrl;
+        }
+
+        downloadBtn.onclick = () => {
+            const finalData = updateLiveStats();
+            const link = document.createElement('a');
+            link.href = finalData;
+            link.download = "AllToolsPro-Resized.jpg";
+            link.click();
+        };
+    </script>
+
+<a class="atp-top" href="#" aria-label="Back to top">↑</a>
+
+
+
+<section class="atp-guide-final" id="guide" aria-labelledby="guide-title">
+ <div class="atp-guide-card-final atp-prose">
+  <h2 id="guide-title">How to Compress Images Online Without Ruining Them</h2>
+  <p>Almost everyone has hit the same wall: you pick a photo, press upload, and the site tells you the file is too large. Phone cameras now produce pictures of several megabytes each, while many forms, job portals and email systems accept only a fraction of that.</p><p>An image compressor solves this by reducing the file size while keeping the picture recognisable. This guide explains how the AllToolsPro Image Compressor works, what its controls really do, and how to get a small file without making your photo look muddy.</p>
+  <h3>What image compression actually does</h3><p>A photo&#39;s file size depends on two things: how many pixels it contains and how much detail is stored for each region. Compression attacks both. Lowering the <strong>quality</strong> tells the JPEG encoder to discard fine detail that the eye rarely notices. Lowering the <strong>dimensions</strong> simply means fewer pixels to store.</p><p>The tool on AllToolsPro gives you both levers on one screen: a quality slider and width/height boxes. It also shows the original size next to a live estimate of the new size, so you can see the effect before you save anything.</p><h3>Step-by-step: compress a photo</h3><ol><li>Open the tool and tap the <strong>Select Photo</strong> box, then choose an image from your phone or computer.</li><li>Check the <strong>Original Info</strong> panel to see the current file size and pixel dimensions.</li><li>Move the <strong>File Quality (Compress)</strong> slider. It runs from 5% to 100% and starts at 80%. Watch the <strong>New Estimated Info</strong> panel update as you move it.</li><li>If you need an even smaller file, change <strong>Width (Pixels)</strong> or <strong>Height (Pixels)</strong>. The other value follows automatically, so the proportions stay correct.</li><li>When the estimate looks right, press <strong>Resize &amp; Download</strong>. The result is saved as a JPG file.</li></ol><p>Because the estimate is recalculated every time you touch a control, you can experiment freely. Nothing is saved until you press the download button, so there is no harm in dragging the slider to 20% just to see how bad it looks, then coming back up.</p><h3>Where compression helps in real life</h3><ul><li><strong>Online application forms:</strong> exam, scholarship and job portals often set a maximum size in KB for photos and scanned documents. Always check the portal&#39;s current requirements before you start.</li><li><strong>Email and WhatsApp:</strong> smaller attachments send faster on slow mobile data.</li><li><strong>Website and blog images:</strong> lighter images help pages load faster, which matters for visitors on budget phones.</li><li><strong>E-commerce listings:</strong> sellers uploading many product shots can keep each one light.</li><li><strong>Students:</strong> assignment portals sometimes cap upload size, and a compressed photo of handwritten notes usually fits.</li></ul><h3>Tips for the best results</h3><ul><li><strong>Start at 80% and go down slowly.</strong> For most photos the difference between 100% and 80% is hard to see, yet the file can shrink dramatically.</li><li><strong>Reduce dimensions for big phone photos.</strong> A 4000-pixel-wide picture is overkill for a form or a web page; shrinking it often saves more than the quality slider.</li><li><strong>Keep your original.</strong> The tool creates a new file, but it is good practice to store the untouched photo safely.</li><li><strong>Zoom in on the preview before downloading.</strong> Look at faces and text, because those show compression damage first.</li></ul><p>A useful routine for form uploads: first reduce the dimensions to something reasonable, such as a width of 800 to 1200 pixels for a general photo, then fine-tune with the quality slider. This keeps the picture looking sharp while still giving a small file, because you are not asking the encoder to squeeze a huge image too hard.</p><p>Photos with lots of fine texture, such as leaves, fabric or crowds, compress less gracefully than simple pictures with plain backgrounds. If a portrait against a flat wall drops to a tiny size easily, do not be surprised when a busy street scene needs a larger one.</p><h3>Common mistakes and troubleshooting</h3><h3>The file is still too big</h3><p>Lower the quality in small steps, then reduce the pixel dimensions. There is no box for typing a target size in KB, so you adjust the sliders until the estimate fits your limit.</p><h3>The picture looks blocky or blurry</h3><p>You have pushed quality too low. Raise it a little and shrink the dimensions instead.</p><h3>My transparent PNG got a dark background</h3><p>The output is always a JPG, and JPG cannot store transparency. Transparent areas can turn dark. If you need to keep a transparent background, this is not the right tool.</p><h3>A quick worked example</h3><p>Imagine a phone photo that is 4000 by 3000 pixels and weighs several megabytes. A job portal accepts a much smaller file. Upload the photo and note the Original Info line. Change Width to 1200 and the height follows to 900. Check the New Estimated Info line; it will likely already be far smaller. If it is still above the limit, bring quality down from 80% to around 65% and look again. Once the estimate fits, download, and open the saved file to confirm it still looks acceptable before you submit it.</p><p>This two-step approach, shrink the pixels first and trim quality second, usually gives a better-looking result than relying on quality alone.</p><h3>Privacy and security</h3><p>The page reads your image in your own browser and redraws it on a hidden canvas to calculate the new size. There is no upload step in the tool&#39;s code, so the photo is not sent to a server for compression. That makes it reasonable for ID-style photos, though you should still avoid using any online tool on documents you consider highly sensitive. If in doubt, read the site&#39;s privacy policy.</p><h3>Limits: when this isn&amp;#39;t the right tool</h3><p>This tool outputs JPG only, compresses one image at a time, and has no batch mode. It cannot keep transparency, and it does not let you pick an exact target size. If you want a different format, such as WebP, the Image Converter is a better fit. For printing or professional photography where every pixel matters, keep the original file and use heavier compression only for copies meant for screens.</p>
+  <h3>Frequently asked questions</h3>
+  <div class="atp-faq-final"><details><summary>Is the Image Compressor tool on AllToolsPro free to use?</summary><p>Yes. Image Compressor is completely free on AllToolsPro. There is no registration, no signup and no watermark, and it works on mobile phones and computers.</p></details><details><summary>Does compressing an image reduce its quality?</summary><p>Yes, slightly. JPEG compression discards some fine detail. At moderate settings such as 70-85% the loss is usually hard to notice, but very low settings create visible blockiness.</p></details><details><summary>Can I set an exact size like 50 KB?</summary><p>Not directly. The tool has a quality slider and width/height boxes, and it shows an estimated size. You adjust them until the estimate is under your limit.</p></details><details><summary>What format does the compressed file download in?</summary><p>It always downloads as a JPG file, whatever format you started with.</p></details><details><summary>Are my photos uploaded to a server?</summary><p>The tool processes the image in your browser using a canvas, and its code contains no upload step.</p></details><details><summary>Does it work on a phone?</summary><p>Yes. You can pick a photo from your gallery or camera and download the result, all from a mobile browser.</p></details></div>
+  <h3>Related searches</h3>
+  <p>image compressor · compress image online · reduce image size in kb · compress jpg · compress png · compress photo to 50kb · compress image to 100kb · jpeg compressor</p>
+  <h3>More free tools</h3>
+  <div class="atp-related-final"><a href="image-converter.html">Image Converter →</a><a href="image-cropper.html">Image Cropper →</a><a href="image-resizer.html">Image Resizer →</a><a href="image-rotator.html">Image Rotator →</a></div>
+ </div>
+</section>
 <footer class="atp-footer-final">
   <div class="inner">
-    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
-<rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
-<path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
-</svg></div>
+    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 410 96" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs><rect x="4" y="8" width="80" height="80" rx="22" fill="url(#atpG)"/><path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/><text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text></svg></div>
     <div class="atp-footer-grid">
       <div>
         <h3>AllToolsPro</h3>
         <p style="margin:0;color:#94a3b8;font-size:.9rem">Free online PDF, image, AI and utility tools. Choose a tool below and use it directly in your browser.</p>
-        <a href="/index.html">Home Page</a>
-        <a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a>
-        <a href="/about-us.html">About Us</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/privacy-policy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Service</a>
+        <a href="index.html">Home Page</a>
+        <a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a>
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
       </div>
-      <div><h3>PDF Tools</h3><a href="/add-watermark.html">Add Watermark</a><a href="/compress-pdf.html">Compress Pdf</a><a href="/edit-pdf.html">Edit Pdf</a><a href="/excel-to-pdf.html">Excel to PDF</a><a href="/extract-pages.html">Extract PDF Pages</a><a href="/html-to-pdf.html">HTML to PDF</a><a href="/merge-pdf.html">Merge Pdf</a><a href="/organize-pdf.html">Organize Pdf</a><a href="/pdf-to-jpg.html">PDF to JPG</a><a href="/ppt-to-pdf.html">PPT to PDF</a><a href="/remove-pages.html">Remove PDF Pages</a><a href="/repair-pdf.html">Repair Pdf</a><a href="/rotate-pdf.html">Rotate Pdf</a><a href="/scan-to-pdf.html">Scan To Pdf</a><a href="/split-pdf.html">Split Pdf</a><a href="/text-to-pdf.html">Text To Pdf</a><a href="/word-to-pdf.html">Word to PDF</a></div>
-      <div><h3>Image Tools</h3><a href="/image-compressor.html">Image Compressor</a><a href="/image-converter.html">Image Converter</a><a href="/image-cropper.html">Image Cropper</a><a href="/image-resizer.html">Image Resizer</a><a href="/image-rotator.html">Image Rotator</a><a href="/image-to-text.html">Image to Text</a><a href="/jpg-to-pdf.html">JPG to PDF</a></div>
-      <div><h3>Utility & AI Tools</h3><a href="/age-calculator.html">Age Calculator</a><a href="/ai-to-human-text.html">AI to Human Text</a><a href="/barcode-generator.html">Barcode Generator</a><a href="/keyword-density.html">Keyword Density</a><a href="/meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="/my-ip.html">My IP Address</a><a href="/password-generator.html">Password Generator</a><a href="/qr-generator.html">QR Code Generator</a><a href="/word-counter.html">Word Counter</a></div>
+      <div><h3>PDF Tools</h3><a href="add-watermark.html">Add Watermark</a><a href="compress-pdf.html">Compress Pdf</a><a href="edit-pdf.html">Edit Pdf</a><a href="excel-to-pdf.html">Excel to PDF</a><a href="extract-pages.html">Extract PDF Pages</a><a href="html-to-pdf.html">HTML to PDF</a><a href="merge-pdf.html">Merge Pdf</a><a href="organize-pdf.html">Organize Pdf</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="ppt-to-pdf.html">PPT to PDF</a><a href="remove-pages.html">Remove PDF Pages</a><a href="repair-pdf.html">Repair Pdf</a><a href="rotate-pdf.html">Rotate Pdf</a><a href="scan-to-pdf.html">Scan To Pdf</a><a href="split-pdf.html">Split Pdf</a><a href="text-to-pdf.html">Text To Pdf</a><a href="word-to-pdf.html">Word to PDF</a></div>
+      <div><h3>Image Tools</h3><a href="image-compressor.html">Image Compressor</a><a href="image-converter.html">Image Converter</a><a href="image-cropper.html">Image Cropper</a><a href="image-resizer.html">Image Resizer</a><a href="image-rotator.html">Image Rotator</a><a href="image-to-text.html">Image to Text</a><a href="jpg-to-pdf.html">JPG to PDF</a></div>
+      <div><h3>Utility & AI Tools</h3><a href="age-calculator.html">Age Calculator</a><a href="ai-to-human-text.html">AI to Human Text</a><a href="barcode-generator.html">Barcode Generator</a><a href="keyword-density.html">Keyword Density</a><a href="meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="my-ip.html">My IP Address</a><a href="password-generator.html">Password Generator</a><a href="qr-generator.html">QR Code Generator</a><a href="word-counter.html">Word Counter</a></div>
     </div>
-    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms</a></span></div>
+    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="about-us.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></span></div>
   </div>
 </footer>
 </body>

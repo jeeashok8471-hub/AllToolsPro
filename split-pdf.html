@@ -3,25 +3,82 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Split a PDF by Page Range Online (Free) | AllToolsPro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>Split PDF Online – Separate Pages or Page Ranges | AllToolsPro</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PDF-Lib Library -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
     <style>
-        :root { --primary: #0061ff; --dark: #0f172a; --bg: #f8fbff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); line-height: 1.8; color: var(--dark); padding: 40px 20px; }
-        .card { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        h1 { color: var(--primary); font-weight: 800; font-size: 2.5rem; margin-bottom: 20px; }
-        p { margin-bottom: 20px; font-size: 1.1rem; color: #475569; }
-        .feature-list { list-style: none; padding: 0; margin: 30px 0; }
-        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .feature-list i { color: var(--primary); }
-        .btn-back { display: inline-block; margin-top: 30px; padding: 15px 35px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; }
-        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2); }
+        :root {
+            --primary: #0061ff;
+            --primary-soft: #f0f7ff;
+            --dark: #0f172a;
+            --text-gray: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 97, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fbff; color: var(--dark); line-height: 1.6; }
+
+        header { 
+            background: var(--white); padding: 15px 5%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .back-link { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.9rem; }
+
+        .tool-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        .tool-card-main { background: white; padding: 40px; border-radius: 24px; box-shadow: var(--shadow); text-align: center; }
+        
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+        .subtitle { color: var(--text-gray); margin-bottom: 30px; }
+
+        /* Upload Area */
+        .upload-box {
+            border: 3px dashed #cbd5e1; border-radius: 20px; padding: 50px 20px;
+            cursor: pointer; transition: 0.3s; position: relative; margin-bottom: 20px;
+        }
+        .upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
+        .upload-box i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .upload-box input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* Split Options */
+        #split-options { display: none; margin-top: 30px; text-align: left; background: #f8fbff; padding: 25px; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .info-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-weight: 700; color: var(--primary); }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .input-flex { display: flex; gap: 10px; align-items: center; }
+        input[type="number"] { width: 80px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
+        input[type="number"]:focus { border-color: var(--primary); }
+
+        /* Split Button */
+        #split-btn {
+            background: var(--primary); color: white; border: none;
+            padding: 15px 40px; border-radius: 50px; font-size: 1.1rem;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0, 97, 255, 0.2);
+            width: 100%; margin-top: 20px;
+        }
+        #split-btn:hover { background: #0052cc; transform: translateY(-2px); }
+        
+        .loader { display: none; margin-top: 15px; font-weight: 700; color: var(--primary); text-align: center; }
+
+        .info-section { margin-top: 50px; text-align: left; border-top: 1px solid #eee; padding-top: 30px; }
+        .info-section h3 { margin-bottom: 15px; color: var(--primary); }
+        .info-section p { font-size: 0.95rem; color: var(--text-gray); margin-bottom: 10px; }
+
+        @media (max-width: 768px) { h1 { font-size: 1.6rem; } .tool-card-main { padding: 20px; } }
     </style>
 
-    <!-- AllToolsPro favicon -->
+<!-- AllToolsPro favicon -->
 
-<style>h2{font-size:1.3rem;margin:26px 0 8px;color:#0f172a}.card a{color:#0061ff}</style>
 <style id="atp-global-final">
 :root{--atp-blue:#2563eb;--atp-blue2:#4f46e5;--atp-ink:#0f172a;--atp-muted:#64748b;--atp-bg:#f6f9ff;--atp-card:#fff;--atp-border:#e2e8f0}
 *{box-sizing:border-box}
@@ -72,108 +129,228 @@ body{margin:0;background:var(--atp-bg);color:var(--atp-ink);font-family:Arial,He
      crossorigin="anonymous"></script>
 
     <!-- AllToolsPro SEO + favicon -->
-    <link rel="canonical" href="https://www.alltoolspro.in/blog/split-pdf.html" />
-    <meta name="description" content="Cut a large PDF down to just the pages you need by entering a From and To page. Free, browser-based, with tips for forms, notes and exam portals." />
+    <link rel="canonical" href="https://www.alltoolspro.in/split-pdf.html" />
+    <meta name="description" content="Split a PDF by page range or into single pages online. Extract the pages you need into a new file. Free, no installation or account needed." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#2563eb" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="How to Split a PDF by Page Range Online (Free) | AllToolsPro" />
-    <meta property="og:description" content="Cut a large PDF down to just the pages you need by entering a From and To page. Free, browser-based, with tips for forms, notes and exam portals." />
-    <meta property="og:url" content="https://www.alltoolspro.in/blog/split-pdf.html" />
+    <meta property="og:title" content="Split PDF Online – Separate Pages or Page Ranges | AllToolsPro" />
+    <meta property="og:description" content="Split a PDF by page range or into single pages online. Extract the pages you need into a new file. Free, no installation or account needed." />
+    <meta property="og:url" content="https://www.alltoolspro.in/split-pdf.html" />
     <meta property="og:site_name" content="AllToolsPro" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="How to Split a PDF by Page Range Online (Free) | AllToolsPro" />
-    <meta name="twitter:description" content="Cut a large PDF down to just the pages you need by entering a From and To page. Free, browser-based, with tips for forms, notes and exam portals." />
+    <meta name="twitter:title" content="Split PDF Online – Separate Pages or Page Ranges | AllToolsPro" />
+    <meta name="twitter:description" content="Split a PDF by page range or into single pages online. Extract the pages you need into a new file. Free, no installation or account needed." />
 
 
-
-<style>
-body{padding:0!important;background:#f6f9ff}
-.atp-article-wrap{max-width:820px;margin:28px auto 0;padding:0 16px}
-.atp-article{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:40px 44px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
-.atp-crumb{font-size:.85rem;color:#64748b;margin-bottom:14px}.atp-crumb a{color:#2563eb;text-decoration:none;font-weight:700}
-.atp-cat{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;background:#eff6ff;padding:5px 11px;border-radius:99px}
-.atp-article h1{font-size:clamp(1.65rem,4.2vw,2.35rem);line-height:1.2;margin:14px 0 10px;color:#0f172a;font-weight:800}
-.atp-meta{color:#64748b;font-size:.88rem;margin-bottom:22px}
-.atp-article h2{font-size:1.4rem;line-height:1.3;margin:34px 0 10px;color:#0f172a}
-.atp-article h3{font-size:1.1rem;margin:22px 0 6px}
-.atp-article p,.atp-article li{font-size:1.04rem;line-height:1.8;color:#334155}
-.atp-article p{margin:0 0 16px}.atp-article ul,.atp-article ol{padding-left:22px;margin:0 0 18px}.atp-article li{margin-bottom:8px}
-.atp-article a{color:#2563eb}
-.atp-article table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:.95rem}.atp-article th,.atp-article td{border:1px solid #e2e8f0;padding:9px 11px;text-align:left}.atp-article th{background:#f1f5f9}
-.atp-cta{margin:34px 0;padding:24px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#4f46e5 60%,#7c3aed);color:#fff}
-.atp-cta h2{color:#fff;margin:0 0 6px;font-size:1.25rem}.atp-cta p{color:#e0e7ff;margin:0 0 14px}
-.atp-cta a{display:inline-block;background:#fff;color:#2563eb!important;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:12px}
-.atp-faq details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}
-.atp-faq summary{cursor:pointer;font-weight:700;color:#0f172a}.atp-faq details p{margin:10px 0 0}
-.atp-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:10px}
-.atp-related a,.atp-card{display:block;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;background:#fff;text-decoration:none!important;color:#0f172a!important;font-weight:700;line-height:1.4}
-.atp-related a:hover,.atp-card:hover{border-color:#2563eb;box-shadow:0 6px 18px rgba(37,99,235,.12)}
-.atp-card small{display:block;font-weight:400;color:#64748b;margin-top:6px;font-size:.88rem;line-height:1.5}
-@media(max-width:600px){.atp-article{padding:24px 18px;border-radius:16px}}
-</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How to Split a PDF by Page Range Without Installing Anything", "description": "Cut a large PDF down to just the pages you need by entering a From and To page. Free, browser-based, with tips for forms, notes and exam portals.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in"}, "publisher": {"@type": "Organization", "name": "AllToolsPro", "logo": {"@type": "ImageObject", "url": "https://www.alltoolspro.in/favicon-512.png"}}, "mainEntityOfPage": "https://www.alltoolspro.in/blog/split-pdf.html"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I split a PDF into several files at once?", "acceptedAnswer": {"@type": "Answer", "text": "No. The tool creates one file from one continuous page range per run. Run it again for each additional range."}}, {"@type": "Question", "name": "Does splitting change my original PDF?", "acceptedAnswer": {"@type": "Answer", "text": "No. The original stays untouched and a new file is downloaded."}}, {"@type": "Question", "name": "Can I pick pages that are not next to each other?", "acceptedAnswer": {"@type": "Answer", "text": "Not with this tool. Use an extract-pages tool, which allows lists such as 1, 5, 9-12."}}, {"@type": "Question", "name": "Why does it say my page range is invalid?", "acceptedAnswer": {"@type": "Answer", "text": "The From value must be at least 1, the To value cannot exceed the total pages, and From cannot be greater than To."}}, {"@type": "Question", "name": "Is my file uploaded anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "The page states that processing happens in your browser and nothing is uploaded."}}]}]}</script>
-<style id="atp-fb">.atp-header-final,.atp-footer-final{width:100%}.atp-header-final .inner,.atp-footer-final .inner{width:100%}.atp-footer-bottom a{display:inline!important;margin:0!important}.atp-footer-bottom span:last-child{display:flex;flex-wrap:wrap;gap:6px 14px}</style>
-<style>.atp-article{overflow-wrap:anywhere}.atp-article table{display:block;overflow-x:auto}.atp-article pre,.atp-article code{white-space:pre-wrap}</style><meta name="keywords" content="split pdf, separate pdf pages, pdf splitter, split pdf online free, divide pdf, how to, guide" />
+<style id="atp-prose">.atp-prose p,.atp-prose li{font-size:1.02rem;line-height:1.8;color:#334155}.atp-prose h3{margin:24px 0 8px;font-size:1.15rem;color:#0f172a}
+.atp-prose ul,.atp-prose ol{padding-left:22px}.atp-prose a{color:#2563eb}
+.atp-prose table{border-collapse:collapse;width:100%;font-size:.95rem}.atp-prose th,.atp-prose td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left}
+.atp-faq-final details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:#f8fafc}.atp-faq-final summary{cursor:pointer;font-weight:700}.atp-faq-final p{margin:10px 0 0}
+.atp-related-final{display:flex;flex-wrap:wrap;gap:10px}.atp-related-final a{border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;background:#fff;color:#1d4ed8;font-weight:700;text-decoration:none}
+</style>
+<link rel="stylesheet" href="alltoolspro-tool.css">
+<meta name="keywords" content="split pdf, split pdf online, separate pdf pages, pdf splitter, split pdf by page range, divide pdf into pages, split pdf free" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Split PDF Online – Separate Pages or Page Ranges", "url": "https://www.alltoolspro.in/split-pdf.html", "description": "Split a PDF by page range or into single pages online. Extract the pages you need into a new file. Free, no installation or account needed.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "provider": {"@type": "Organization", "name": "AllToolsPro", "url": "https://www.alltoolspro.in/"}, "keywords": "split pdf, split pdf online, separate pdf pages, pdf splitter, split pdf by page range, divide pdf into pages, split pdf free"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.alltoolspro.in/"}, {"@type": "ListItem", "position": 2, "name": "All Tools", "item": "https://www.alltoolspro.in/all-tools.html"}, {"@type": "ListItem", "position": 3, "name": "Split PDF", "item": "https://www.alltoolspro.in/split-pdf.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is the Split PDF tool on AllToolsPro free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Split PDF is completely free on AllToolsPro. There is no registration, no signup and no watermark, and it works on mobile phones and computers."}}, {"@type": "Question", "name": "Can I split a PDF into several files at once?", "acceptedAnswer": {"@type": "Answer", "text": "No. The tool creates one file from one continuous page range per run. Run it again for each additional range."}}, {"@type": "Question", "name": "Does splitting change my original PDF?", "acceptedAnswer": {"@type": "Answer", "text": "No. The original stays untouched and a new file is downloaded."}}, {"@type": "Question", "name": "Can I pick pages that are not next to each other?", "acceptedAnswer": {"@type": "Answer", "text": "Not with this tool. Use an extract-pages tool, which allows lists such as 1, 5, 9-12."}}]}</script>
 </head>
 <body>
+
 <header class="atp-header-final">
  <div class="inner">
-  <a class="atp-logo-wrap" href="/index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
-<rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
-<path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
-</svg></a>
+  <a class="atp-logo-wrap" href="index.html" aria-label="AllToolsPro Home"><svg class="atp-logo-svg" viewBox="0 0 410 96" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs><rect x="4" y="8" width="80" height="80" rx="22" fill="url(#atpG)"/><path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/><text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text></svg></a>
   <nav class="atp-nav-final" aria-label="Main navigation">
-   <a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About</a> · <a href="/blog.html">Blog</a>
+   <a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About</a>
   </nav>
   <details class="atp-menu-toggle"><summary>☰ Menu</summary>
-   <nav class="atp-menu-final"><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/blog.html">Blog</a><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#utility-tools">Utility & AI</a><a href="/about-us.html">About Us</a></nav>
+   <nav class="atp-menu-final"><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="all-tools.html#pdf-tools">PDF Tools</a><a href="all-tools.html#image-tools">Image Tools</a><a href="all-tools.html#utility-tools">Utility & AI</a><a href="about-us.html">About Us</a></nav>
   </details>
  </div>
 </header>
-<div class="atp-article-wrap"><article class="atp-article">
-<div class="atp-crumb"><a href="/index.html">Home</a> › <a href="/blog.html">Blog</a> › Split PDF</div>
-<span class="atp-cat">PDF Tools</span>
-<h1>How to Split a PDF by Page Range Without Installing Anything</h1>
-<div class="atp-meta">By AllToolsPro · Updated 12 October 2026 · 5 min read</div>
-<p>A 120-page PDF is rarely what you actually need to send. Maybe it is only chapter four of a textbook, the last three pages of a contract, or the single section a colleague asked about. Splitting lets you cut out exactly that part as a smaller, separate file.</p><p>This article covers how the Split PDF tool works, what it can and cannot do, and how to avoid the small mistakes that waste time.</p>
-<h2>What the Split PDF tool does</h2><p>The tool takes one PDF and produces a new PDF containing a continuous range of pages that you choose, by entering a starting page and an ending page. Your original file stays as it is. Think of it as cutting a slice out of the document.</p><p>It works with one range at a time. If you need several separate slices, you simply run it again with a different range, which is quick because the steps are short.</p><h2>How to split a PDF, step by step</h2><ol><li>Click <strong>Select PDF File</strong> (the box reads "Choose the file you want to split") and pick your document.</li><li>The page confirms the file name and total page count, for example "File loaded" with the number of pages.</li><li>Under <strong>Enter Page Range to Extract</strong>, type the first page in the <strong>From</strong> box and the last page in the <strong>To</strong> box. The To box is pre-filled with the last page of the document.</li><li>Click <strong>Extract Pages &amp; Download</strong>.</li><li>A file named like <em>Split_Pages_5_to_12_AllToolsPro.pdf</em> is saved to your device, so the page range is visible in the file name.</li></ol><p>To take the first five pages, enter 1 and 5. For the last ten pages of a 40-page file, enter 31 and 40.</p><h2>Where splitting is useful</h2><ul><li><strong>Exam and scholarship portals:</strong> Upload only the relevant pages of a long certificate or prospectus rather than the entire file.</li><li><strong>Students:</strong> Pull a single chapter from a big reference PDF to read on your phone or share with a study group.</li><li><strong>Offices and accountants:</strong> Separate one month's statement from a combined annual document.</li><li><strong>Legal and property paperwork:</strong> Send only the signature page or schedule that someone has asked for, instead of the whole agreement.</li></ul><h2>Tips for accurate results</h2><ul><li>Count pages from the PDF's own numbering, not the printed page numbers. A book may have roman-numeral front matter, so printed page 1 can be PDF page 9.</li><li>Open the original in a viewer first and note the exact start and end pages.</li><li>Use the file name of the output to confirm the range, then open it and check the first and last pages.</li><li>If the result is still too big for an upload limit, compress it as a second step.</li></ul><h2>Troubleshooting common issues</h2><p><strong>"Please enter a valid page range."</strong> This message appears when a box is empty, the From number is below 1, the To number is higher than the page count, or From is greater than To. Correct the numbers and try again.</p><p><strong>"Error loading PDF."</strong> The page suggests the file might be password protected. Remove the password in the original software and upload it again.</p><p><strong>Nothing happens after choosing a file.</strong> The tool only accepts files that the browser recognises as PDF. Check the extension and try again.</p><h2>Planning your split before you start</h2><p>A little planning makes splitting almost effortless. Decide what the recipient truly needs, then open the PDF in any viewer and scroll to the first and last pages of that section. Write the two numbers down. Entering them takes seconds, and you avoid downloading several attempts.</p><p>If the section you want sits in the middle of the document, such as pages 14 to 22, simply enter those two numbers. If you need two separate sections, for example pages 1 to 3 and pages 50 to 52, you have two options: run the tool twice and merge the outputs, or use an extract-pages tool and enter both ranges at once.</p><p>Naming matters too. The downloaded file already includes the range in its name, which helps you keep track, but consider renaming it to something meaningful, such as the subject and month, before you send it. Recipients appreciate clear file names far more than they notice the tool you used.</p><h2>Is it private?</h2><p>Yes, in design. The PDF is read and processed inside your browser, and the page notes that no files are uploaded. For documents carrying personal details, such as identity proofs or bank statements, that local processing is reassuring. Still, close the tab and delete unneeded downloads when you are finished, especially on a shared device.</p><h2>Limits and alternatives</h2><p>This tool produces one continuous range per run. It does not split a document into many equal parts in one go, does not split by file size, and does not pick scattered pages like 2, 7 and 15. For non-consecutive pages, use an extract-pages tool, which accepts comma-separated lists. To delete pages instead of keeping them, a remove-pages tool is a better fit. For very large files, remember that your browser must hold the document in memory, so older phones may struggle.</p>
-<div class="atp-cta"><h2>Try the Split PDF tool</h2><p>Free, no signup, works right in your browser.</p><a href="/split-pdf.html">Open Split PDF</a></div>
-<h2>Frequently asked questions</h2>
-<div class="atp-faq"><details><summary>Can I split a PDF into several files at once?</summary><p>No. The tool creates one file from one continuous page range per run. Run it again for each additional range.</p></details><details><summary>Does splitting change my original PDF?</summary><p>No. The original stays untouched and a new file is downloaded.</p></details><details><summary>Can I pick pages that are not next to each other?</summary><p>Not with this tool. Use an extract-pages tool, which allows lists such as 1, 5, 9-12.</p></details><details><summary>Why does it say my page range is invalid?</summary><p>The From value must be at least 1, the To value cannot exceed the total pages, and From cannot be greater than To.</p></details><details><summary>Is my file uploaded anywhere?</summary><p>The page states that processing happens in your browser and nothing is uploaded.</p></details></div>
-<h2>Related guides</h2><div class="atp-related"><a href="/blog/text-to-pdf.html">How to Convert Text to PDF Online for Free</a><a href="/blog/word-to-pdf.html">How to Convert Word to PDF Online for Free</a><a href="/blog/add-watermark.html">How to Add a Text Watermark to a PDF Online</a></div>
-</article></div>
+
+    
+<div class="atp-breadcrumb"><a href="index.html">Home</a> &nbsp;›&nbsp; <span>Split PDF</span></div>
+<section class="atp-hero"><div class="atp-hero-card">
+  <div class="atp-kicker">AllToolsPro Online Tool</div>
+  <h2 class="atp-hero-title">Split PDF</h2>
+  <p>Split a PDF by page range or into single pages online. Extract the pages you need into a new file. Free, no installation or account needed.</p>
+</div></section>
+<div class="tool-container">
+        <div class="tool-card-main">
+            <h1>Split PDF Online – By Page Range</h1>
+            <p class="subtitle">Extract specific pages or a range from your PDF file.</p>
+
+            <div class="upload-box" id="upload-box">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Select PDF File</h3>
+                <p>Choose the file you want to split</p>
+                <input type="file" id="pdf-input" accept="application/pdf">
+            </div>
+
+            <div id="split-options">
+                <div class="info-bar">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="file-info">File loaded: 0 pages</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>Enter Page Range to Extract:</label>
+                    <div class="input-flex">
+                        <span>From:</span>
+                        <input type="number" id="from-page" value="1" min="1">
+                        <span>To:</span>
+                        <input type="number" id="to-page" value="1" min="1">
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-gray); margin-top: 10px;">Example: To extract the first 5 pages, enter 1 to 5.</p>
+                </div>
+
+                <button id="split-btn">Extract Pages & Download</button>
+            </div>
+
+            <div id="loader" class="loader"><i class="fas fa-spinner fa-spin"></i> Splitting PDF...</div>
+
+            <div class="info-section">
+                <h3>Quick Tips</h3>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Privacy:</strong> Everything happens in your browser. No files are uploaded.</p>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Range Split:</strong> You can select any custom range within the total pages.</p>
+                <p><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Fast Output:</strong> Get your split PDF in seconds.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pdfInput = document.getElementById('pdf-input');
+        const splitOptions = document.getElementById('split-options');
+        const fileInfo = document.getElementById('file-info');
+        const fromPageInput = document.getElementById('from-page');
+        const toPageInput = document.getElementById('to-page');
+        const splitBtn = document.getElementById('split-btn');
+        const loader = document.getElementById('loader');
+        const uploadBox = document.getElementById('upload-box');
+
+        let originalPdfDoc = null;
+        let pdfBytes = null;
+        let totalPages = 0;
+
+        pdfInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            loader.style.display = 'block';
+            uploadBox.style.display = 'none';
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfBytes = arrayBuffer;
+                const { PDFDocument } = PDFLib;
+                originalPdfDoc = await PDFDocument.load(arrayBuffer);
+                totalPages = originalPdfDoc.getPageCount();
+
+                fileInfo.innerText = `File: ${file.name} (${totalPages} Pages)`;
+                toPageInput.value = totalPages;
+                toPageInput.max = totalPages;
+                fromPageInput.max = totalPages;
+
+                splitOptions.style.display = 'block';
+            } catch (err) {
+                alert('Error loading PDF. It might be password protected.');
+                uploadBox.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+            }
+        });
+
+        splitBtn.addEventListener('click', async () => {
+            const from = parseInt(fromPageInput.value);
+            const to = parseInt(toPageInput.value);
+
+            if (isNaN(from) || isNaN(to) || from < 1 || to > totalPages || from > to) {
+                alert('Please enter a valid page range.');
+                return;
+            }
+
+            splitBtn.style.display = 'none';
+            loader.style.display = 'block';
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const splitPdfDoc = await PDFDocument.create();
+                
+                // Indices are 0-based in pdf-lib
+                const pagesToCopy = [];
+                for (let i = from - 1; i < to; i++) {
+                    pagesToCopy.push(i);
+                }
+
+                const copiedPages = await splitPdfDoc.copyPages(originalPdfDoc, pagesToCopy);
+                copiedPages.forEach(page => splitPdfDoc.addPage(page));
+
+                const splitPdfBytes = await splitPdfDoc.save();
+                
+                // Download
+                const blob = new Blob([splitPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Split_Pages_${from}_to_${to}_AllToolsPro.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred while splitting.');
+            } finally {
+                loader.style.display = 'none';
+                splitBtn.style.display = 'block';
+            }
+        });
+    </script>
+
+<a class="atp-top" href="#" aria-label="Back to top">↑</a>
+
+
+
+<section class="atp-guide-final" id="guide" aria-labelledby="guide-title">
+ <div class="atp-guide-card-final atp-prose">
+  <h2 id="guide-title">How to Split a PDF by Page Range Without Installing Anything</h2>
+  <p>A 120-page PDF is rarely what you actually need to send. Maybe it is only chapter four of a textbook, the last three pages of a contract, or the single section a colleague asked about. Splitting lets you cut out exactly that part as a smaller, separate file.</p><p>This article covers how the Split PDF tool works, what it can and cannot do, and how to avoid the small mistakes that waste time.</p>
+  <h3>What the Split PDF tool does</h3><p>The tool takes one PDF and produces a new PDF containing a continuous range of pages that you choose, by entering a starting page and an ending page. Your original file stays as it is. Think of it as cutting a slice out of the document.</p><p>It works with one range at a time. If you need several separate slices, you simply run it again with a different range, which is quick because the steps are short.</p><h3>How to split a PDF, step by step</h3><ol><li>Click <strong>Select PDF File</strong> (the box reads "Choose the file you want to split") and pick your document.</li><li>The page confirms the file name and total page count, for example "File loaded" with the number of pages.</li><li>Under <strong>Enter Page Range to Extract</strong>, type the first page in the <strong>From</strong> box and the last page in the <strong>To</strong> box. The To box is pre-filled with the last page of the document.</li><li>Click <strong>Extract Pages &amp; Download</strong>.</li><li>A file named like <em>Split_Pages_5_to_12_AllToolsPro.pdf</em> is saved to your device, so the page range is visible in the file name.</li></ol><p>To take the first five pages, enter 1 and 5. For the last ten pages of a 40-page file, enter 31 and 40.</p><h3>Where splitting is useful</h3><ul><li><strong>Exam and scholarship portals:</strong> Upload only the relevant pages of a long certificate or prospectus rather than the entire file.</li><li><strong>Students:</strong> Pull a single chapter from a big reference PDF to read on your phone or share with a study group.</li><li><strong>Offices and accountants:</strong> Separate one month's statement from a combined annual document.</li><li><strong>Legal and property paperwork:</strong> Send only the signature page or schedule that someone has asked for, instead of the whole agreement.</li></ul><h3>Tips for accurate results</h3><ul><li>Count pages from the PDF's own numbering, not the printed page numbers. A book may have roman-numeral front matter, so printed page 1 can be PDF page 9.</li><li>Open the original in a viewer first and note the exact start and end pages.</li><li>Use the file name of the output to confirm the range, then open it and check the first and last pages.</li><li>If the result is still too big for an upload limit, compress it as a second step.</li></ul><h3>Troubleshooting common issues</h3><p><strong>"Please enter a valid page range."</strong> This message appears when a box is empty, the From number is below 1, the To number is higher than the page count, or From is greater than To. Correct the numbers and try again.</p><p><strong>"Error loading PDF."</strong> The page suggests the file might be password protected. Remove the password in the original software and upload it again.</p><p><strong>Nothing happens after choosing a file.</strong> The tool only accepts files that the browser recognises as PDF. Check the extension and try again.</p><h3>Planning your split before you start</h3><p>A little planning makes splitting almost effortless. Decide what the recipient truly needs, then open the PDF in any viewer and scroll to the first and last pages of that section. Write the two numbers down. Entering them takes seconds, and you avoid downloading several attempts.</p><p>If the section you want sits in the middle of the document, such as pages 14 to 22, simply enter those two numbers. If you need two separate sections, for example pages 1 to 3 and pages 50 to 52, you have two options: run the tool twice and merge the outputs, or use an extract-pages tool and enter both ranges at once.</p><p>Naming matters too. The downloaded file already includes the range in its name, which helps you keep track, but consider renaming it to something meaningful, such as the subject and month, before you send it. Recipients appreciate clear file names far more than they notice the tool you used.</p><h3>Is it private?</h3><p>Yes, in design. The PDF is read and processed inside your browser, and the page notes that no files are uploaded. For documents carrying personal details, such as identity proofs or bank statements, that local processing is reassuring. Still, close the tab and delete unneeded downloads when you are finished, especially on a shared device.</p><h3>Limits and alternatives</h3><p>This tool produces one continuous range per run. It does not split a document into many equal parts in one go, does not split by file size, and does not pick scattered pages like 2, 7 and 15. For non-consecutive pages, use an extract-pages tool, which accepts comma-separated lists. To delete pages instead of keeping them, a remove-pages tool is a better fit. For very large files, remember that your browser must hold the document in memory, so older phones may struggle.</p>
+  <h3>Frequently asked questions</h3>
+  <div class="atp-faq-final"><details><summary>Is the Split PDF tool on AllToolsPro free to use?</summary><p>Yes. Split PDF is completely free on AllToolsPro. There is no registration, no signup and no watermark, and it works on mobile phones and computers.</p></details><details><summary>Can I split a PDF into several files at once?</summary><p>No. The tool creates one file from one continuous page range per run. Run it again for each additional range.</p></details><details><summary>Does splitting change my original PDF?</summary><p>No. The original stays untouched and a new file is downloaded.</p></details><details><summary>Can I pick pages that are not next to each other?</summary><p>Not with this tool. Use an extract-pages tool, which allows lists such as 1, 5, 9-12.</p></details><details><summary>Why does it say my page range is invalid?</summary><p>The From value must be at least 1, the To value cannot exceed the total pages, and From cannot be greater than To.</p></details><details><summary>Is my file uploaded anywhere?</summary><p>The page states that processing happens in your browser and nothing is uploaded.</p></details></div>
+  <h3>Related searches</h3>
+  <p>split pdf · split pdf online · separate pdf pages · pdf splitter · split pdf by page range · divide pdf into pages · split pdf free</p>
+  <h3>More free tools</h3>
+  <div class="atp-related-final"><a href="text-to-pdf.html">Text to PDF →</a><a href="word-to-pdf.html">Word to PDF →</a><a href="add-watermark.html">Add Watermark →</a><a href="compress-pdf.html">Compress PDF →</a></div>
+ </div>
+</section>
 <footer class="atp-footer-final">
   <div class="inner">
-    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 268 72" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs>
-<rect x="3" y="8" width="56" height="56" rx="16" fill="url(#atpG)"/>
-<path d="M18 45l9-20 9 20h-6l-3-7h-1l-3 7h-5zm10-11l-1 3h3l-1-3z" fill="#fff"/>
-<text x="70" y="48" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#0f172a">All<tspan fill="#2563eb">Tools</tspan>Pro</text>
-</svg></div>
+    <div class="atp-footer-brand"><svg class="atp-logo-svg" viewBox="0 0 410 96" role="img" aria-label="AllToolsPro logo" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="atpG" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient></defs><rect x="4" y="8" width="80" height="80" rx="22" fill="url(#atpG)"/><path d="M45 22l-20 29h17l-7 23 25-34H43z" fill="#fff"/><text x="100" y="66" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" fill="#0f172a">AllTools<tspan fill="#2563eb">Pro</tspan></text></svg></div>
     <div class="atp-footer-grid">
       <div>
         <h3>AllToolsPro</h3>
         <p style="margin:0;color:#94a3b8;font-size:.9rem">Free online PDF, image, AI and utility tools. Choose a tool below and use it directly in your browser.</p>
-        <a href="/index.html">Home Page</a>
-        <a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a>
-        <a href="/about-us.html">About Us</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/privacy-policy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Service</a>
+        <a href="index.html">Home Page</a>
+        <a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a>
+        <a href="about-us.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
       </div>
-      <div><h3>PDF Tools</h3><a href="/add-watermark.html">Add Watermark</a><a href="/compress-pdf.html">Compress Pdf</a><a href="/edit-pdf.html">Edit Pdf</a><a href="/excel-to-pdf.html">Excel to PDF</a><a href="/extract-pages.html">Extract PDF Pages</a><a href="/html-to-pdf.html">HTML to PDF</a><a href="/merge-pdf.html">Merge Pdf</a><a href="/organize-pdf.html">Organize Pdf</a><a href="/pdf-to-jpg.html">PDF to JPG</a><a href="/ppt-to-pdf.html">PPT to PDF</a><a href="/remove-pages.html">Remove PDF Pages</a><a href="/repair-pdf.html">Repair Pdf</a><a href="/rotate-pdf.html">Rotate Pdf</a><a href="/scan-to-pdf.html">Scan To Pdf</a><a href="/split-pdf.html">Split Pdf</a><a href="/text-to-pdf.html">Text To Pdf</a><a href="/word-to-pdf.html">Word to PDF</a></div>
-      <div><h3>Image Tools</h3><a href="/image-compressor.html">Image Compressor</a><a href="/image-converter.html">Image Converter</a><a href="/image-cropper.html">Image Cropper</a><a href="/image-resizer.html">Image Resizer</a><a href="/image-rotator.html">Image Rotator</a><a href="/image-to-text.html">Image to Text</a><a href="/jpg-to-pdf.html">JPG to PDF</a></div>
-      <div><h3>Utility & AI Tools</h3><a href="/age-calculator.html">Age Calculator</a><a href="/ai-to-human-text.html">AI to Human Text</a><a href="/barcode-generator.html">Barcode Generator</a><a href="/keyword-density.html">Keyword Density</a><a href="/meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="/my-ip.html">My IP Address</a><a href="/password-generator.html">Password Generator</a><a href="/qr-generator.html">QR Code Generator</a><a href="/word-counter.html">Word Counter</a></div>
+      <div><h3>PDF Tools</h3><a href="add-watermark.html">Add Watermark</a><a href="compress-pdf.html">Compress Pdf</a><a href="edit-pdf.html">Edit Pdf</a><a href="excel-to-pdf.html">Excel to PDF</a><a href="extract-pages.html">Extract PDF Pages</a><a href="html-to-pdf.html">HTML to PDF</a><a href="merge-pdf.html">Merge Pdf</a><a href="organize-pdf.html">Organize Pdf</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="ppt-to-pdf.html">PPT to PDF</a><a href="remove-pages.html">Remove PDF Pages</a><a href="repair-pdf.html">Repair Pdf</a><a href="rotate-pdf.html">Rotate Pdf</a><a href="scan-to-pdf.html">Scan To Pdf</a><a href="split-pdf.html">Split Pdf</a><a href="text-to-pdf.html">Text To Pdf</a><a href="word-to-pdf.html">Word to PDF</a></div>
+      <div><h3>Image Tools</h3><a href="image-compressor.html">Image Compressor</a><a href="image-converter.html">Image Converter</a><a href="image-cropper.html">Image Cropper</a><a href="image-resizer.html">Image Resizer</a><a href="image-rotator.html">Image Rotator</a><a href="image-to-text.html">Image to Text</a><a href="jpg-to-pdf.html">JPG to PDF</a></div>
+      <div><h3>Utility & AI Tools</h3><a href="age-calculator.html">Age Calculator</a><a href="ai-to-human-text.html">AI to Human Text</a><a href="barcode-generator.html">Barcode Generator</a><a href="keyword-density.html">Keyword Density</a><a href="meta-tag-analyzer.html">Meta Tag Analyzer</a><a href="my-ip.html">My IP Address</a><a href="password-generator.html">Password Generator</a><a href="qr-generator.html">QR Code Generator</a><a href="word-counter.html">Word Counter</a></div>
     </div>
-    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="/index.html">Home</a><a href="/all-tools.html">All Tools</a><a href="/blog.html">Blog</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms</a></span></div>
+    <div class="atp-footer-bottom"><span>© 2026 AllToolsPro. All rights reserved.</span><span><a href="index.html">Home</a><a href="all-tools.html">All Tools</a><a href="blog.html">Blog</a><a href="about-us.html">About</a><a href="contact.html">Contact</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></span></div>
   </div>
 </footer>
 </body>
-</html>
+                  </html>
